@@ -1,0 +1,42 @@
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# Entorno virtual
+.venv/
+venv/
+
+# Jupyter: se ignoran los checkpoints, NO los notebooks (son entregables).
+.ipynb_checkpoints
+
+# IDE y herramientas locales
+.vscode/
+.idea/
+.claude/
+
+# Datos
+# Los CSV de Olist NO se versionan: pesan 126 MB (geolocation sola, 61 MB,
+# supera el límite recomendado de GitHub) y tienen licencia propia en Kaggle.
+# Cómo obtenerlos: data/README.md
+data/raw/*
+!data/raw/.gitkeep
+
+# Power BI (formato PBIP)
+# Se versionan la definición del modelo (TMDL) y del reporte. Se ignoran la
+# configuración local de cada usuario y la caché con los datos importados,
+# que se regenera al actualizar desde SQL Server.
+powerbi/**/.pbi/localSettings.json
+powerbi/**/.pbi/cache.abf
+*.pbix.tmp
+
+# Logs y variables de entorno
+*.log
+.env
+.env.local

@@ -1,0 +1,24 @@
+# Finales de línea deterministas: el mismo commit produce los mismos bytes en
+# Windows y en el CI de Linux.
+*.py    text eol=lf
+*.sql   text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.txt   text eol=lf
+*.json  text eol=lf
+*.ipynb text eol=lf
+
+# Definición del modelo y del reporte de Power BI (PBIP / TMDL): texto, para
+# que los cambios se vean línea por línea en los diffs.
+*.tmdl  text eol=lf
+*.pbir  text eol=lf
+*.pbism text eol=lf
+*.pbip  text eol=lf
+
+# Binarios
+*.png   binary
+*.pbix  binary
+*.abf   binary
+
+# Estadísticas de lenguaje: el SQL es parte central del proyecto, que cuente.
+*.sql linguist-detectable=true

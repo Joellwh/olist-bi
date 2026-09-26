@@ -1,0 +1,34 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      # pyodbc necesita las cabeceras de unixODBC para instalarse en Linux.
+      - name: Dependencias del sistema
+        run: sudo apt-get update && sudo apt-get install -y unixodbc-dev
+
+      - name: Instalar dependencias fijadas
+        run: pip install -r requirements.txt
+
+      # Los tests no necesitan SQL Server ni los CSV: prueban la lógica del
+      # pipeline (parseo de scripts, configuración, validaciones).
+      - name: Tests
+        run: pytest -q
