@@ -15,7 +15,7 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 ---
 
-## Fase 0: Preparación — ✅ hecha (2026-09-26), con pendientes manuales
+## Fase 0: Preparación — ✅ hecha (2026-09-26)
 
 - [x] Dataset de Kaggle descargado y extraído en `data/raw/` (9 CSV, conteo de filas verificado).
 - [x] Repo local `olist-bi` con la estructura de carpetas.
@@ -26,18 +26,18 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 - [x] Power BI Desktop: activar guardado **PBIP** y formato **TMDL**.
 - [x] Instalar **DAX Studio**.
 - [ ] Instalar **Tabular Editor 2**. Necesario recién en la Fase 10 (Best Practice Analyzer).
-- [ ] Crear el repo vacío `olist-bi` en GitHub y conectarlo.
-- [ ] (Opcional) GitHub Project con una tarjeta por fase.
+- [x] Crear el repo `olist-bi` en GitHub y conectarlo: https://github.com/Joellwh/olist-bi
+- [x] GitHub Project con una tarjeta por fase.
 
-## Fase 1: Requerimientos y KPIs (2–3 días)
+## Fase 1: Requerimientos y KPIs — 🟡 falta solo los bocetos
 
 *Cubre: levantar requerimientos con stakeholders y convertirlos en KPIs.*
 
-- [ ] 3 stakeholders ficticios: **Dirección Comercial**, **Logística**, **Experiencia de cliente**.
-- [ ] 3 a 5 preguntas de negocio por stakeholder.
-- [ ] Diccionario de KPIs: nombre, fórmula, tabla de origen, granularidad y reglas de negocio (¿cancelados cuentan como venta? ¿el flete es venta? ¿"a tiempo" contra fecha estimada o SLA fijo?).
-- [ ] Bocetos a mano de cada página.
-- [ ] Criterios de aceptación por página.
+- [x] 3 stakeholders ficticios: **Dirección Comercial**, **Logística**, **Experiencia de cliente** (más gerentes regionales para RLS).
+- [x] 3 a 5 preguntas de negocio por stakeholder (15 en total).
+- [x] Diccionario de KPIs: 27 KPIs con fórmula, origen, granularidad, reglas y valores de referencia (`python -m src.kpi_reference`). Reglas decididas en D-005 a D-008.
+- [ ] Bocetos a mano de cada página (`docs/bocetos/`).
+- [x] Criterios de aceptación por página.
 
 📦 `docs/01_requerimientos.md`, `docs/kpi_diccionario.md`, `docs/bocetos/`
 
