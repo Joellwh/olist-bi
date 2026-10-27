@@ -1,0 +1,241 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" width="1280" height="800">
+<rect x="0.0" y="0.0" width="1280.0" height="800.0" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<rect x="0.0" y="0.0" width="1280.0" height="720.0" rx="0" fill="#F3F4F6" stroke="none" stroke-width="1"/>
+<rect x="0.0" y="0.0" width="1280.0" height="56.0" rx="0" fill="#111827" stroke="none" stroke-width="1"/>
+<text x="24.0" y="36.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#FFFFFF" text-anchor="start">Olist · Logística</text>
+<text x="860.0" y="33.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#D1D5DB" text-anchor="middle">Resumen</text>
+<text x="972.0" y="33.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#D1D5DB" text-anchor="middle">Comercial</text>
+<rect x="1032.0" y="12.0" width="104.0" height="32.0" rx="6" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="1084.0" y="33.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Logística</text>
+<text x="1196.0" y="33.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#D1D5DB" text-anchor="middle">Cliente</text>
+<line x1="0.0" y1="720.0" x2="1280.0" y2="720.0" stroke="#D1D5DB" stroke-width="1"/>
+<text x="24.0" y="750.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2937" text-anchor="start">Boceto · Página 3 de 5 · Responde: L1, L2, L3, L4, L5</text>
+<text x="24.0" y="774.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">Lienzo 1280 × 720 (16:9, tamaño estándar de Power BI). Valores: referencia del diccionario de KPIs o de ejemplo.</text>
+<rect x="760.0" y="738.0" width="69.2" height="20.0" rx="10" fill="#EFF6FF" stroke="#2563EB" stroke-width="1"/>
+<text x="794.6" y="752.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#2563EB" text-anchor="middle">C1 · K01</text>
+<text x="836.0" y="752.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">pregunta · KPIs</text>
+<line x1="940.0" y1="748.0" x2="970.0" y2="748.0" stroke="#2563EB" stroke-width="2.5"/>
+<text x="976.0" y="752.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">actual</text>
+<line x1="1030.0" y1="748.0" x2="1060.0" y2="748.0" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="1066.0" y="752.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">año ant. / referencia</text>
+<rect x="940.0" y="764.0" width="12.0" height="12.0" rx="2" fill="#DC2626" stroke="none" stroke-width="1"/>
+<text x="958.0" y="774.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">alerta (solo para lo que requiere acción)</text>
+<rect x="24.0" y="68.0" width="236.0" height="36.0" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="36.0" y="91.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1F2937" text-anchor="start">Período: Ene-2017 – Ago-2018</text>
+<text x="246.0" y="91.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="middle">▾</text>
+<rect x="272.0" y="68.0" width="150.0" height="36.0" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="284.0" y="91.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1F2937" text-anchor="start">Región</text>
+<text x="408.0" y="91.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="middle">▾</text>
+<rect x="434.0" y="68.0" width="130.0" height="36.0" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="446.0" y="91.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1F2937" text-anchor="start">Estado</text>
+<text x="550.0" y="91.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="middle">▾</text>
+<rect x="576.0" y="68.0" width="190.0" height="36.0" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="588.0" y="91.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1F2937" text-anchor="start">Estado del vendedor</text>
+<text x="752.0" y="91.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="middle">▾</text>
+<rect x="1124.0" y="68.0" width="132.0" height="36.0" rx="6" fill="#FFFFFF" stroke="#2563EB" stroke-width="1"/>
+<text x="1190.0" y="91.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#2563EB" text-anchor="middle">⟲ Limpiar filtros</text>
+<rect x="24.0" y="116.0" width="192.0" height="100.0" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="40.0" y="140.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">% entregas a tiempo</text>
+<text x="204.0" y="140.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#2563EB" text-anchor="end">L1 · K17</text>
+<text x="40.0" y="178.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="600" fill="#1F2937" text-anchor="start">93,2%</text>
+<text x="40.0" y="202.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">▼ vs año ant.</text>
+<polyline points="140.0,193.4 150.0,191.2 160.0,192.3 170.0,187.9 180.0,189.0 190.0,184.6 200.0,185.7 210.0,182.4" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="232.0" y="116.0" width="192.0" height="100.0" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="248.0" y="140.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">Días de entrega</text>
+<text x="412.0" y="140.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#2563EB" text-anchor="end">L2 · K18</text>
+<text x="248.0" y="178.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="600" fill="#1F2937" text-anchor="start">12,5</text>
+<text x="248.0" y="202.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">mediana: 10,2 días</text>
+<polyline points="348.0,193.4 358.0,191.2 368.0,192.3 378.0,187.9 388.0,189.0 398.0,184.6 408.0,185.7 418.0,182.4" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="440.0" y="116.0" width="192.0" height="100.0" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="456.0" y="140.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">Días de demora</text>
+<text x="620.0" y="140.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#2563EB" text-anchor="end">L3 · K19</text>
+<text x="456.0" y="178.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="600" fill="#1F2937" text-anchor="start">10,6</text>
+<text x="456.0" y="202.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">solo pedidos tardíos</text>
+<polyline points="556.0,193.4 566.0,191.2 576.0,192.3 586.0,187.9 596.0,189.0 606.0,184.6 616.0,185.7 626.0,182.4" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="648.0" y="116.0" width="192.0" height="100.0" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="664.0" y="140.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">Pedidos con demora</text>
+<text x="828.0" y="140.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#2563EB" text-anchor="end">L3 · K20</text>
+<text x="664.0" y="178.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="600" fill="#1F2937" text-anchor="start">6.531</text>
+<text x="664.0" y="202.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#DC2626" text-anchor="start">▲ vs año ant.</text>
+<polyline points="764.0,193.4 774.0,191.2 784.0,192.3 794.0,187.9 804.0,189.0 814.0,184.6 824.0,185.7 834.0,182.4" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="856.0" y="116.0" width="192.0" height="100.0" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="872.0" y="140.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">% flete s/ ventas</text>
+<text x="1036.0" y="140.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#2563EB" text-anchor="end">L4 · K15</text>
+<text x="872.0" y="178.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="600" fill="#1F2937" text-anchor="start">16,6%</text>
+<text x="872.0" y="202.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">▼ vs año ant.</text>
+<polyline points="972.0,193.4 982.0,191.2 992.0,192.3 1002.0,187.9 1012.0,189.0 1022.0,184.6 1032.0,185.7 1042.0,182.4" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="1064.0" y="116.0" width="192.0" height="100.0" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="1080.0" y="140.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">Tasa de cancelación</text>
+<text x="1244.0" y="140.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#2563EB" text-anchor="end">L5 · K21</text>
+<text x="1080.0" y="178.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="600" fill="#1F2937" text-anchor="start">1,19%</text>
+<text x="1080.0" y="202.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="start">1.182 pedidos</text>
+<polyline points="1180.0,193.4 1190.0,191.2 1200.0,192.3 1210.0,187.9 1220.0,189.0 1230.0,184.6 1240.0,185.7 1250.0,182.4" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="24.0" y="232.0" width="600.0" height="228.0" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="40.0" y="258.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2937" text-anchor="start">% de entregas a tiempo por mes</text>
+<rect x="542.8" y="242.0" width="69.2" height="20.0" rx="10" fill="#EFF6FF" stroke="#2563EB" stroke-width="1"/>
+<text x="577.4" y="256.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#2563EB" text-anchor="middle">L1 · K17</text>
+<line x1="40.0" y1="276.0" x2="608.0" y2="276.0" stroke="#E5E7EB" stroke-width="1"/>
+<line x1="40.0" y1="326.0" x2="608.0" y2="326.0" stroke="#E5E7EB" stroke-width="1"/>
+<line x1="40.0" y1="376.0" x2="608.0" y2="376.0" stroke="#E5E7EB" stroke-width="1"/>
+<line x1="40.0" y1="426.0" x2="608.0" y2="426.0" stroke="#E5E7EB" stroke-width="1"/>
+<text x="40.0" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">Ene-17</text>
+<text x="69.9" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="99.8" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="129.7" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="159.6" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="189.5" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">Jun-17</text>
+<text x="219.4" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="249.3" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="279.2" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="309.1" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="338.9" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">Nov-17</text>
+<text x="368.8" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="398.7" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="428.6" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="458.5" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="488.4" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">Abr-18</text>
+<text x="518.3" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="548.2" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="578.1" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle"></text>
+<text x="608.0" y="442.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">Ago-18</text>
+<line x1="40.0" y1="316.8" x2="608.0" y2="316.8" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="44.0" y="330.8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="start">promedio 93,2%</text>
+<polyline points="40.0,293.4 69.9,294.0 99.8,303.6 129.7,315.6 159.6,294.0 189.5,294.0 219.4,292.8 249.3,293.4 279.2,302.4 309.1,301.2 338.9,350.4 368.8,321.0 398.7,310.2 428.6,360.6 458.5,390.0 488.4,303.0 518.3,315.6 548.2,283.2 578.1,296.4 608.0,313.2" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="338.9" cy="350.4" r="4.5" fill="#DC2626"/>
+<circle cx="428.6" cy="360.6" r="4.5" fill="#DC2626"/>
+<circle cx="458.5" cy="390.0" r="4.5" fill="#DC2626"/>
+<text x="468.5" y="394.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#DC2626" text-anchor="start">Feb–Mar 2018</text>
+<rect x="640.0" y="232.0" width="616.0" height="228.0" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="656.0" y="258.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2937" text-anchor="start">Días promedio de entrega por estado del cliente</text>
+<rect x="1174.8" y="242.0" width="69.2" height="20.0" rx="10" fill="#EFF6FF" stroke="#2563EB" stroke-width="1"/>
+<text x="1209.4" y="256.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#2563EB" text-anchor="middle">L2 · K18</text>
+<text x="760.0" y="289.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#1F2937" text-anchor="end">RR</text>
+<rect x="768.0" y="276.0" width="412.0" height="18.0" rx="3" fill="#9CA3AF" stroke="none" stroke-width="1"/>
+<text x="1186.0" y="289.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">29,9</text>
+<text x="760.0" y="313.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#1F2937" text-anchor="end">AP</text>
+<rect x="768.0" y="300.0" width="374.9" height="18.0" rx="3" fill="#9CA3AF" stroke="none" stroke-width="1"/>
+<text x="1148.9" y="313.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">27,2</text>
+<text x="760.0" y="337.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#1F2937" text-anchor="end">AM</text>
+<rect x="768.0" y="324.0" width="362.6" height="18.0" rx="3" fill="#9CA3AF" stroke="none" stroke-width="1"/>
+<text x="1136.6" y="337.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">26,4</text>
+<text x="760.0" y="361.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#1F2937" text-anchor="end">AL</text>
+<rect x="768.0" y="348.0" width="337.8" height="18.0" rx="3" fill="#9CA3AF" stroke="none" stroke-width="1"/>
+<text x="1111.8" y="361.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">24,5</text>
+<text x="760.0" y="385.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#1F2937" text-anchor="end">PA</text>
+<rect x="768.0" y="372.0" width="329.6" height="18.0" rx="3" fill="#9CA3AF" stroke="none" stroke-width="1"/>
+<text x="1103.6" y="385.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">23,8</text>
+<text x="760.0" y="409.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#1F2937" text-anchor="end">…</text>
+<rect x="768.0" y="396.0" width="0.0" height="18.0" rx="3" fill="#9CA3AF" stroke="none" stroke-width="1"/>
+<text x="774.0" y="409.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start"></text>
+<text x="760.0" y="433.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#1F2937" text-anchor="end">SP</text>
+<rect x="768.0" y="420.0" width="119.5" height="18.0" rx="3" fill="#9CA3AF" stroke="none" stroke-width="1"/>
+<text x="893.5" y="433.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">8,7</text>
+<text x="1236.0" y="444.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="end">Ordenado de mayor a menor. Eje en días.</text>
+<rect x="24.0" y="476.0" width="744.0" height="228.0" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="40.0" y="502.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2937" text-anchor="start">Rutas: días de demora promedio (vendedor → cliente)</text>
+<rect x="661.2" y="486.0" width="94.8" height="20.0" rx="10" fill="#EFF6FF" stroke="#2563EB" stroke-width="1"/>
+<text x="708.6" y="500.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#2563EB" text-anchor="middle">L3 · K19 K20</text>
+<text x="40.0" y="692.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Celdas vacías: rutas con menos de 30 pedidos (sin dato confiable).</text>
+<text x="431.0" y="530.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="middle">Estado del cliente</text>
+<text x="142.1" y="548.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">SP</text>
+<text x="206.3" y="548.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">RJ</text>
+<text x="270.5" y="548.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">MG</text>
+<text x="334.7" y="548.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">RS</text>
+<text x="398.9" y="548.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">PR</text>
+<text x="463.1" y="548.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">BA</text>
+<text x="527.3" y="548.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">PE</text>
+<text x="591.5" y="548.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">CE</text>
+<text x="655.7" y="548.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">PA</text>
+<text x="719.9" y="548.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">AM</text>
+<text x="102.0" y="569.6" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="end">SP</text>
+<rect x="111.0" y="555.0" width="62.2" height="21.2" rx="2" fill="#DBEAFE" stroke="none" stroke-width="1"/>
+<text x="142.1" y="569.6" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">3</text>
+<rect x="175.2" y="555.0" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="206.3" y="569.6" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">7</text>
+<rect x="239.4" y="555.0" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="270.5" y="569.6" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">4</text>
+<rect x="303.6" y="555.0" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="334.7" y="569.6" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">6</text>
+<rect x="367.8" y="555.0" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="398.9" y="569.6" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">4</text>
+<rect x="432.0" y="555.0" width="62.2" height="21.2" rx="2" fill="#60A5FA" stroke="none" stroke-width="1"/>
+<text x="463.1" y="569.6" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">10</text>
+<rect x="496.2" y="555.0" width="62.2" height="21.2" rx="2" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="527.3" y="569.6" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#FFFFFF" text-anchor="middle">12</text>
+<rect x="560.4" y="555.0" width="62.2" height="21.2" rx="2" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="591.5" y="569.6" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#FFFFFF" text-anchor="middle">13</text>
+<rect x="624.6" y="555.0" width="62.2" height="21.2" rx="2" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="655.7" y="569.6" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#FFFFFF" text-anchor="middle">15</text>
+<rect x="688.8" y="555.0" width="62.2" height="21.2" rx="2" fill="#1E3A8A" stroke="none" stroke-width="1"/>
+<text x="719.9" y="569.6" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#FFFFFF" text-anchor="middle">17</text>
+<text x="102.0" y="592.8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="end">PR</text>
+<rect x="111.0" y="578.2" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="142.1" y="592.8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">5</text>
+<rect x="175.2" y="578.2" width="62.2" height="21.2" rx="2" fill="#60A5FA" stroke="none" stroke-width="1"/>
+<text x="206.3" y="592.8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">8</text>
+<rect x="239.4" y="578.2" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="270.5" y="592.8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">6</text>
+<rect x="303.6" y="578.2" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="334.7" y="592.8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">4</text>
+<rect x="367.8" y="578.2" width="62.2" height="21.2" rx="2" fill="#DBEAFE" stroke="none" stroke-width="1"/>
+<text x="398.9" y="592.8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">2</text>
+<rect x="432.0" y="578.2" width="62.2" height="21.2" rx="2" fill="#60A5FA" stroke="none" stroke-width="1"/>
+<text x="463.1" y="592.8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">11</text>
+<rect x="560.4" y="578.2" width="62.2" height="21.2" rx="2" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="591.5" y="592.8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#FFFFFF" text-anchor="middle">14</text>
+<text x="102.0" y="616.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="end">MG</text>
+<rect x="111.0" y="601.4" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="142.1" y="616.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">6</text>
+<rect x="175.2" y="601.4" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="206.3" y="616.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">7</text>
+<rect x="239.4" y="601.4" width="62.2" height="21.2" rx="2" fill="#DBEAFE" stroke="none" stroke-width="1"/>
+<text x="270.5" y="616.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">2</text>
+<rect x="303.6" y="601.4" width="62.2" height="21.2" rx="2" fill="#60A5FA" stroke="none" stroke-width="1"/>
+<text x="334.7" y="616.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">9</text>
+<rect x="367.8" y="601.4" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="398.9" y="616.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">7</text>
+<rect x="432.0" y="601.4" width="62.2" height="21.2" rx="2" fill="#60A5FA" stroke="none" stroke-width="1"/>
+<text x="463.1" y="616.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">9</text>
+<text x="102.0" y="639.2" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="end">RJ</text>
+<rect x="111.0" y="624.6" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="142.1" y="639.2" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">7</text>
+<rect x="175.2" y="624.6" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="206.3" y="639.2" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">4</text>
+<rect x="239.4" y="624.6" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="270.5" y="639.2" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">6</text>
+<rect x="367.8" y="624.6" width="62.2" height="21.2" rx="2" fill="#60A5FA" stroke="none" stroke-width="1"/>
+<text x="398.9" y="639.2" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">8</text>
+<rect x="432.0" y="624.6" width="62.2" height="21.2" rx="2" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="463.1" y="639.2" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#FFFFFF" text-anchor="middle">12</text>
+<text x="102.0" y="662.4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="end">SC</text>
+<rect x="111.0" y="647.8" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="142.1" y="662.4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">6</text>
+<rect x="175.2" y="647.8" width="62.2" height="21.2" rx="2" fill="#60A5FA" stroke="none" stroke-width="1"/>
+<text x="206.3" y="662.4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">9</text>
+<rect x="239.4" y="647.8" width="62.2" height="21.2" rx="2" fill="#60A5FA" stroke="none" stroke-width="1"/>
+<text x="270.5" y="662.4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">8</text>
+<rect x="303.6" y="647.8" width="62.2" height="21.2" rx="2" fill="#93C5FD" stroke="none" stroke-width="1"/>
+<text x="334.7" y="662.4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">4</text>
+<rect x="367.8" y="647.8" width="62.2" height="21.2" rx="2" fill="#DBEAFE" stroke="none" stroke-width="1"/>
+<text x="398.9" y="662.4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1F2937" text-anchor="middle">3</text>
+<text x="40.0" y="530.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Vendedor</text>
+<rect x="784.0" y="476.0" width="472.0" height="228.0" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+<text x="800.0" y="502.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2937" text-anchor="start">% de flete sobre ventas por región</text>
+<rect x="1174.8" y="486.0" width="69.2" height="20.0" rx="10" fill="#EFF6FF" stroke="#2563EB" stroke-width="1"/>
+<text x="1209.4" y="500.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#2563EB" text-anchor="middle">L4 · K15</text>
+<rect x="817.6" y="584.9" width="52.8" height="83.1" rx="3" fill="#9CA3AF" stroke="none" stroke-width="1"/>
+<text x="844.0" y="684.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="middle">Sudeste</text>
+<text x="844.0" y="578.9" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#1F2937" text-anchor="middle">15,2%</text>
+<rect x="905.6" y="571.3" width="52.8" height="96.7" rx="3" fill="#9CA3AF" stroke="none" stroke-width="1"/>
+<text x="932.0" y="684.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="middle">Sur</text>
+<text x="932.0" y="565.3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#1F2937" text-anchor="middle">17,6%</text>
+<rect x="993.6" y="571.3" width="52.8" height="96.7" rx="3" fill="#9CA3AF" stroke="none" stroke-width="1"/>
+<text x="1020.0" y="684.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="middle">C.-Oeste</text>
+<text x="1020.0" y="565.3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#1F2937" text-anchor="middle">17,6%</text>
+<rect x="1081.6" y="549.0" width="52.8" height="119.0" rx="3" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="1108.0" y="684.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="middle">Nordeste</text>
+<text x="1108.0" y="543.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#1F2937" text-anchor="middle">21,7%</text>
+<rect x="1169.6" y="544.0" width="52.8" height="124.0" rx="3" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="1196.0" y="684.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="middle">Norte</text>
+<text x="1196.0" y="538.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#1F2937" text-anchor="middle">22,7%</text>
+</svg>

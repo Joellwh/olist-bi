@@ -29,14 +29,14 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 - [x] Crear el repo `olist-bi` en GitHub y conectarlo: https://github.com/Joellwh/olist-bi
 - [x] GitHub Project con una tarjeta por fase.
 
-## Fase 1: Requerimientos y KPIs — 🟡 falta solo los bocetos
+## Fase 1: Requerimientos y KPIs — ✅ hecha (2026-10-26)
 
 *Cubre: levantar requerimientos con stakeholders y convertirlos en KPIs.*
 
 - [x] 3 stakeholders ficticios: **Dirección Comercial**, **Logística**, **Experiencia de cliente** (más gerentes regionales para RLS).
 - [x] 3 a 5 preguntas de negocio por stakeholder (15 en total).
 - [x] Diccionario de KPIs: 27 KPIs con fórmula, origen, granularidad, reglas y valores de referencia (`python -m src.kpi_reference`). Reglas decididas en D-005 a D-008.
-- [ ] Bocetos a mano de cada página (`docs/bocetos/`).
+- [x] Bocetos de las 5 páginas, con criterios de diseño (`docs/bocetos/`).
 - [x] Criterios de aceptación por página.
 
 📦 `docs/01_requerimientos.md`, `docs/kpi_diccionario.md`, `docs/bocetos/`
