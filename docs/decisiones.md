@@ -183,3 +183,42 @@ Cada decisión importante del proyecto: qué se eligió, por qué y qué alterna
 **Descartada:** *limpiar todo con pandas y cargar directo a `stg`.* Es más rápido de escribir, pero la lógica queda fuera de la base: quien abra SSMS ve tablas limpias sin saber cómo llegaron ahí.
 
 **Consecuencia:** la normalización de texto existe dos veces, en Python (para el perfilado) y en T-SQL (para `stg`). Un test de integración compara las dos sobre todas las ciudades del dataset. Ese test encontró un bug real en la versión SQL (ver [docs/etl.md](etl.md)).
+
+---
+
+## D-014 · Dos tablas de hechos y TREATAS para cruzarlas
+
+**Fecha:** 2026-10-27 · **Fase:** 4
+
+**Decisión:** el modelo tiene dos tablas de hechos, `fact_items` (ítem) y `fact_pedidos` (pedido), que comparten dimensiones pero no se relacionan entre sí. Cuando hace falta cruzar algo del ítem (el vendedor) con algo del pedido (la entrega), se usa `TREATAS` en DAX.
+
+**Por qué:** cada métrica vive en su granularidad natural, así que ningún promedio queda sesgado por pedidos con muchos ítems. `TREATAS` aplica los pedidos de un vendedor como filtro sobre `fact_pedidos` sin una relación física: un pedido con dos vendedores cuenta para cada uno (Q13) y el total sigue contando cada pedido una vez.
+
+**Descartadas:**
+- *Un tercer hecho a nivel pedido × vendedor:* resuelve el cruce, pero es otra tabla que cargar, validar y mantener sincronizada para un caso que afecta al 1,3% de los pedidos.
+- *Una tabla puente con filtro bidireccional:* es la solución "de manual" para muchos a muchos, pero el filtro bidireccional crea caminos ambiguos y es más lento. El roadmap lo descarta desde el principio.
+- *Repetir los datos de entrega en cada ítem:* sesga los promedios hacia los pedidos con más ítems.
+
+---
+
+## D-015 · El cliente es la persona y la ubicación es la del pedido
+
+**Fecha:** 2026-10-27 · **Fase:** 4
+
+**Decisión:** `dim_cliente` tiene una fila por persona (`customer_unique_id`) y no guarda ubicación. El estado del cliente va en `dim_geografia`, apuntada desde cada hecho con el estado **de ese pedido**.
+
+**Por qué:** una persona puede comprar desde distintos domicilios. Si la ubicación estuviera en `dim_cliente`, habría que elegir una (la última, la primera) y los pedidos viejos quedarían asignados a un estado donde no ocurrieron. Con la geografía en el hecho, cada pedido queda en su lugar, y la seguridad por fila de la Fase 9 filtra por el estado real de cada venta.
+
+**Descartada:** *`dim_cliente` a nivel `customer_id`* (una fila por pedido, como viene en el origen). Conserva la ubicación de cada pedido, pero la dimensión deja de representar a la persona: contar clientes o calcular la recompra exigiría un conteo distinto sobre otra columna en cada medida.
+
+---
+
+## D-016 · Las reglas de negocio se calculan una vez, en SQL
+
+**Fecha:** 2026-10-27 · **Fase:** 4
+
+**Decisión:** las reglas del diccionario de KPIs (es venta, a tiempo, días de demora, última reseña) se calculan al construir `fact_pedidos` y quedan como columnas. Las medidas DAX las usan en vez de recalcularlas.
+
+**Por qué:** una regla escrita en un solo lugar no puede divergir. Además queda disponible para cualquier herramienta que lea la base, no solo para Power BI, y se puede testear con SQL: los 13 KPIs calculados sobre `dw` coinciden con los valores de referencia.
+
+**Descartada:** *calcular las reglas en DAX con columnas calculadas o dentro de cada medida.* Funciona, pero la regla quedaría repetida en varias medidas, y las columnas calculadas ocupan memoria en el modelo y son una fuente típica de dependencias circulares (justamente el tema de la Fase 7).

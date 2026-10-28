@@ -64,19 +64,46 @@ KPIS_SQL = {
 }
 
 
+# Los mismos KPIs sobre el modelo dimensional, usando las columnas de reglas de
+# negocio de los hechos (D-016) y el período de dim_fecha (D-008). Así se
+# verifica que las reglas calculadas en SQL son las del diccionario.
+_P = "JOIN dw.dim_fecha f ON f.fecha_key = {t}.fecha_compra_key AND f.en_periodo_analisis = 1"
+_PED = f"FROM dw.fact_pedidos p {_P.format(t='p')}"
+_ITE = f"FROM dw.fact_items i {_P.format(t='i')} WHERE i.es_venta = 1"
+
+KPIS_DW = {
+    "K01 Ventas": f"SELECT SUM(i.precio) {_ITE}",
+    "K02 Pedidos": f"SELECT COUNT(*) {_PED} WHERE p.es_vendido = 1",
+    "K06 Clientes únicos": f"SELECT COUNT(DISTINCT p.cliente_key) {_PED} WHERE p.es_valido = 1",
+    "K14 Flete total": f"SELECT SUM(i.flete) {_ITE}",
+    "K16 Pedidos entregados": f"SELECT COUNT(*) {_PED} WHERE p.es_valido = 1 AND p.es_entregado = 1",
+    "K17 % entregas a tiempo": f"SELECT AVG(CAST(p.a_tiempo AS FLOAT)) {_PED} WHERE p.es_valido = 1 AND p.es_entregado = 1",
+    "K18 Días promedio de entrega": f"SELECT AVG(p.dias_entrega) {_PED} WHERE p.es_valido = 1 AND p.es_entregado = 1",
+    "K19 Días promedio de demora": f"SELECT AVG(CAST(p.dias_vs_estimada AS FLOAT)) {_PED} WHERE p.es_valido = 1 AND p.dias_vs_estimada > 0",
+    "K20 Pedidos con demora": f"SELECT COUNT(*) {_PED} WHERE p.es_valido = 1 AND p.a_tiempo = 0",
+    "K22 Puntaje promedio de reseña": f"SELECT AVG(CAST(p.puntaje_resena AS FLOAT)) {_PED} WHERE p.es_valido = 1",
+    "K23 % reseñas negativas": f"SELECT AVG(CASE WHEN p.puntaje_resena <= 2 THEN 1.0 ELSE 0 END) {_PED} WHERE p.es_valido = 1 AND p.puntaje_resena IS NOT NULL",
+    "K25 Tasa de recompra": f"SELECT AVG(CASE WHEN n > 1 THEN 1.0 ELSE 0 END) FROM (SELECT p.cliente_key, COUNT(*) AS n {_PED} WHERE p.es_valido = 1 GROUP BY p.cliente_key) AS c",
+    "K26 Brecha de puntaje por demora": f"SELECT AVG(CASE WHEN p.a_tiempo = 1 THEN CAST(p.puntaje_resena AS FLOAT) END) - AVG(CASE WHEN p.a_tiempo = 0 THEN CAST(p.puntaje_resena AS FLOAT) END) {_PED} WHERE p.es_valido = 1",
+}
+
+
 @pytest.fixture(scope="module")
 def referencia():
     from src.kpi_reference import cargar, calcular
     return calcular(cargar())
 
 
-@pytest.mark.parametrize("kpi", list(KPIS_SQL))
-def test_kpi_sql_igual_a_referencia(conn, referencia, kpi):
-    valor_sql = conn.execute(KPIS_SQL[kpi]).fetchone()[0]
+@pytest.mark.parametrize("capa, kpi", [("stg", k) for k in KPIS_SQL] + [("dw", k) for k in KPIS_DW])
+def test_kpi_sql_igual_a_referencia(conn, referencia, capa, kpi):
+    consulta = (KPIS_SQL if capa == "stg" else KPIS_DW)[kpi]
+    valor_sql = conn.execute(consulta).fetchone()[0]
     esperado = referencia[kpi]
     if isinstance(valor_sql, Decimal):
         valor_sql = float(valor_sql)
-    assert valor_sql == pytest.approx(esperado, abs=0.01), f"{kpi}: SQL {valor_sql} vs referencia {esperado}"
+    # Tolerancia: un centavo en montos; 0,00005 en porcentajes (se muestran con 1 o 2 decimales)
+    tolerancia = 0.00005 if abs(esperado) < 1 else 0.01
+    assert valor_sql == pytest.approx(esperado, abs=tolerancia), f"{capa} {kpi}: SQL {valor_sql} vs referencia {esperado}"
 
 
 def test_ultima_ejecucion_ok(conn):

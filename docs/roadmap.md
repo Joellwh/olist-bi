@@ -62,14 +62,14 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 📦 Pipeline reproducible con validaciones y logs: `docs/etl.md`
 
-## Fase 4: Modelo dimensional en SQL Server (3–4 días)
+## Fase 4: Modelo dimensional en SQL Server — ✅ hecha (2026-10-27)
 
 *Cubre: diseñar modelos relacionales.*
 
-- [ ] Matriz de bus.
-- [ ] Dimensiones `dw.dim_cliente`, `dim_vendedor`, `dim_producto`, `dim_geografia`, `dim_fecha` (generada por SQL); claves subrogadas y miembro "Desconocido" (-1).
-- [ ] Dos hechos con distinta granularidad: `fact_items_pedido` (ítem) y `fact_pedidos` (pedido).
-- [ ] PK y FK; diagrama del modelo.
+- [x] Matriz de bus.
+- [x] Dimensiones `dw.dim_cliente` (persona), `dim_vendedor`, `dim_producto`, `dim_geografia`, `dim_fecha` (generada por SQL); claves subrogadas y miembro "Desconocido" (-1).
+- [x] Dos hechos con distinta granularidad: `fact_items` (ítem) y `fact_pedidos` (pedido), con las reglas de negocio como columnas. Cruce vendedor × entrega con `TREATAS` (D-014 a D-016).
+- [x] PK y FK; diagrama del modelo. Validaciones de `dw` en el ETL y 13 KPIs de `dw` = valores de referencia.
 
 📦 `docs/03_modelo_dimensional.md`
 

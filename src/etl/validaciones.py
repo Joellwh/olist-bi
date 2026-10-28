@@ -7,7 +7,8 @@ ADVERTENCIA se registra con la cantidad y la carga sigue (D-009).
 
 Las reglas se agrupan por capa: las de raw corren apenas se cargan los CSV
 (antes de tipar, porque stg tiene claves primarias y un duplicado haría fallar
-el INSERT con un error poco claro); las de stg, después de construir staging.
+el INSERT con un error poco claro); las de stg, después de construir staging;
+las de dw, después del modelo dimensional.
 """
 
 from dataclasses import dataclass
@@ -121,4 +122,18 @@ VALIDACIONES_STG: list[Validacion] = [
                "SELECT COUNT(*) FROM stg.products WHERE category_name_pt IS NULL"),
     Validacion("V13", ADVERTENCIA, "Categorías de productos sin nombre en español",
                _huerfanos("stg.products", "category_name_pt", "stg.categorias", "category_name_pt")),
+]
+
+VALIDACIONES_DW: list[Validacion] = [
+    Validacion("V08", CRITICA, "Conciliación raw -> dw: un hecho por pedido y uno por ítem",
+               "SELECT ABS((SELECT COUNT(*) FROM raw.orders) - (SELECT COUNT(*) FROM dw.fact_pedidos))"
+               " + ABS((SELECT COUNT(*) FROM raw.order_items) - (SELECT COUNT(*) FROM dw.fact_items))"),
+    Validacion("V08", CRITICA, "Conciliación raw -> dw: ventas y flete (diferencia en centavos)",
+               "SELECT CAST(ABS((SELECT SUM(precio + flete) FROM dw.fact_items)"
+               " - (SELECT SUM(CAST(price AS DECIMAL(12, 2)) + CAST(freight_value AS DECIMAL(12, 2))) FROM raw.order_items))"
+               " * 100 AS INT)"),
+    Validacion("V15", ADVERTENCIA, "Hechos asignados al miembro Desconocido (-1) de alguna dimensión",
+               "SELECT (SELECT COUNT(*) FROM dw.fact_pedidos WHERE -1 IN (cliente_key, geografia_key))"
+               " + (SELECT COUNT(*) FROM dw.fact_items"
+               "    WHERE -1 IN (producto_key, vendedor_key, cliente_key, geografia_key))"),
 ]

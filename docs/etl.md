@@ -1,12 +1,12 @@
-# ETL: de los CSV a staging
+# ETL: de los CSV al modelo dimensional
 
-**Fase:** 3 · **Código:** [src/etl/](../src/etl/) · **SQL:** [sql/01_raw/](../sql/01_raw/), [sql/02_staging/](../sql/02_staging/)
+**Fase:** 3 (y 4 para la capa dw) · **Código:** [src/etl/](../src/etl/) · **SQL:** [sql/01_raw/](../sql/01_raw/), [sql/02_staging/](../sql/02_staging/), [sql/03_dw/](../sql/03_dw/)
 
 ## Cómo se corre
 
 ```bash
 python -m src.setup.create_database   # una vez: base, esquemas y tablas de log
-python -m src.etl.run                 # el pipeline completo (~1,5 minutos)
+python -m src.etl.run                 # el pipeline completo (~2 minutos)
 pytest                                # incluye los tests contra SQL Server si está disponible
 ```
 
@@ -16,9 +16,9 @@ El comando termina con código 0 si la carga salió bien y con 1 si falló, así
 
 ```
 CSV (data/raw) ─┐
-seeds ──────────┴─► 1. raw.*  ──► 2. validaciones raw ──► 3. stg.*  ──► 4. validaciones stg
-                      texto,        V01 V02 V07             tipos,         V03 V04 V05 V06 V08
-                      tal cual      (+ V12 V14 avisos)      limpieza       (+ V09 V10 V11 V13 avisos)
+seeds ──────────┴─► 1. raw.*  ──► 2. validaciones raw ──► 3. stg.*  ──► 4. validaciones stg ──► 5. dw.*  ──► 6. validaciones dw
+                      texto,        V01 V02 V07             tipos,         V03 V04 V05 V06 V08      estrella      V08
+                      tal cual      (+ V12 V14 avisos)      limpieza       (+ V09 V10 V11 V13)                    (+ V15)
                                                      │
                      todo queda en etl.log_ejecucion / log_paso / log_validacion
 ```
@@ -27,6 +27,8 @@ seeds ──────────┴─► 1. raw.*  ──► 2. validacione
 2. **Validaciones sobre raw:** cantidad de filas, claves únicas y formato de los códigos postales. Van antes de `stg` porque `stg` tiene claves primarias, y un duplicado haría fallar el INSERT con un error poco claro.
 3. **stg:** ejecuta en orden los scripts de `sql/02_staging/`: primero la función de normalización y las tablas, después una carga por tabla.
 4. **Validaciones sobre stg:** integridad referencial, rangos, fechas y conciliación de filas y montos contra `raw`.
+5. **dw:** construye el modelo en estrella (`sql/03_dw/`): dimensiones primero, hechos después. Ver [03_modelo_dimensional.md](03_modelo_dimensional.md).
+6. **Validaciones sobre dw:** un hecho por pedido y por ítem, ventas y flete iguales a `raw`, y ningún hecho en el miembro Desconocido.
 
 Si una validación **crítica** falla, la ejecución se corta y queda como `FALLA`. Las **advertencias** se registran con la cantidad de filas y la carga sigue ([D-009](decisiones.md#d-009--los-problemas-de-calidad-se-clasifican-por-gravedad)).
 

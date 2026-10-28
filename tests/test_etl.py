@@ -9,11 +9,11 @@ import pytest
 
 from src.etl.extraccion import filas_para_insertar, leer_csv, verificar_columnas
 from src.etl.run import tabla_de_script
-from src.etl.validaciones import (ADVERTENCIA, CRITICA, VALIDACIONES_RAW, VALIDACIONES_STG,
-                                  resultado)
+from src.etl.validaciones import (ADVERTENCIA, CRITICA, VALIDACIONES_DW, VALIDACIONES_RAW,
+                                  VALIDACIONES_STG, resultado)
 from src.paths import DOCS_DIR, SEEDS_DIR
 
-TODAS = VALIDACIONES_RAW + VALIDACIONES_STG
+TODAS = VALIDACIONES_RAW + VALIDACIONES_STG + VALIDACIONES_DW
 
 
 # --- extracción -------------------------------------------------------------
@@ -39,9 +39,9 @@ def test_verificar_columnas_falla_si_el_origen_cambia():
 
 
 def test_tabla_de_script():
-    assert tabla_de_script(SEEDS_DIR / "11_customers.sql") == "stg.customers"
-    assert tabla_de_script(SEEDS_DIR / "18_order_reviews.sql") == "stg.order_reviews"
-    assert tabla_de_script(SEEDS_DIR / "01_tablas_stg.sql") is None
+    assert tabla_de_script(SEEDS_DIR / "11_customers.sql", "stg") == "stg.customers"
+    assert tabla_de_script(SEEDS_DIR / "20_fact_pedidos.sql", "dw") == "dw.fact_pedidos"
+    assert tabla_de_script(SEEDS_DIR / "01_tablas_stg.sql", "stg") is None
 
 
 # --- validaciones -----------------------------------------------------------

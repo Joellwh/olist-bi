@@ -1,5 +1,5 @@
 """
-Pipeline completo: CSV -> raw -> validaciones -> stg -> validaciones.
+Pipeline completo: CSV -> raw -> stg -> dw, con validaciones después de cada capa.
 
     python -m src.etl.run
 
@@ -22,18 +22,30 @@ from src.config import load_config
 from src.db import connect, run_script
 from src.etl import registro
 from src.etl.extraccion import FUENTES, cargar_tabla
-from src.etl.validaciones import VALIDACIONES_RAW, VALIDACIONES_STG, Validacion, resultado
-from src.paths import RAW_SQL_DIR, STG_SQL_DIR
+from src.etl.validaciones import VALIDACIONES_DW, VALIDACIONES_RAW, VALIDACIONES_STG, Validacion, resultado
+from src.paths import DW_SQL_DIR, RAW_SQL_DIR, STG_SQL_DIR
 
 
 class ValidacionCriticaFallida(Exception):
     pass
 
 
-def tabla_de_script(script: Path) -> str | None:
-    """'11_customers.sql' -> 'stg.customers'. Los scripts 0x son de estructura y no cargan una tabla."""
+def tabla_de_script(script: Path, esquema: str) -> str | None:
+    """('11_customers.sql', 'stg') -> 'stg.customers'. Los scripts 0x son de estructura y no cargan una tabla."""
     prefijo, _, nombre = script.stem.partition("_")
-    return None if prefijo.startswith("0") else f"stg.{nombre}"
+    return None if prefijo.startswith("0") else f"{esquema}.{nombre}"
+
+
+def ejecutar_capa(conn: pyodbc.Connection, ejecucion_id: int, carpeta: Path, esquema: str, config) -> None:
+    """Corre en orden los scripts de una capa y registra las filas de cada tabla cargada."""
+    for script in sorted(carpeta.glob("*.sql")):
+        inicio = datetime.now()
+        run_script(script, config=config)
+        tabla = tabla_de_script(script, esquema)
+        filas = conn.execute(f"SELECT COUNT(*) FROM {tabla}").fetchone()[0] if tabla else None
+        registro.paso(conn, ejecucion_id, esquema, tabla or script.name, filas, inicio, datetime.now())
+        if tabla:
+            print(f"    {tabla:<28} {filas:>10,} filas  ({(datetime.now() - inicio).total_seconds():.1f} s)".replace(",", "."))
 
 
 def validar(conn: pyodbc.Connection, ejecucion_id: int, validaciones: list[Validacion]) -> None:
@@ -71,17 +83,16 @@ def main() -> int:
         validar(conn, ejecucion_id, VALIDACIONES_RAW)
 
         print("3. stg: tipos y limpieza")
-        for script in sorted(STG_SQL_DIR.glob("*.sql")):
-            inicio = datetime.now()
-            run_script(script, config=config)
-            tabla = tabla_de_script(script)
-            filas = conn.execute(f"SELECT COUNT(*) FROM {tabla}").fetchone()[0] if tabla else None
-            registro.paso(conn, ejecucion_id, "stg", tabla or script.name, filas, inicio, datetime.now())
-            if tabla:
-                print(f"    {tabla:<28} {filas:>10,} filas  ({(datetime.now() - inicio).total_seconds():.1f} s)".replace(",", "."))
+        ejecutar_capa(conn, ejecucion_id, STG_SQL_DIR, "stg", config)
 
         print("4. Validaciones sobre stg")
         validar(conn, ejecucion_id, VALIDACIONES_STG)
+
+        print("5. dw: modelo dimensional")
+        ejecutar_capa(conn, ejecucion_id, DW_SQL_DIR, "dw", config)
+
+        print("6. Validaciones sobre dw")
+        validar(conn, ejecucion_id, VALIDACIONES_DW)
 
     except Exception as error:  # se registra cualquier falla, no solo las de validación
         registro.finalizar(conn, ejecucion_id, "FALLA", f"{type(error).__name__}: {error}")

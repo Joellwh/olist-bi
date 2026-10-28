@@ -23,6 +23,7 @@ SQL_DIR = ROOT / "sql"
 SETUP_SQL_DIR = SQL_DIR / "00_setup"
 RAW_SQL_DIR = SQL_DIR / "01_raw"
 STG_SQL_DIR = SQL_DIR / "02_staging"
+DW_SQL_DIR = SQL_DIR / "03_dw"
 DOCS_DIR = ROOT / "docs"
 POWERBI_DIR = ROOT / "powerbi"
 

@@ -108,5 +108,6 @@ Cada regla sale de un problema de arriba. El ETL las corre en cada carga, y el r
 | V12 | Pagos `not_defined`, en 0 o con 0 cuotas | Q15 |
 | V13 | Productos sin categoría y categorías sin nombre en español | Q17, Q18 |
 | V14 | Coordenadas fuera de Brasil descartadas | Q01 |
+| V15 | Hechos asignados al miembro "Desconocido" de una dimensión (un pedido o ítem sin cliente, producto, vendedor o estado conocido) | Fase 4 |
 
 Para cada advertencia, el log guarda cuántas filas la cumplieron. Si un número cambia mucho de una carga a otra, es una señal para revisar el origen.
