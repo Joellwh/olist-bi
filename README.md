@@ -4,7 +4,7 @@ Solución de Business Intelligence completa sobre el e-commerce brasileño Olist
 
 **Stack:** Python (ETL y validación) · SQL Server (modelo dimensional) · Power BI (modelo semántico, DAX, RLS) · GitHub Actions (CI)
 
-> 🚧 En construcción. Estado actual: **Fase 3, ETL hacia SQL Server**. Ver el [roadmap](docs/roadmap.md).
+En construcción. Estado actual: **Fase 3, ETL hacia SQL Server**. Ver el [roadmap](docs/roadmap.md).
 
 ## Arquitectura
 
