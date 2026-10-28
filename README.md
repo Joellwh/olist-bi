@@ -4,7 +4,7 @@ Solución de Business Intelligence completa sobre el e-commerce brasileño Olist
 
 **Stack:** Python (ETL y validación) · SQL Server (modelo dimensional) · Power BI (modelo semántico, DAX, RLS) · GitHub Actions (CI)
 
-> 🚧 En construcción. Estado actual: **Fase 2, perfilado y calidad de datos**. Ver el [roadmap](docs/roadmap.md).
+> 🚧 En construcción. Estado actual: **Fase 3, ETL hacia SQL Server**. Ver el [roadmap](docs/roadmap.md).
 
 ## Arquitectura
 
@@ -24,8 +24,9 @@ python -m venv .venv
 pip install -r requirements.txt
 
 python -m src.setup.extract_data "ruta/al/archive.zip"   # datos: ver data/README.md
-python -m src.setup.create_database                      # base OlistDW y esquemas
+python -m src.setup.create_database                      # base OlistDW, esquemas y tablas de log
 python -m src.setup.check_environment                    # verifica que todo esté listo
+python -m src.etl.run                                    # ETL: CSV -> raw -> stg, con validaciones
 pytest
 ```
 
@@ -50,5 +51,6 @@ tests/           tests (corren en el CI)
 - [Requerimientos de negocio](docs/01_requerimientos.md)
 - [Diccionario de KPIs](docs/kpi_diccionario.md)
 - [Calidad de datos](docs/02_calidad_datos.md)
+- [ETL](docs/etl.md)
 - [Registro de decisiones](docs/decisiones.md)
 - [Datos: origen y tablas](data/README.md)

@@ -49,18 +49,18 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 📦 `docs/02_calidad_datos.md`
 
-## Fase 3: ETL con Python hacia SQL Server (4–6 días)
+## Fase 3: ETL con Python hacia SQL Server — ✅ hecha (2026-10-27)
 
 *Cubre: Python para transformar, validar y automatizar; capas de extracción y preparación.*
 
-- [ ] Extracción de CSV a `raw.*` (`pyodbc` + SQLAlchemy, `fast_executemany=True`).
-- [ ] Limpieza en `stg.*`: tipos, deduplicación, normalización, traducción de categorías.
-- [ ] Validación automática (pandera o checks propios): integridad referencial, fechas coherentes, precios y fletes ≥ 0. Si falla una regla crítica, la carga se corta.
-- [ ] Log en `etl.log_ejecucion` (inicio, fin, filas por tabla, estado).
-- [ ] Idempotente; un único comando: `python -m src.etl.run`.
-- [ ] Tests con pytest.
+- [x] Extracción de CSV a `raw.*` con `pyodbc` y `fast_executemany`, una transacción por tabla (de 7 minutos a 36 segundos).
+- [x] Limpieza en `stg.*` con T-SQL: tipos, deduplicación, normalización de texto, geolocalización por código postal, categorías en español.
+- [x] Validación automática con checks propios (V01–V14 del informe de calidad). Si falla una crítica, la carga se corta.
+- [x] Log en `etl.log_ejecucion`, `etl.log_paso` y `etl.log_validacion`.
+- [x] Idempotente; un único comando: `python -m src.etl.run`. Decisiones D-012 y D-013.
+- [x] Tests: unitarios (corren en el CI) y de integración contra SQL Server (KPIs de SQL = KPIs de referencia).
 
-📦 Pipeline reproducible con validaciones y logs.
+📦 Pipeline reproducible con validaciones y logs: `docs/etl.md`
 
 ## Fase 4: Modelo dimensional en SQL Server (3–4 días)
 

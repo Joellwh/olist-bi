@@ -151,3 +151,35 @@ Cada decisión importante del proyecto: qué se eligió, por qué y qué alterna
 **Por qué:** el tablero es para usuarios de habla hispana. La tabla de traducción de Olist está en inglés y le faltan 2 categorías (Q18). Una tabla propia resuelve las dos cosas, y al ser un archivo chico y nuestro, se versiona con el código.
 
 **Descartada:** *usar la traducción al inglés de Olist.* Mezcla idiomas en el tablero y deja 13 productos sin nombre de categoría.
+
+---
+
+## D-012 · Carga completa en cada ejecución
+
+**Fecha:** 2026-10-27 · **Fase:** 3
+
+**Decisión:** cada ejecución del ETL vacía las tablas de `raw` y `stg` y las vuelve a llenar desde los CSV. No hay carga incremental.
+
+**Por qué:** el dataset es estático (no llegan pedidos nuevos) y la carga completa tarda alrededor de un minuto y medio. Es la forma más simple de que el pipeline sea **idempotente**: correrlo dos veces deja exactamente el mismo resultado, verificado comparando dos ejecuciones seguidas.
+
+**Descartada:** *carga incremental* (solo lo nuevo o modificado). Es lo que haría falta con datos que crecen todos los días, pero exige detectar cambios y borrados, y acá no hay ninguno. Si el proyecto pasara a un origen vivo, la clave para hacerla sería la fecha de compra de los pedidos.
+
+---
+
+## D-013 · raw como texto, limpieza en T-SQL, orquestación en Python
+
+**Fecha:** 2026-10-27 · **Fase:** 3
+
+**Decisión:**
+- `raw` guarda todo como texto, tal cual viene del CSV.
+- `stg` se construye con scripts **T-SQL** (`sql/02_staging/`): tipos, deduplicación, normalización.
+- **Python** lee los CSV, los inserta en `raw`, ejecuta los scripts en orden, corre las validaciones y registra todo.
+
+**Por qué:**
+- Con `raw` como texto, la carga nunca falla por un valor mal formado: el problema aparece al tiparlo en `stg`, con un error claro y en el lugar donde se decide qué hacer.
+- La limpieza en SQL es visible y se puede revisar desde SSMS, opera sobre conjuntos completos (no fila por fila) y es la habilidad de SQL que pide el puesto.
+- Python hace lo que SQL Server no puede hacer bien solo: leer archivos, orquestar pasos y testear.
+
+**Descartada:** *limpiar todo con pandas y cargar directo a `stg`.* Es más rápido de escribir, pero la lógica queda fuera de la base: quien abra SSMS ve tablas limpias sin saber cómo llegaron ahí.
+
+**Consecuencia:** la normalización de texto existe dos veces, en Python (para el perfilado) y en T-SQL (para `stg`). Un test de integración compara las dos sobre todas las ciudades del dataset. Ese test encontró un bug real en la versión SQL (ver [docs/etl.md](etl.md)).

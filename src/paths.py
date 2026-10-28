@@ -18,8 +18,11 @@ ROOT = Path(__file__).resolve().parent.parent
 
 DATA_DIR = ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"
+SEEDS_DIR = DATA_DIR / "seeds"      # tablas propias del proyecto, versionadas
 SQL_DIR = ROOT / "sql"
 SETUP_SQL_DIR = SQL_DIR / "00_setup"
+RAW_SQL_DIR = SQL_DIR / "01_raw"
+STG_SQL_DIR = SQL_DIR / "02_staging"
 DOCS_DIR = ROOT / "docs"
 POWERBI_DIR = ROOT / "powerbi"
 

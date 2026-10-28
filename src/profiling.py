@@ -9,9 +9,14 @@ Todas reciben DataFrames y devuelven números o DataFrames; no imprimen ni leen
 archivos, así se pueden testear con datos chicos armados a mano.
 """
 
+import re
 import unicodedata
 
 import pandas as pd
+
+_NO_PERMITIDO = re.compile(r"[^a-z0-9 '\-]")
+# Signos que en los datos se usan como apóstrofo ("santa barbara d´oeste")
+_COMO_APOSTROFO = str.maketrans({"´": "'", "`": "'", "’": "'"})
 
 
 def perfil_columnas(df: pd.DataFrame) -> pd.DataFrame:
@@ -77,15 +82,22 @@ def fuera_de_rango(serie: pd.Series, minimo=None, maximo=None) -> int:
 
 
 def normalizar_texto(texto: str | None) -> str | None:
-    """Minúsculas, sin tildes y con un solo espacio entre palabras.
+    """Minúsculas, sin tildes, sin puntuación y con un solo espacio entre palabras.
 
     "  São  Paulo " y "sao paulo" quedan iguales: así se detectan (y en la
-    Fase 3 se unifican) las variantes de un mismo nombre.
+    Fase 3 se unifican) las variantes de un mismo nombre. Los caracteres no
+    ASCII que no son tildes (texto corrupto, como "sa£o") se borran; ´, ` y ’
+    pasan a apóstrofo; la puntuación, salvo apóstrofo y guion, pasa a espacio
+    ("sbc/sp" -> "sbc sp"); y se quitan los apóstrofos de los extremos.
+
+    stg.fn_normalizar_texto (sql/02_staging/00_funciones.sql) aplica las mismas
+    reglas en SQL Server. Si se cambia una, hay que cambiar la otra.
     """
     if texto is None or (isinstance(texto, float) and pd.isna(texto)):
         return None
-    sin_tildes = unicodedata.normalize("NFKD", str(texto)).encode("ascii", "ignore").decode()
-    return " ".join(sin_tildes.lower().split())
+    sin_tildes = unicodedata.normalize("NFD", str(texto).translate(_COMO_APOSTROFO)).encode("ascii", "ignore").decode().lower()
+    limpio = " ".join(_NO_PERMITIDO.sub(" ", sin_tildes).split()).strip(" '")
+    return limpio or None
 
 
 def variantes_de_texto(serie: pd.Series) -> pd.DataFrame:

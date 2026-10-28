@@ -63,6 +63,17 @@ def test_normalizar_texto():
     assert normalizar_texto(float("nan")) is None
 
 
+def test_normalizar_texto_limpia_texto_corrupto_y_puntuacion():
+    assert normalizar_texto("sa£o paulo") == "sao paulo"      # carácter no ASCII: se borra
+    assert normalizar_texto("´teresopolis") == "teresopolis"
+    assert normalizar_texto("sbc/sp") == "sbc sp"             # puntuación: pasa a espacio
+    assert normalizar_texto("sao paulo - sp") == "sao paulo - sp"  # el guion se conserva
+    assert normalizar_texto("d'oeste") == "d'oeste"
+    assert normalizar_texto("santa barbara d´oeste") == "santa barbara d'oeste"  # ´ como apóstrofo
+    assert normalizar_texto("4º centenario") == "4 centenario"   # º: se borra, igual que en SQL
+    assert normalizar_texto(" / ") is None
+
+
 def test_variantes_de_texto_agrupa_formas_de_un_mismo_nombre():
     serie = pd.Series(["são paulo", "sao paulo", "Sao Paulo", "campinas"])
     variantes = variantes_de_texto(serie)
