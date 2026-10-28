@@ -113,3 +113,41 @@ Cada decisión importante del proyecto: qué se eligió, por qué y qué alterna
 **Descartada:** *todo el período.* No esconde nada, pero los primeros y últimos meses producen picos y caídas que no son reales.
 
 **Implementación pendiente:** el filtro se aplica en el modelo (Fase 4 o 6), no borrando datos en el ETL, para que la base siga siendo una copia fiel del origen.
+
+---
+
+## D-009 · Los problemas de calidad se clasifican por gravedad
+
+**Fecha:** 2026-10-27 · **Fase:** 2
+
+**Decisión:** cada problema de calidad es crítico, advertencia o informativo ([02_calidad_datos.md](02_calidad_datos.md)). Una regla crítica que falla **corta la carga**; una advertencia se registra con la cantidad de filas afectadas y la carga sigue.
+
+**Por qué:** si todo cortara la carga, el pipeline nunca terminaría por problemas que afectan a 8 filas de 99 mil. Si nada la cortara, un error que cambia los totales (como perder los ceros de los códigos postales) llegaría al tablero sin que nadie lo note. Las críticas son las que hacen que un KPI dé mal.
+
+**Descartada:** *corregir todo en silencio.* Deja un dataset prolijo, pero nadie se entera de que el origen tiene problemas ni de si empeoran.
+
+---
+
+## D-010 · Geolocalización: una fila por código postal
+
+**Fecha:** 2026-10-27 · **Fase:** 2
+
+**Decisión:** `geolocation` se reduce de 1.000.163 filas a una por código postal (19.015). Coordenadas: mediana de latitud y longitud. Ciudad y estado: el valor más frecuente. Antes se descartan los 42 puntos fuera de Brasil.
+
+**Por qué:** la tabla es una lista de puntos con muchas repeticiones (mediana de 29 por código postal), así que no se puede usar como dimensión: unirla con clientes multiplicaría filas igual que en Q12. La mediana no se deja arrastrar por los puntos mal cargados que queden; el promedio sí.
+
+**Descartadas:**
+- *Tomar el primer punto de cada código:* arbitrario; depende del orden del archivo.
+- *No usar la tabla:* los mapas por estado no la necesitan, pero tenerla permite un mapa por ciudad más adelante, y cuesta poco.
+
+---
+
+## D-011 · Categorías en español con una tabla propia
+
+**Fecha:** 2026-10-27 · **Fase:** 2
+
+**Decisión:** las categorías se muestran en español, con una tabla propia (`data/seeds/categorias.csv`, versionada en el repo) que traduce las 73 categorías del portugués. Los productos sin categoría van a "Sin categoría".
+
+**Por qué:** el tablero es para usuarios de habla hispana. La tabla de traducción de Olist está en inglés y le faltan 2 categorías (Q18). Una tabla propia resuelve las dos cosas, y al ser un archivo chico y nuestro, se versiona con el código.
+
+**Descartada:** *usar la traducción al inglés de Olist.* Mezcla idiomas en el tablero y deja 13 productos sin nombre de categoría.

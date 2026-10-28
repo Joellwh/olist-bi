@@ -4,7 +4,7 @@ Solución de Business Intelligence completa sobre el e-commerce brasileño Olist
 
 **Stack:** Python (ETL y validación) · SQL Server (modelo dimensional) · Power BI (modelo semántico, DAX, RLS) · GitHub Actions (CI)
 
-> 🚧 En construcción. Estado actual: **Fase 1, requerimientos y KPIs**. Ver el [roadmap](docs/roadmap.md).
+> 🚧 En construcción. Estado actual: **Fase 2, perfilado y calidad de datos**. Ver el [roadmap](docs/roadmap.md).
 
 ## Arquitectura
 
@@ -49,5 +49,6 @@ tests/           tests (corren en el CI)
 - [Roadmap](docs/roadmap.md)
 - [Requerimientos de negocio](docs/01_requerimientos.md)
 - [Diccionario de KPIs](docs/kpi_diccionario.md)
+- [Calidad de datos](docs/02_calidad_datos.md)
 - [Registro de decisiones](docs/decisiones.md)
 - [Datos: origen y tablas](data/README.md)

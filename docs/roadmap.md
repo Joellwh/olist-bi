@@ -41,11 +41,11 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 📦 `docs/01_requerimientos.md`, `docs/kpi_diccionario.md`, `docs/bocetos/`
 
-## Fase 2: Exploración y perfilado (2–3 días)
+## Fase 2: Exploración y perfilado — ✅ hecha (2026-10-27)
 
-- [ ] Notebook que perfile las 9 tablas: filas, nulos, duplicados, rangos, cardinalidad de claves.
-- [ ] Problemas conocidos: `geolocation` repetido por código postal, reseñas duplicadas, varios ítems y pagos por pedido (granularidad), fechas faltantes en no entregados, categorías en portugués.
-- [ ] Documentar cada problema y la decisión tomada.
+- [x] Notebook que perfile las 9 tablas (`notebooks/02_perfilado.ipynb`), con funciones testeadas en `src/profiling.py`.
+- [x] Problemas conocidos y nuevos: 23 hallazgos (Q01–Q23), entre ellos el código postal que pierde el cero (Q20) y la unión ítems × pagos que infla ventas un 4,5% (Q12).
+- [x] Cada problema con gravedad y decisión, más 14 reglas de validación para la Fase 3. Decisiones D-009 a D-011.
 
 📦 `docs/02_calidad_datos.md`
 
