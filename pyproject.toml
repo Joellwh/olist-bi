@@ -1,0 +1,6 @@
+[tool.pytest.ini_options]
+# Los tests importan el paquete src/ desde la raíz del repo. Sin esto, `pytest`
+# solo (como lo corre el CI) no encuentra src y falla antes de correr un solo
+# test; `python -m pytest` funcionaba porque agrega el directorio actual.
+pythonpath = ["."]
+testpaths = ["tests"]
