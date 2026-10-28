@@ -1,9 +1,10 @@
 """
 Funciones de perfilado y chequeo de calidad de datos.
 
-Se usan en el notebook de la Fase 2 para explorar, y en la Fase 3 como base de
-las validaciones del ETL: el mismo chequeo que encontró un problema es el que
-después verifica que esté resuelto.
+Se usan en el notebook de la Fase 2 para explorar. Las validaciones del ETL
+(Fase 3) no las usan: son consultas SQL sobre la base (src/etl/validaciones.py),
+porque los datos ya están ahí. normalizar_texto sí se reutiliza, como referencia
+contra la que se compara su versión en T-SQL (tests/test_integracion_sql.py).
 
 Todas reciben DataFrames y devuelven números o DataFrames; no imprimen ni leen
 archivos, así se pueden testear con datos chicos armados a mano.
@@ -69,16 +70,6 @@ def fechas_invertidas(df: pd.DataFrame, anterior: str, posterior: str) -> int:
     p = pd.to_datetime(df[posterior])
     return int((p < a).sum())
 
-
-def fuera_de_rango(serie: pd.Series, minimo=None, maximo=None) -> int:
-    """Valores no nulos por debajo del mínimo o por encima del máximo (inclusive)."""
-    s = serie.dropna()
-    fuera = pd.Series(False, index=s.index)
-    if minimo is not None:
-        fuera |= s < minimo
-    if maximo is not None:
-        fuera |= s > maximo
-    return int(fuera.sum())
 
 
 def normalizar_texto(texto: str | None) -> str | None:

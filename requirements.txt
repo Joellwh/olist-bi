@@ -7,10 +7,9 @@
 pandas==3.0.5
 numpy==2.5.1
 
-# SQL Server: pyodbc habla con el driver ODBC 18; sqlalchemy queda para cargas
-# masivas con pandas (to_sql con fast_executemany) en la fase de ETL.
+# SQL Server: pyodbc habla con el driver ODBC 18. La carga masiva del ETL usa
+# pyodbc directo con fast_executemany (docs/etl.md), sin SQLAlchemy.
 pyodbc==5.3.0
-sqlalchemy==2.0.51
 
 # Notebooks (exploración, fase 2)
 notebook==7.6.1

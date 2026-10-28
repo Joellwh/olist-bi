@@ -7,7 +7,6 @@ import pandas as pd
 
 from src.profiling import (
     fechas_invertidas,
-    fuera_de_rango,
     huerfanos,
     normalizar_texto,
     perfil_columnas,
@@ -50,10 +49,6 @@ def test_fechas_invertidas_solo_compara_filas_completas():
     })
     assert fechas_invertidas(df, "compra", "entrega") == 1
 
-
-def test_fuera_de_rango():
-    assert fuera_de_rango(pd.Series([-1, 0, 5, 10, None]), minimo=0, maximo=5) == 2
-    assert fuera_de_rango(pd.Series([1, 2]), minimo=0) == 0
 
 
 def test_normalizar_texto():

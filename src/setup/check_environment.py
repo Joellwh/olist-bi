@@ -16,7 +16,7 @@ from src.db import connect
 from src.paths import RAW_DIR, RAW_FILES
 
 ESQUEMAS = ["raw", "stg", "dw", "rpt", "etl"]
-PAQUETES = ["pandas", "sqlalchemy", "pyodbc", "pytest"]
+PAQUETES = ["pandas", "pyodbc", "pytest"]
 
 
 def check(nombre: str, ok: bool, detalle: str = "") -> bool:
