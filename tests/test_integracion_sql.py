@@ -84,6 +84,7 @@ KPIS_DW = {
     "K22 Puntaje promedio de reseña": f"SELECT AVG(CAST(p.puntaje_resena AS FLOAT)) {_PED} WHERE p.es_valido = 1",
     "K23 % reseñas negativas": f"SELECT AVG(CASE WHEN p.puntaje_resena <= 2 THEN 1.0 ELSE 0 END) {_PED} WHERE p.es_valido = 1 AND p.puntaje_resena IS NOT NULL",
     "K25 Tasa de recompra": f"SELECT AVG(CASE WHEN n > 1 THEN 1.0 ELSE 0 END) FROM (SELECT p.cliente_key, COUNT(*) AS n {_PED} WHERE p.es_valido = 1 GROUP BY p.cliente_key) AS c",
+    "K28 Tasa de recompra en días distintos": f"SELECT AVG(CASE WHEN dias > 1 THEN 1.0 ELSE 0 END) FROM (SELECT p.cliente_key, COUNT(DISTINCT f.fecha) AS dias {_PED} WHERE p.es_valido = 1 GROUP BY p.cliente_key) AS c",
     "K26 Brecha de puntaje por demora": f"SELECT AVG(CASE WHEN p.a_tiempo = 1 THEN CAST(p.puntaje_resena AS FLOAT) END) - AVG(CASE WHEN p.a_tiempo = 0 THEN CAST(p.puntaje_resena AS FLOAT) END) {_PED} WHERE p.es_valido = 1",
 }
 
@@ -109,3 +110,59 @@ def test_kpi_sql_igual_a_referencia(conn, referencia, capa, kpi):
 def test_ultima_ejecucion_ok(conn):
     estado = conn.execute("SELECT TOP 1 estado FROM etl.log_ejecucion ORDER BY ejecucion_id DESC").fetchone()[0]
     assert estado == "OK"
+
+
+# --- Vistas analíticas (rpt, Fase 5): cada una tiene que cerrar con los KPIs ---
+
+def _valor(conn, sql):
+    valor = conn.execute(sql).fetchone()[0]
+    return float(valor) if isinstance(valor, Decimal) else valor
+
+
+def test_ventas_mensuales_cierra_con_k01_k08_k09(conn, referencia):
+    assert _valor(conn, "SELECT SUM(ventas) FROM rpt.ventas_mensuales WHERE en_periodo_analisis = 1") \
+        == pytest.approx(referencia["K01 Ventas"], abs=0.01)
+    assert _valor(conn, "SELECT acumulado_anio FROM rpt.ventas_mensuales WHERE anio_mes = 201808") \
+        == pytest.approx(referencia["K09 Ventas acumuladas 2018"], abs=0.01)
+    interanual = _valor(conn, "SELECT SUM(CASE WHEN anio = 2018 THEN ventas END) / SUM(CASE WHEN anio = 2017 THEN ventas END) - 1"
+                              " FROM rpt.ventas_mensuales WHERE mes <= 8 AND anio IN (2017, 2018)")
+    assert interanual == pytest.approx(referencia["K08 Variación interanual % (ene-ago 2018)"], abs=0.00005)
+
+
+def test_ventas_mensuales_no_saltea_meses_sin_ventas(conn):
+    """Nov-2016 no tuvo pedidos: tiene que aparecer con 0, y nov-2017 sin variación interanual."""
+    fila = conn.execute("SELECT ventas FROM rpt.ventas_mensuales WHERE anio_mes = 201611").fetchone()
+    assert fila is not None and fila[0] == 0
+    assert conn.execute("SELECT variacion_interanual FROM rpt.ventas_mensuales WHERE anio_mes = 201711").fetchone()[0] is None
+    meses = conn.execute("SELECT COUNT(*), COUNT(DISTINCT anio_mes) FROM rpt.ventas_mensuales").fetchone()
+    assert tuple(meses) == (26, 26)   # sep-2016 a oct-2018, uno por fila
+
+
+def test_cohortes(conn):
+    # El mes 0 es la definición de la cohorte: retención 100% siempre
+    assert conn.execute("SELECT COUNT(*) FROM rpt.cohortes WHERE meses_desde = 0 AND retencion <> 1").fetchone()[0] == 0
+    # Cada persona con un pedido válido está en exactamente una cohorte
+    personas = conn.execute("SELECT COUNT(*) FROM dw.dim_cliente WHERE cohorte IS NOT NULL").fetchone()[0]
+    assert conn.execute("SELECT SUM(clientes) FROM rpt.cohortes WHERE meses_desde = 0").fetchone()[0] == personas
+
+
+def test_recompra_una_fila_por_persona(conn):
+    personas = conn.execute("SELECT COUNT(*) FROM dw.dim_cliente WHERE cohorte IS NOT NULL").fetchone()[0]
+    assert tuple(conn.execute("SELECT COUNT(*), COUNT(DISTINCT cliente_key) FROM rpt.recompra_clientes").fetchone()) == (personas, personas)
+    assert conn.execute("SELECT COUNT(*) FROM rpt.recompra_clientes WHERE es_recompra = 1 AND segunda_compra IS NULL").fetchone()[0] == 0
+
+
+def test_ranking_vendedores(conn, referencia):
+    total, participacion, primero, cuartiles = conn.execute(
+        "SELECT SUM(ventas), SUM(participacion), MIN(ranking_total), COUNT(DISTINCT cuartil) FROM rpt.ranking_vendedores").fetchone()
+    assert float(total) == pytest.approx(referencia["K01 Ventas"], abs=0.01)
+    assert float(participacion) == pytest.approx(1, abs=0.001)
+    assert (primero, cuartiles) == (1, 4)
+    assert conn.execute("SELECT COUNT(*) FROM rpt.ranking_vendedores").fetchone()[0] == referencia["K12 Vendedores activos"]
+
+
+def test_rfm_cierra_con_k01_y_k06(conn, referencia):
+    personas, monto = conn.execute("SELECT COUNT(*), SUM(monto) FROM rpt.rfm_clientes").fetchone()
+    assert personas == referencia["K06 Clientes únicos"]
+    assert float(monto) == pytest.approx(referencia["K01 Ventas"], abs=0.01)
+    assert conn.execute("SELECT COUNT(*) FROM rpt.rfm_clientes WHERE segmento IS NULL").fetchone()[0] == 0

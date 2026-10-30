@@ -73,13 +73,14 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 📦 `docs/03_modelo_dimensional.md`
 
-## Fase 5: SQL complejo y rendimiento (3–4 días)
+## Fase 5: SQL complejo y rendimiento — ✅ hecha (2026-10-30)
 
 *Cubre: consultas SQL complejas y optimización.*
 
-- [ ] Vistas `rpt.*`: cohortes y retención, recompra (`LAG`), ranking de vendedores (`RANK`, `NTILE`), RFM, variación mensual y acumulado (`SUM() OVER`).
-- [ ] `SET STATISTICS IO, TIME ON`, planes de ejecución, índices en FK y fechas, índice columnstore en hechos.
-- [ ] Antes y después medidos.
+- [x] Vistas `rpt.*`: cohortes y retención, recompra (`LEAD`), ranking de vendedores (`RANK`, `NTILE`), RFM, variación mensual y acumulado (`LAG`, `SUM() OVER`). Cada una verificada contra el diccionario de KPIs.
+- [x] `SET STATISTICS IO, TIME` y planes de ejecución, medidos con `python -m src.optimizacion`: 5 estrategias de índices × 7 consultas.
+- [x] Antes y después medidos; elegida columnstore + 2 índices puntuales (D-017). La RFM pasa de 403.266 a 566 lecturas.
+- [x] Hallazgo: el 29% de la recompra es en el mismo día; nuevo KPI K28.
 
 📦 `docs/04_optimizacion_sql.md`
 

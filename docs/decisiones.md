@@ -222,3 +222,19 @@ Cada decisión importante del proyecto: qué se eligió, por qué y qué alterna
 **Por qué:** una regla escrita en un solo lugar no puede divergir. Además queda disponible para cualquier herramienta que lea la base, no solo para Power BI, y se puede testear con SQL: los 13 KPIs calculados sobre `dw` coinciden con los valores de referencia.
 
 **Descartada:** *calcular las reglas en DAX con columnas calculadas o dentro de cada medida.* Funciona, pero la regla quedaría repetida en varias medidas, y las columnas calculadas ocupan memoria en el modelo y son una fuente típica de dependencias circulares (justamente el tema de la Fase 7).
+
+---
+
+## D-017 · Índices: columnstore más dos índices puntuales
+
+**Fecha:** 2026-10-30 · **Fase:** 5
+
+**Decisión:** las tablas de hechos tienen un índice columnstore no agrupado cada una, más dos índices comunes: `fact_pedidos (cliente_key)` y `fact_items (vendedor_key)`. Se crean al final de la carga (`sql/03_dw/90_indices.sql`).
+
+**Por qué:** se midieron 5 estrategias con 7 consultas representativas ([04_optimizacion_sql.md](04_optimizacion_sql.md)). El columnstore reduce entre 2 y 19 veces las lecturas de las agregaciones y, al habilitar el modo batch, baja la vista RFM de 403.266 a 566 lecturas. Pero recorre la tabla entera en las búsquedas puntuales, y para eso están los dos índices comunes. Esta combinación iguala en todas las consultas a la que agrega cinco índices comunes, con la mitad de espacio.
+
+**Descartadas:**
+- *Solo índices comunes en todas las claves foráneas:* mejoran las búsquedas puntuales, pero casi no ayudan a las agregaciones y no tocan el problema de la RFM.
+- *Columnstore agrupado* (reemplazando la clave primaria agrupada): ahorra más espacio, pero el modelo necesita la clave primaria para las relaciones y para garantizar unicidad. Con 100 mil filas, la diferencia no lo justifica.
+
+**Contexto:** Power BI va a usar el modo Import (Fase 6), que lee las tablas enteras una vez por actualización. Estos índices sirven a las vistas `rpt`, a consultas directas desde SSMS y a un eventual DirectQuery.

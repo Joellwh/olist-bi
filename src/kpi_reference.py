@@ -47,6 +47,7 @@ def calcular(t: dict[str, pd.DataFrame]) -> dict[str, float]:
     puntaje_entrega = entregados.assign(tarde=tarde).merge(resenas, on="order_id")
 
     pedidos_por_cliente = validos.groupby("customer_unique_id").order_id.nunique()  # R5
+    dias_de_compra = validos.groupby("customer_unique_id").order_purchase_timestamp.agg(lambda s: s.dt.normalize().nunique())
 
     ventas_por_mes = (items.merge(validos[["order_id", "order_purchase_timestamp"]], on="order_id")
                       .set_index("order_purchase_timestamp").price.resample("MS").sum())
@@ -78,6 +79,7 @@ def calcular(t: dict[str, pd.DataFrame]) -> dict[str, float]:
         "K23 % reseñas negativas": (resenas.review_score <= 2).mean(),
         "K24 % reseñas positivas": (resenas.review_score >= 4).mean(),
         "K25 Tasa de recompra": (pedidos_por_cliente > 1).mean(),
+        "K28 Tasa de recompra en días distintos": (dias_de_compra > 1).mean(),
         "K26 Brecha de puntaje por demora": (puntaje_entrega[~puntaje_entrega.tarde].review_score.mean()
                                              - puntaje_entrega[puntaje_entrega.tarde].review_score.mean()),
     }

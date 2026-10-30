@@ -42,6 +42,7 @@ def test_tabla_de_script():
     assert tabla_de_script(SEEDS_DIR / "11_customers.sql", "stg") == "stg.customers"
     assert tabla_de_script(SEEDS_DIR / "20_fact_pedidos.sql", "dw") == "dw.fact_pedidos"
     assert tabla_de_script(SEEDS_DIR / "01_tablas_stg.sql", "stg") is None
+    assert tabla_de_script(SEEDS_DIR / "90_indices.sql", "dw") is None
 
 
 # --- validaciones -----------------------------------------------------------

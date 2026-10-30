@@ -65,6 +65,7 @@ Salvo que el KPI diga otra cosa, todos parten de estos conjuntos:
 | **K25** | Tasa de recompra | Clientes únicos con 2 o más pedidos válidos / K06. | orders + customers | Cliente | 3,0% |
 | **K26** | Brecha de puntaje por demora | K22 de pedidos a tiempo − K22 de pedidos tardíos. Solo pedidos entregados con reseña. | orders + order_reviews | Pedido | 2,02 puntos (4,29 a tiempo contra 2,27 tarde) |
 | **K27** | Retención por cohorte | De los clientes cuya primera compra válida fue en el mes M, % que vuelve a comprar en el mes M+n. | orders + customers | Cliente × mes | Se calcula en la Fase 5 (vista `rpt` de cohortes) |
+| **K28** | Tasa de recompra en días distintos | Clientes únicos que compraron en 2 o más **días** distintos / K06. A diferencia de K25, dos pedidos del mismo día cuentan como una sola compra (agregado en la Fase 5: ver Hallazgos). | orders + customers | Cliente | 2,2% |
 
 ---
 
@@ -73,6 +74,7 @@ Salvo que el KPI diga otra cosa, todos parten de estos conjuntos:
 - **La demora destruye la reseña:** un pedido tardío promedia 2,27 puntos contra 4,29 de uno a tiempo (K26). Es el hallazgo central para CX y Logística.
 - **El flete pesa:** 16,6 centavos por cada real de producto (K15). Vale la pena ver si es mayor en el Norte y Nordeste, lejos de los vendedores de São Paulo.
 - **Casi nadie vuelve:** 3% de recompra (K25). Ver el riesgo en [01_requerimientos.md](01_requerimientos.md#8-supuestos-y-riesgos).
+- **Y parte de esa recompra no es tal** (hallazgo de la Fase 5): de los 2.875 clientes con más de un pedido, 821 (29%) hicieron el segundo **el mismo día** que el primero, probablemente un carrito partido en dos pedidos. Sin esos casos la recompra es 2,2% (K28). K25 no se redefine (ver abajo); se agregó K28 para mostrar las dos lecturas.
 
 ## Cambios a este diccionario
 

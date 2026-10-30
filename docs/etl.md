@@ -29,6 +29,7 @@ seeds ──────────┴─► 1. raw.*  ──► 2. validacione
 4. **Validaciones sobre stg:** integridad referencial, rangos, fechas y conciliación de filas y montos contra `raw`.
 5. **dw:** construye el modelo en estrella (`sql/03_dw/`): dimensiones primero, hechos después. Ver [03_modelo_dimensional.md](03_modelo_dimensional.md).
 6. **Validaciones sobre dw:** un hecho por pedido y por ítem, ventas y flete iguales a `raw`, y ningún hecho en el miembro Desconocido.
+7. **rpt:** recrea las vistas analíticas (`sql/04_views/`). Ver [04_optimizacion_sql.md](04_optimizacion_sql.md).
 
 Si una validación **crítica** falla, la ejecución se corta y queda como `FALLA`. Las **advertencias** se registran con la cantidad de filas y la carga sigue ([D-009](decisiones.md#d-009--los-problemas-de-calidad-se-clasifican-por-gravedad)).
 

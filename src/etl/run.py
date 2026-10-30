@@ -1,5 +1,5 @@
 """
-Pipeline completo: CSV -> raw -> stg -> dw, con validaciones después de cada capa.
+Pipeline completo: CSV -> raw -> stg -> dw -> rpt, con validaciones después de cada capa.
 
     python -m src.etl.run
 
@@ -23,7 +23,7 @@ from src.db import connect, run_script
 from src.etl import registro
 from src.etl.extraccion import FUENTES, cargar_tabla
 from src.etl.validaciones import VALIDACIONES_DW, VALIDACIONES_RAW, VALIDACIONES_STG, Validacion, resultado
-from src.paths import DW_SQL_DIR, RAW_SQL_DIR, STG_SQL_DIR
+from src.paths import DW_SQL_DIR, RAW_SQL_DIR, RPT_SQL_DIR, STG_SQL_DIR
 
 
 class ValidacionCriticaFallida(Exception):
@@ -31,9 +31,13 @@ class ValidacionCriticaFallida(Exception):
 
 
 def tabla_de_script(script: Path, esquema: str) -> str | None:
-    """('11_customers.sql', 'stg') -> 'stg.customers'. Los scripts 0x son de estructura y no cargan una tabla."""
+    """('11_customers.sql', 'stg') -> 'stg.customers'.
+
+    Los scripts 0x (estructura, vistas) y 9x (posteriores a la carga, como los
+    índices) no cargan una tabla.
+    """
     prefijo, _, nombre = script.stem.partition("_")
-    return None if prefijo.startswith("0") else f"{esquema}.{nombre}"
+    return None if prefijo[0] in "09" else f"{esquema}.{nombre}"
 
 
 def ejecutar_capa(conn: pyodbc.Connection, ejecucion_id: int, carpeta: Path, esquema: str, config) -> None:
@@ -93,6 +97,10 @@ def main() -> int:
 
         print("6. Validaciones sobre dw")
         validar(conn, ejecucion_id, VALIDACIONES_DW)
+
+        print("7. rpt: vistas analíticas")
+        ejecutar_capa(conn, ejecucion_id, RPT_SQL_DIR, "rpt", config)
+        print(f"    {len(list(RPT_SQL_DIR.glob('*.sql')))} vistas")
 
     except Exception as error:  # se registra cualquier falla, no solo las de validación
         registro.finalizar(conn, ejecucion_id, "FALLA", f"{type(error).__name__}: {error}")
