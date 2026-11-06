@@ -1,0 +1,69 @@
+/// Una fila por persona (customer_unique_id, regla R5). Sin ubicación: la del pedido está en dim_geografia (D-015).
+table dim_cliente
+	lineageTag: 6879d950-714f-47d4-880b-90274900c417
+
+	/// Clave de la dimensión; -1 = Desconocido.
+	column cliente_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0c006473-bf52-4fee-9af8-336113012b60
+		summarizeBy: none
+		sourceColumn: cliente_key
+
+		annotation SummarizationSetBy = User
+
+	/// Identificador de la persona en el origen.
+	column customer_unique_id
+		dataType: string
+		isHidden
+		lineageTag: 37d17cf9-6d99-4ca3-93c5-c2685d36ed72
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+		annotation SummarizationSetBy = User
+
+	/// Primer pedido válido (R1) en todo el historial.
+	column 'Fecha de primera compra'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cc78032a-81b8-4fab-bdfa-49c004fbf071
+		summarizeBy: none
+		sourceColumn: fecha_primera_compra
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// AAAAMM de la primera compra; ordena la columna Cohorte.
+	column 'Cohorte nro'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: dc9db768-72dd-4f2e-8ed9-a1c77ef9088e
+		summarizeBy: none
+		sourceColumn: cohorte
+
+		annotation SummarizationSetBy = User
+
+	/// Mes de la primera compra (X5).
+	column Cohorte
+		dataType: string
+		lineageTag: 45d4fb23-d7df-4b26-b4a9-cb112e47dfc0
+		summarizeBy: none
+		sourceColumn: cohorte_nombre
+		sortByColumn: 'Cohorte nro'
+
+		annotation SummarizationSetBy = User
+
+	partition dim_cliente = m
+		mode: import
+		source =
+				let
+				    Origen = Sql.Database(Servidor, BaseDatos),
+				    dw_dim_cliente = Origen{[Schema="dw",Item="dim_cliente"]}[Data]
+				in
+				    dw_dim_cliente
+
+	annotation PBI_ResultType = Table
+

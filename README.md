@@ -4,7 +4,7 @@ Solución de Business Intelligence completa sobre el e-commerce brasileño Olist
 
 **Stack:** Python (ETL y validación) · SQL Server (modelo dimensional) · Power BI (modelo semántico, DAX, RLS) · GitHub Actions (CI)
 
-En construcción. Estado actual: **Fase 5, SQL analítico y optimización**. Ver el [roadmap](docs/roadmap.md).
+En construcción. Estado actual: **Fase 6, modelo semántico en Power BI**. Ver el [roadmap](docs/roadmap.md).
 
 ## Arquitectura
 
@@ -54,5 +54,6 @@ tests/           tests (corren en el CI)
 - [ETL](docs/etl.md)
 - [Modelo dimensional](docs/03_modelo_dimensional.md)
 - [SQL analítico y optimización](docs/04_optimizacion_sql.md)
+- [Modelo semántico](docs/05_modelo_semantico.md)
 - [Registro de decisiones](docs/decisiones.md)
 - [Datos: origen y tablas](data/README.md)

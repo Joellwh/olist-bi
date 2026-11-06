@@ -1,0 +1,12 @@
+/// Servidor de SQL Server. Cambiarlo alcanza para apuntar a otro entorno (Fase 11).
+expression Servidor = ".\SQLEXPRESS" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: f8843a79-8bfb-4855-9d92-ada5cd522c8f
+
+	annotation PBI_ResultType = Text
+
+/// Base de datos: OlistDW, OlistDW_dev u OlistDW_prod.
+expression BaseDatos = "OlistDW" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 1bb71a08-36ed-44e8-bc09-fc4389613f84
+
+	annotation PBI_ResultType = Text
+

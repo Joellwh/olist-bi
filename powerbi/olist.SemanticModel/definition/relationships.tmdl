@@ -1,0 +1,62 @@
+relationship 60324c4f-af51-482a-a89b-d45d1c29dc03
+	fromColumn: fact_items.cliente_key
+	toColumn: dim_cliente.cliente_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 1c8d10e3-f0a8-4b04-abbd-4273cc04ae2d
+	fromColumn: fact_items.fecha_compra_key
+	toColumn: dim_fecha.fecha_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 2202b066-0623-4e5e-8917-16337cc1f0c7
+	fromColumn: fact_items.geografia_key
+	toColumn: dim_geografia.geografia_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship ae7ae4ea-d266-406f-b019-6ad9462480fc
+	fromColumn: fact_items.producto_key
+	toColumn: dim_producto.producto_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 41041349-fde2-4343-a921-b4ccd86d6bf5
+	fromColumn: fact_items.vendedor_key
+	toColumn: dim_vendedor.vendedor_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 9fdfae1d-6b5f-4336-99d5-fc47261bee0e
+	fromColumn: fact_pedidos.cliente_key
+	toColumn: dim_cliente.cliente_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 694849eb-0873-493f-a307-08041daf3568
+	fromColumn: fact_pedidos.fecha_compra_key
+	toColumn: dim_fecha.fecha_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 1b4a1234-fcb4-459e-b4c8-65691a1be205
+	isActive: false
+	fromColumn: fact_pedidos.fecha_entrega_key
+	toColumn: dim_fecha.fecha_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 219521f3-972f-4c5c-8bb7-1fc5f9ff3e1d
+	isActive: false
+	fromColumn: fact_pedidos.fecha_estimada_key
+	toColumn: dim_fecha.fecha_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 615cd052-e157-4cfc-aba9-af19d6ddceb7
+	fromColumn: fact_pedidos.geografia_key
+	toColumn: dim_geografia.geografia_key
+
+	annotation PBI_IsFromSource = FS
+

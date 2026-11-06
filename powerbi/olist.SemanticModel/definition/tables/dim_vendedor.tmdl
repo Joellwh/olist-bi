@@ -1,0 +1,74 @@
+/// Una fila por vendedor, con su ubicación (se usa para las rutas logísticas, L3).
+table dim_vendedor
+	lineageTag: 0ebb012d-681f-4cf0-991b-f2d9ab5c4112
+
+	/// Clave de la dimensión; -1 = Desconocido.
+	column vendedor_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a1a7cf68-4ccc-498e-acea-7a21c04d0e96
+		summarizeBy: none
+		sourceColumn: vendedor_key
+
+		annotation SummarizationSetBy = User
+
+	/// Identificador del vendedor en el origen.
+	column seller_id
+		dataType: string
+		isHidden
+		lineageTag: dd30f1dc-8b64-463d-9bdf-dd8c2832a4a3
+		summarizeBy: none
+		sourceColumn: seller_id
+
+		annotation SummarizationSetBy = User
+
+	/// Nombre corto armado con el identificador.
+	column Vendedor
+		dataType: string
+		lineageTag: 143339dd-d77a-4247-9e97-8dcba6c31e13
+		summarizeBy: none
+		sourceColumn: vendedor
+
+		annotation SummarizationSetBy = User
+
+	/// Ciudad normalizada (Q03).
+	column 'Ciudad del vendedor'
+		dataType: string
+		lineageTag: a9f7e853-44d4-400c-ae40-67950b27dd29
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: ciudad
+
+		annotation SummarizationSetBy = User
+
+	/// Sigla del estado del vendedor. No confundir con dim_geografia, que es el del cliente.
+	column 'Estado del vendedor'
+		dataType: string
+		lineageTag: 6662b5b6-60e2-44cf-94f1-ad1bdb02145c
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = User
+
+	/// Región del vendedor.
+	column 'Región del vendedor'
+		dataType: string
+		lineageTag: 8ee3984d-a840-4c4b-baa5-12e9e83bc009
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = User
+
+	partition dim_vendedor = m
+		mode: import
+		source =
+				let
+				    Origen = Sql.Database(Servidor, BaseDatos),
+				    dw_dim_vendedor = Origen{[Schema="dw",Item="dim_vendedor"]}[Data]
+				in
+				    dw_dim_vendedor
+
+	annotation PBI_ResultType = Table
+

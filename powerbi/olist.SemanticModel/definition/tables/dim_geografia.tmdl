@@ -1,0 +1,66 @@
+/// Estado del cliente al momento del pedido (regla R9). Es la tabla que filtra la seguridad por fila.
+table dim_geografia
+	lineageTag: 7830e25d-f319-4a92-89d7-824309823806
+
+	/// Clave de la dimensión; -1 = Desconocido.
+	column geografia_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f99a87e3-47bb-486a-8c2e-188aba09e6de
+		summarizeBy: none
+		sourceColumn: geografia_key
+
+		annotation SummarizationSetBy = User
+
+	/// SP, RJ...
+	column 'Estado (sigla)'
+		dataType: string
+		lineageTag: a3e07459-2923-45aa-a769-1110f9a1f05a
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = User
+
+	/// Nombre del estado.
+	column Estado
+		dataType: string
+		lineageTag: cfaed967-8734-4b93-81ee-c40822babd9e
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: estado_nombre
+
+		annotation SummarizationSetBy = User
+
+	/// Norte, Nordeste, Centro-Oeste, Sudeste o Sur.
+	column Región
+		dataType: string
+		lineageTag: 436fb268-261e-490d-aed4-9cb2ad32911e
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = User
+
+	hierarchy Geografía
+		lineageTag: a80a5ebf-5f38-41e5-bdf5-64335f0ef9a9
+
+		level Región
+			lineageTag: 57e3b49d-36ca-475c-a287-a1cbe3897859
+			column: Región
+
+		level Estado
+			lineageTag: f371ca21-6828-4f87-b1d6-cbd49b099a40
+			column: Estado
+
+	partition dim_geografia = m
+		mode: import
+		source =
+				let
+				    Origen = Sql.Database(Servidor, BaseDatos),
+				    dw_dim_geografia = Origen{[Schema="dw",Item="dim_geografia"]}[Data]
+				in
+				    dw_dim_geografia
+
+	annotation PBI_ResultType = Table
+

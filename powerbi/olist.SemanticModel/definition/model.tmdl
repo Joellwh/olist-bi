@@ -1,0 +1,27 @@
+model Model
+	culture: es-AR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: es-AR
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["Servidor","BaseDatos","dim_fecha","dim_geografia","dim_cliente","dim_vendedor","dim_producto","fact_items","fact_pedidos"]
+
+annotation PBI_ProTooling = ["DevMode","DaxQueryView_Desktop"]
+
+ref table _Medidas
+ref table dim_fecha
+ref table dim_geografia
+ref table dim_cliente
+ref table dim_vendedor
+ref table dim_producto
+ref table fact_items
+ref table fact_pedidos
+
+ref cultureInfo es-AR
+

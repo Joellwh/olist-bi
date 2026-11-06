@@ -1,0 +1,19 @@
+/// Tabla contenedora de todas las medidas del modelo (Fase 7).
+table _Medidas
+	lineageTag: ca94870f-b491-403c-8a24-0c5191453c86
+
+	column Oculta
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: bc77f21e-c81d-441a-ae47-394b29ae737c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Oculta]
+
+		annotation SummarizationSetBy = User
+
+	partition _Medidas = calculated
+		mode: import
+		source = ROW("Oculta", 0)
+

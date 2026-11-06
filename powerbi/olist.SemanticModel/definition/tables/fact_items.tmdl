@@ -1,0 +1,120 @@
+/// Un ítem vendido por fila. Fuente de Ventas y Flete. Sin relación con fact_pedidos: se cruzan con TREATAS (D-014).
+table fact_items
+	lineageTag: bfb7e077-383f-4b1e-82ff-d80c4bbc2698
+
+	/// Pedido del ítem (dimensión degenerada); se usa con TREATAS.
+	column pedido_id
+		dataType: string
+		isHidden
+		lineageTag: 9954bc3c-6e75-4266-a19c-008f26b06707
+		summarizeBy: none
+		sourceColumn: pedido_id
+
+		annotation SummarizationSetBy = User
+
+	/// Número de ítem dentro del pedido.
+	column item_nro
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 43373186-e633-4a7d-89c1-d18f48021834
+		summarizeBy: none
+		sourceColumn: item_nro
+
+		annotation SummarizationSetBy = User
+
+	column producto_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1595c185-30df-4c4d-81c8-ffc4f6f1b7da
+		summarizeBy: none
+		sourceColumn: producto_key
+
+		annotation SummarizationSetBy = User
+
+	column vendedor_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e232b253-0f09-4b9c-b926-a44fcc23c9eb
+		summarizeBy: none
+		sourceColumn: vendedor_key
+
+		annotation SummarizationSetBy = User
+
+	column cliente_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d8c1134d-fc60-4052-8f0b-43574ec006a2
+		summarizeBy: none
+		sourceColumn: cliente_key
+
+		annotation SummarizationSetBy = User
+
+	column geografia_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 33e393b5-6937-4530-b9af-eb8c87671cbb
+		summarizeBy: none
+		sourceColumn: geografia_key
+
+		annotation SummarizationSetBy = User
+
+	column fecha_compra_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d9714597-ec56-41ae-b6e1-e16988d34291
+		summarizeBy: none
+		sourceColumn: fecha_compra_key
+
+		annotation SummarizationSetBy = User
+
+	/// Precio del producto, sin flete (K01).
+	column precio
+		dataType: decimal
+		isHidden
+		formatString: \R\$ #,0.00
+		lineageTag: c121a321-b5a6-4a45-ae7f-ded9f21322c4
+		summarizeBy: none
+		sourceColumn: precio
+
+		annotation SummarizationSetBy = User
+
+	/// Flete del ítem (K14).
+	column flete
+		dataType: decimal
+		isHidden
+		formatString: \R\$ #,0.00
+		lineageTag: 961a7595-f978-4f15-9eb6-4bc769cb93a2
+		summarizeBy: none
+		sourceColumn: flete
+
+		annotation SummarizationSetBy = User
+
+	/// R1: el pedido no está cancelado ni sin stock.
+	column es_venta
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 36ef9a0f-2afb-42e1-90b5-81b139b9b992
+		summarizeBy: none
+		sourceColumn: es_venta
+
+		annotation SummarizationSetBy = User
+
+	partition fact_items = m
+		mode: import
+		source =
+				let
+				    Origen = Sql.Database(Servidor, BaseDatos),
+				    dw_fact_items = Origen{[Schema="dw",Item="fact_items"]}[Data],
+				    Montos = Table.TransformColumnTypes(dw_fact_items, {{"precio", Currency.Type}, {"flete", Currency.Type}})
+				in
+				    Montos
+
+	annotation PBI_ResultType = Table
+

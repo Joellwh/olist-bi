@@ -1,0 +1,203 @@
+/// Calendario continuo 2016-2018. Marcada como tabla de fechas.
+table dim_fecha
+	lineageTag: 53a5518f-29f9-4f16-b9c1-6b9e3aaf4340
+	dataCategory: Time
+
+	/// Clave AAAAMMDD; relaciona con los hechos.
+	column fecha_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2cc8ebb5-ae75-4455-9e14-e311f977d42d
+		summarizeBy: none
+		sourceColumn: fecha_key
+
+		annotation SummarizationSetBy = User
+
+	/// Día del calendario.
+	column Fecha
+		dataType: dateTime
+		isKey
+		formatString: Long Date
+		displayFolder: Día
+		lineageTag: 7e6df807-e7cf-49a8-b63d-d56c1fbcf341
+		summarizeBy: none
+		sourceColumn: fecha
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Año calendario.
+	column Año
+		dataType: int64
+		formatString: 0
+		displayFolder: Período
+		lineageTag: 22077962-e1a6-4beb-8512-d8c49db83f9a
+		summarizeBy: none
+		sourceColumn: anio
+
+		annotation SummarizationSetBy = User
+
+	/// Número de trimestre; ordena la columna Trimestre.
+	column 'Trimestre nro'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: aeac067b-e343-45ec-8b3d-2e51c3e44c66
+		summarizeBy: none
+		sourceColumn: trimestre
+
+		annotation SummarizationSetBy = User
+
+	/// T1 a T4.
+	column Trimestre
+		dataType: string
+		displayFolder: Período
+		lineageTag: d66bd938-b837-40aa-861f-79807553ab54
+		summarizeBy: none
+		sourceColumn: trimestre_nombre
+		sortByColumn: 'Trimestre nro'
+
+		annotation SummarizationSetBy = User
+
+	/// Número de mes; ordena Mes y Mes corto.
+	column 'Mes nro'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fb922936-ee2b-496d-bc27-952ab2839481
+		summarizeBy: none
+		sourceColumn: mes
+
+		annotation SummarizationSetBy = User
+
+	/// Nombre del mes en español.
+	column Mes
+		dataType: string
+		displayFolder: Período
+		lineageTag: c2876ece-5df3-4b02-8fe7-8b1dac2fd022
+		summarizeBy: none
+		sourceColumn: mes_nombre
+		sortByColumn: 'Mes nro'
+
+		annotation SummarizationSetBy = User
+
+	/// Ene, Feb...
+	column 'Mes corto'
+		dataType: string
+		displayFolder: Período
+		lineageTag: 0da5201a-96f8-4d6d-a709-56c197d71212
+		summarizeBy: none
+		sourceColumn: mes_corto
+		sortByColumn: 'Mes nro'
+
+		annotation SummarizationSetBy = User
+
+	/// AAAAMM; ordena la columna Año-mes.
+	column 'Año-mes nro'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: accad5c8-09d1-4c2b-bba1-cf24256b9f52
+		summarizeBy: none
+		sourceColumn: anio_mes
+
+		annotation SummarizationSetBy = User
+
+	/// Ene 2017, Feb 2017...
+	column Año-mes
+		dataType: string
+		displayFolder: Período
+		lineageTag: 48e42998-d9bf-44fa-8e20-a33e6547978d
+		summarizeBy: none
+		sourceColumn: anio_mes_nombre
+		sortByColumn: 'Año-mes nro'
+
+		annotation SummarizationSetBy = User
+
+	/// Día del mes.
+	column Día
+		dataType: int64
+		formatString: 0
+		displayFolder: Día
+		lineageTag: 1e31808a-0cf6-47fa-929a-bcd2c6c274eb
+		summarizeBy: none
+		sourceColumn: dia
+
+		annotation SummarizationSetBy = User
+
+	/// 1 = lunes; ordena la columna Día de la semana.
+	column 'Día de la semana nro'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1914e1c4-faf2-4f30-9cef-3a6a2f84e1e8
+		summarizeBy: none
+		sourceColumn: dia_semana
+
+		annotation SummarizationSetBy = User
+
+	/// Lunes a domingo.
+	column 'Día de la semana'
+		dataType: string
+		displayFolder: Día
+		lineageTag: e1ca910c-dbad-4624-a236-36226c0a78c2
+		summarizeBy: none
+		sourceColumn: dia_semana_nombre
+		sortByColumn: 'Día de la semana nro'
+
+		annotation SummarizationSetBy = User
+
+	/// Verdadero en sábado y domingo.
+	column 'Es fin de semana'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		displayFolder: Día
+		lineageTag: 72e3b343-3ec1-4709-abcf-022258bc1822
+		summarizeBy: none
+		sourceColumn: es_fin_de_semana
+
+		annotation SummarizationSetBy = User
+
+	/// Verdadero entre 2017-01-01 y 2018-08-31 (D-008). Los reportes filtran por esta columna.
+	column 'En período de análisis'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		displayFolder: Período
+		lineageTag: 74d4179a-54e1-4029-8e2e-82b4ae295a1e
+		summarizeBy: none
+		sourceColumn: en_periodo_analisis
+
+		annotation SummarizationSetBy = User
+
+	hierarchy Calendario
+		lineageTag: 6b521b15-cb45-4ee4-a02a-366a6e868664
+
+		level Año
+			lineageTag: 50a1d3be-fdb9-42c5-b549-52c13a3433e4
+			column: Año
+
+		level Trimestre
+			lineageTag: b6cc4acb-8879-49c1-96e3-e0b15b0fe997
+			column: Trimestre
+
+		level Mes
+			lineageTag: 07e17bbf-a0eb-4d9e-b933-23ac696d21c1
+			column: Mes
+
+		level Fecha
+			lineageTag: 681dc485-53b1-428c-874b-e7160c8e58ed
+			column: Fecha
+
+	partition dim_fecha = m
+		mode: import
+		source =
+				let
+				    Origen = Sql.Database(Servidor, BaseDatos),
+				    dw_dim_fecha = Origen{[Schema="dw",Item="dim_fecha"]}[Data]
+				in
+				    dw_dim_fecha
+
+	annotation PBI_ResultType = Table
+

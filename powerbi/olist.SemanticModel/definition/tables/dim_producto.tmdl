@@ -1,0 +1,88 @@
+/// Una fila por producto, con la categoría en español (D-011).
+table dim_producto
+	lineageTag: 5468cef3-f3b2-4a4b-9d9a-31cf18818a9b
+
+	/// Clave de la dimensión; -1 = Desconocido.
+	column producto_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 04cbd8b1-0f9c-41ac-a2a8-79939be4a62f
+		summarizeBy: none
+		sourceColumn: producto_key
+
+		annotation SummarizationSetBy = User
+
+	/// Identificador del producto en el origen.
+	column product_id
+		dataType: string
+		isHidden
+		lineageTag: 8c2518e5-04b1-42df-ac76-ab031ffc3b26
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = User
+
+	/// En español; 'Sin categoría' para los productos sin dato (Q17).
+	column Categoría
+		dataType: string
+		lineageTag: 6e3a298e-0508-4e04-a32e-7f9287126fc7
+		summarizeBy: none
+		sourceColumn: categoria
+
+		annotation SummarizationSetBy = User
+
+	/// Categoría original en portugués.
+	column categoria_pt
+		dataType: string
+		isHidden
+		lineageTag: 19868622-0d77-4d1a-8f94-caa5c1ee556e
+		summarizeBy: none
+		sourceColumn: categoria_pt
+
+		annotation SummarizationSetBy = User
+
+	/// Peso del producto; vacío si no hay dato.
+	column 'Peso (g)'
+		dataType: int64
+		formatString: #,0
+		displayFolder: Características
+		lineageTag: 073670d0-45fd-4519-a12d-3395e2140f5e
+		summarizeBy: none
+		sourceColumn: peso_g
+
+		annotation SummarizationSetBy = User
+
+	/// Largo x alto x ancho.
+	column 'Volumen (cm³)'
+		dataType: int64
+		formatString: #,0
+		displayFolder: Características
+		lineageTag: b669ab43-4c7a-4816-8e3c-271a76a3aa71
+		summarizeBy: none
+		sourceColumn: volumen_cm3
+
+		annotation SummarizationSetBy = User
+
+	/// Cantidad de fotos publicadas.
+	column Fotos
+		dataType: int64
+		formatString: 0
+		displayFolder: Características
+		lineageTag: e5275178-ed42-4b2f-adf4-ae9241f4d47b
+		summarizeBy: none
+		sourceColumn: fotos
+
+		annotation SummarizationSetBy = User
+
+	partition dim_producto = m
+		mode: import
+		source =
+				let
+				    Origen = Sql.Database(Servidor, BaseDatos),
+				    dw_dim_producto = Origen{[Schema="dw",Item="dim_producto"]}[Data]
+				in
+				    dw_dim_producto
+
+	annotation PBI_ResultType = Table
+

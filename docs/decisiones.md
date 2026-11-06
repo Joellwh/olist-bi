@@ -238,3 +238,29 @@ Cada decisión importante del proyecto: qué se eligió, por qué y qué alterna
 - *Columnstore agrupado* (reemplazando la clave primaria agrupada): ahorra más espacio, pero el modelo necesita la clave primaria para las relaciones y para garantizar unicidad. Con 100 mil filas, la diferencia no lo justifica.
 
 **Contexto:** Power BI va a usar el modo Import (Fase 6), que lee las tablas enteras una vez por actualización. Estos índices sirven a las vistas `rpt`, a consultas directas desde SSMS y a un eventual DirectQuery.
+
+---
+
+## D-018 · Power BI en modo Importar
+
+**Fecha:** 2026-11-05 · **Fase:** 6
+
+**Decisión:** el modelo importa las tablas de `dw` a memoria, y no consulta SQL Server en cada clic.
+
+**Por qué:** con 100 mil filas, Importar da la mejor respuesta en los visuales y permite usar todo DAX sin restricciones. Los datos no cambian durante el día, así que no hace falta que estén al instante.
+
+**Descartada:** *DirectQuery.* Sirve cuando los datos son enormes o necesitan estar al segundo, pero cada visual depende de SQL Server y hay funciones de DAX limitadas. Los índices de [D-017](#d-017--índices-columnstore-más-dos-índices-puntuales) dejan la base preparada si alguna vez hiciera falta.
+
+---
+
+## D-019 · Todo cálculo pasa por una medida
+
+**Fecha:** 2026-11-05 · **Fase:** 6
+
+**Decisión:** las columnas numéricas de los hechos están ocultas y las medidas implícitas están desactivadas (`discourageImplicitMeasures`). No se puede arrastrar `precio` a un visual: hay que usar la medida `Ventas`.
+
+**Por qué:** una suma implícita de `precio` incluiría los pedidos cancelados, sin aviso. Con una medida, la regla R1 se aplica siempre, y todos los visuales usan la misma definición de Ventas.
+
+**Costo:** hay que escribir una medida para todo, incluso para una suma simple. Es justamente la Fase 7.
+
+**Descartada:** *dejar los valores visibles y confiar en que el autor filtre bien.* Es más cómodo al principio, pero el error no se nota: el número simplemente sale más grande.

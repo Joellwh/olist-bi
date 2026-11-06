@@ -1,0 +1,207 @@
+/// Un pedido por fila, con las reglas de negocio ya calculadas (D-016): entrega, reseña y pago.
+table fact_pedidos
+	lineageTag: 0f298b8b-9b04-40c8-b569-ee0d2665daa2
+
+	/// Identificador del pedido.
+	column pedido_id
+		dataType: string
+		isHidden
+		lineageTag: 65da069e-04c4-4197-85eb-bb5eb3b0a7e9
+		summarizeBy: none
+		sourceColumn: pedido_id
+
+		annotation SummarizationSetBy = User
+
+	column cliente_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 530359ba-8872-4274-96d9-d943c8a7d2fe
+		summarizeBy: none
+		sourceColumn: cliente_key
+
+		annotation SummarizationSetBy = User
+
+	column geografia_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b29c9879-f56b-4484-8f9f-5791baaefcdf
+		summarizeBy: none
+		sourceColumn: geografia_key
+
+		annotation SummarizationSetBy = User
+
+	/// Relación activa con dim_fecha (R6).
+	column fecha_compra_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2bec6b9a-455a-4d25-8832-43558eb5aaa5
+		summarizeBy: none
+		sourceColumn: fecha_compra_key
+
+		annotation SummarizationSetBy = User
+
+	/// Relación inactiva con dim_fecha; se activa con USERELATIONSHIP.
+	column fecha_entrega_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2171bf47-6dae-41de-9a0f-13a8504f59c8
+		summarizeBy: none
+		sourceColumn: fecha_entrega_key
+
+		annotation SummarizationSetBy = User
+
+	/// Relación inactiva con dim_fecha; se activa con USERELATIONSHIP.
+	column fecha_estimada_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9144a774-c650-43c1-88b8-5335590e1484
+		summarizeBy: none
+		sourceColumn: fecha_estimada_key
+
+		annotation SummarizationSetBy = User
+
+	/// Entregado, En camino, Cancelado, Sin stock...
+	column 'Estado del pedido'
+		dataType: string
+		lineageTag: f38a7b6b-7f70-4c2d-94cc-251ba94412c3
+		summarizeBy: none
+		sourceColumn: estado_pedido
+
+		annotation SummarizationSetBy = User
+
+	/// R1: no cancelado ni sin stock.
+	column es_valido
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 87832aa1-0a4f-4d8c-b033-151a4ca58498
+		summarizeBy: none
+		sourceColumn: es_valido
+
+		annotation SummarizationSetBy = User
+
+	/// R1 + R8: válido y con ítems (K02).
+	column es_vendido
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c59f9d94-a169-41b5-9257-c159d993d8d4
+		summarizeBy: none
+		sourceColumn: es_vendido
+
+		annotation SummarizationSetBy = User
+
+	/// Entregado y con fecha de entrega (K16).
+	column es_entregado
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 73d6d0a8-e7db-4965-8c97-458f4e568666
+		summarizeBy: none
+		sourceColumn: es_entregado
+
+		annotation SummarizationSetBy = User
+
+	/// R3: entrega <= fecha estimada; vacío si no se entregó (K17).
+	column a_tiempo
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: bc60764d-feaf-4a88-85ae-3850598d2be1
+		summarizeBy: none
+		sourceColumn: a_tiempo
+
+		annotation SummarizationSetBy = User
+
+	/// Compra a entrega, en días con decimales (K18).
+	column dias_entrega
+		dataType: double
+		isHidden
+		formatString: 0.0
+		lineageTag: 92d49b47-daa5-4a7d-a125-c446d35d548b
+		summarizeBy: none
+		sourceColumn: dias_entrega
+
+		annotation SummarizationSetBy = User
+
+	/// Entrega menos estimada, en días; positivo = tarde (K19).
+	column dias_vs_estimada
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c98ffac5-c598-49f7-aa6c-a556b41b45fd
+		summarizeBy: none
+		sourceColumn: dias_vs_estimada
+
+		annotation SummarizationSetBy = User
+
+	/// R7: puntaje de la última reseña, de 1 a 5 (K22).
+	column puntaje_resena
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ce01ea1a-32c5-425b-931b-7ce9a41e7e25
+		summarizeBy: none
+		sourceColumn: puntaje_resena
+
+		annotation SummarizationSetBy = User
+
+	/// Cantidad de ítems del pedido.
+	column items
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1afe4a59-c9b6-42dd-b7d9-5c8e8f327704
+		summarizeBy: none
+		sourceColumn: items
+
+		annotation SummarizationSetBy = User
+
+	/// Total pagado; solo para analizar medios de pago, no es Ventas (D-006).
+	column valor_pagado
+		dataType: decimal
+		isHidden
+		formatString: \R\$ #,0.00
+		lineageTag: 3bb7b8e4-d2ae-4cb9-8d4f-773b067b1827
+		summarizeBy: none
+		sourceColumn: valor_pagado
+
+		annotation SummarizationSetBy = User
+
+	/// El de mayor monto del pedido.
+	column 'Medio de pago'
+		dataType: string
+		lineageTag: 6942ea04-a357-4893-949d-32f2406e0abc
+		summarizeBy: none
+		sourceColumn: medio_pago
+
+		annotation SummarizationSetBy = User
+
+	/// Máximo de cuotas del pedido.
+	column cuotas
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a3358f3f-93bc-4b6d-9456-ce8ca76cc1e5
+		summarizeBy: none
+		sourceColumn: cuotas
+
+		annotation SummarizationSetBy = User
+
+	partition fact_pedidos = m
+		mode: import
+		source =
+				let
+				    Origen = Sql.Database(Servidor, BaseDatos),
+				    dw_fact_pedidos = Origen{[Schema="dw",Item="fact_pedidos"]}[Data],
+				    Montos = Table.TransformColumnTypes(dw_fact_pedidos, {{"valor_pagado", Currency.Type}})
+				in
+				    Montos
+
+	annotation PBI_ResultType = Table
+

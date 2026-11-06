@@ -1,0 +1,13 @@
+// Le damos la bienvenida a la vista de consultas DAX. Obtenga más información sobre las consultas DAX en https://aka.ms/dax-queries.
+// Haga clic con el botón derecho en tablas, columnas o medidas en el panel de datos para acceder a consultas rápidas o pida ayuda a Copilot para escribir DAX.
+
+// Seleccione "Ejecutar" para probar esta consulta DAX de ejemplo.
+EVALUATE
+    TOPN(100, '_Medidas')
+EVALUATE
+CALCULATETABLE(
+    ROW(
+        "K20 Con demora", CALCULATE(COUNTROWS(fact_pedidos), fact_pedidos[es_entregado] = TRUE(), fact_pedidos[a_tiempo] = FALSE())
+    ),
+    dim_fecha[En período de análisis] = TRUE()
+)

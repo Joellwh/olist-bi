@@ -84,14 +84,15 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 📦 `docs/04_optimizacion_sql.md`
 
-## Fase 6: Modelo semántico en Power BI (4–5 días)
+## Fase 6: Modelo semántico en Power BI — ✅ hecha (2026-11-05)
 
 *Cubre: tablas, relaciones, cardinalidades, direcciones de filtro.*
 
-- [ ] Modo Import desde `dw.*`; servidor y base parametrizados en Power Query.
-- [ ] Relaciones 1:N con filtro en una dirección; `dim_fecha` marcada como tabla de fechas; los hechos nunca se relacionan entre sí; `USERELATIONSHIP` para relaciones inactivas.
-- [ ] Claves ocultas, tabla `_Medidas`, carpetas, formatos y descripciones.
-- [ ] Guardar como PBIP y commitear.
+- [x] Modo Import desde `dw.*`; servidor y base parametrizados en Power Query (D-018).
+- [x] 10 relaciones 1:N con filtro en una dirección; `dim_fecha` marcada como tabla de fechas; los hechos no se relacionan entre sí; 2 relaciones inactivas para `USERELATIONSHIP`.
+- [x] Claves y valores de los hechos ocultos, tabla `_Medidas`, carpetas, jerarquías, formatos y descripciones. Sin medidas implícitas (D-019).
+- [x] Guardado como PBIP con TMDL. 6 KPIs consultados en el modelo coinciden con el diccionario.
+- [x] Test en el CI que protege el diseño del modelo. Hallazgo para la Fase 7: en DAX, vacío `= FALSE()` da verdadero.
 
 📦 `docs/05_modelo_semantico.md`
 
