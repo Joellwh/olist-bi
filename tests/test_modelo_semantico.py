@@ -11,12 +11,13 @@ import re
 
 import pytest
 
-from src.paths import POWERBI_DIR
+from src.paths import DOCS_DIR, POWERBI_DIR
 
 DEFINICION = POWERBI_DIR / "olist.SemanticModel" / "definition"
 TABLAS = DEFINICION / "tables"
 DIMENSIONES = {"dim_fecha", "dim_geografia", "dim_cliente", "dim_vendedor", "dim_producto"}
 HECHOS = {"fact_items", "fact_pedidos"}
+PARAMETROS = {"Top N", "Meses desde cohorte", "Selector de métrica"}   # tablas sin relaciones
 
 
 def _relaciones() -> list[str]:
@@ -37,7 +38,7 @@ def _columnas(tabla: str) -> dict[str, str]:
 
 
 def test_solo_estan_las_tablas_del_modelo():
-    assert {p.stem for p in TABLAS.glob("*.tmdl")} == DIMENSIONES | HECHOS | {"_Medidas"}
+    assert {p.stem for p in TABLAS.glob("*.tmdl")} == DIMENSIONES | HECHOS | PARAMETROS | {"_Medidas"}
 
 
 def test_tablas_de_fechas_automaticas_desactivadas():
@@ -85,3 +86,32 @@ def test_claves_tecnicas_ocultas(tabla):
                                             ("fact_pedidos", "valor_pagado")])
 def test_montos_en_decimal_fijo(tabla, columna):
     assert "dataType: decimal" in _columnas(tabla)[columna]
+
+
+# --- Medidas (Fase 7) ---
+
+def _medidas() -> dict[str, str]:
+    """Nombre de cada medida -> su expresión y propiedades."""
+    texto = (TABLAS / "_Medidas.tmdl").read_text(encoding="utf-8")
+    bloques = re.split(r"(?m)^	measure ", texto)[1:]
+    return {re.match(r"'?(.+?)'?\s*=", b).group(1): b.split("/// ")[0] for b in bloques}
+
+
+def test_cada_kpi_del_diccionario_tiene_su_medida():
+    diccionario = (DOCS_DIR / "kpi_diccionario.md").read_text(encoding="utf-8")
+    codigos = set(re.findall(r"^\| \*\*(K\d{2})\*\*", diccionario, re.M))
+    medidas = (TABLAS / "_Medidas.tmdl").read_text(encoding="utf-8")
+    assert len(codigos) == 28
+    assert not [k for k in codigos if f"/// {k}" not in medidas]
+
+
+def test_a_tiempo_siempre_filtra_entregados():
+    """En DAX, vacío = FALSE da verdadero: sin es_entregado se cuentan los pedidos sin entregar."""
+    malas = [n for n, m in _medidas().items() if "fact_pedidos[a_tiempo]" in m and "fact_pedidos[es_entregado]" not in m]
+    assert not malas
+
+
+def test_puntaje_negativo_excluye_vacios():
+    """En DAX, vacío <= 2 da verdadero: sin el límite inferior, los pedidos sin reseña serían negativos."""
+    malas = [n for n, m in _medidas().items() if re.search(r"puntaje_resena\] *<=", m) and not re.search(r"puntaje_resena\] *>= *1", m)]
+    assert not malas

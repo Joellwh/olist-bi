@@ -264,3 +264,15 @@ Cada decisión importante del proyecto: qué se eligió, por qué y qué alterna
 **Costo:** hay que escribir una medida para todo, incluso para una suma simple. Es justamente la Fase 7.
 
 **Descartada:** *dejar los valores visibles y confiar en que el autor filtre bien.* Es más cómodo al principio, pero el error no se nota: el número simplemente sale más grande.
+
+---
+
+## D-020 · Los meses desde la primera compra se calculan en SQL
+
+**Fecha:** 2026-11-08 · **Fase:** 7
+
+**Decisión:** `fact_pedidos` tiene la columna `meses_desde_primera_compra` (0 = el mes de la primera compra del cliente). La medida de retención de cohortes filtra por esa columna.
+
+**Por qué:** con el cálculo en DAX, la tabla de cohortes tardaba 1.170 ms. El motor de fórmulas hacía aritmética de fechas en cada una de las 220 celdas. Con la columna precalculada tarda 105 ms. Es una regla del pedido, no un cálculo de visualización, así que encaja en el criterio de D-016.
+
+**Descartada:** *importar la vista `rpt.cohortes` a Power BI.* Es más simple, pero la tabla ya agregada no se puede filtrar por región, y no respetaría la seguridad por fila de la Fase 9.

@@ -22,6 +22,9 @@ ref table dim_vendedor
 ref table dim_producto
 ref table fact_items
 ref table fact_pedidos
+ref table 'Top N'
+ref table 'Meses desde cohorte'
+ref table 'Selector de métrica'
 
 ref cultureInfo es-AR
 

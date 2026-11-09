@@ -96,19 +96,18 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 📦 `docs/05_modelo_semantico.md`
 
-## Fase 7: Medidas DAX (4–6 días)
+## Fase 7: Medidas DAX — ✅ hecha (2026-11-08)
 
-*Cubre: medidas DAX y dependencias circulares.*
+*Cubre: crear y optimizar medidas DAX evitando dependencias circulares.*
 
-- [ ] Base: Ventas, Pedidos, Ticket promedio, Clientes únicos, Flete.
-- [ ] Tiempo: año anterior, variación interanual %, acumulado del año, media móvil 3 meses.
-- [ ] Ratios: % entregas a tiempo, días promedio de entrega, puntaje de reseña, % reseñas negativas, recompra.
-- [ ] Avanzadas: Top N dinámico, selector de métrica con `SWITCH`, participación con `ALL` / `ALLSELECTED`.
-- [ ] `VAR` en todas las medidas.
-- [ ] Caso de dependencia circular reproducido, explicado y resuelto.
-- [ ] Optimizar las 3 medidas más pesadas con DAX Studio.
+- [x] 41 medidas en 6 carpetas: las 28 del diccionario, variaciones interanuales, cruce con vendedor (`TREATAS`) y medidas interactivas (Top N, selector de métrica).
+- [x] `VAR` y `DIVIDE`; inteligencia de tiempo con `SAMEPERIODLASTYEAR`, `TOTALYTD`, `DATESINPERIOD`; `ALLSELECTED` y `RANKX`.
+- [x] Control `Control KPIs.dax` guardado en el proyecto: 34 de 34 en OK contra los valores de referencia.
+- [x] Dependencia circular reproducida en el modelo real, con su error y su solución (`ALLEXCEPT`).
+- [x] DAX Studio (Server Timings): cohortes de 1.170 a 105 ms (D-020), rutas de 584 a 407 ms.
+- [x] Tres trampas de valores vacíos documentadas; dos protegidas con tests.
 
-📦 25–35 medidas, `docs/06_dax.md`
+📦 `docs/06_dax.md`
 
 ## Fase 8: Diseño de reportes (4–6 días)
 

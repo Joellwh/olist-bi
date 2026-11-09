@@ -69,6 +69,7 @@ Qué dimensiones usa cada hecho. Una dimensión compartida filtra a los dos hech
 | `dias_entrega` | Compra → entrega, con decimales | K18 |
 | `dias_vs_estimada` | Entrega − estimada; positivo = tarde | K19 |
 | `puntaje_resena` | R7: la última reseña respondida | K22 a K24, K26 |
+| `meses_desde_primera_compra` | Meses entre la primera compra válida del cliente y el pedido (agregada en la Fase 7, D-020) | K27 |
 
 `fact_items.es_venta` repite la regla R1 del pedido, así las ventas se filtran sin cruzar las dos tablas.
 

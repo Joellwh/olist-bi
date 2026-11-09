@@ -2,6 +2,326 @@
 table _Medidas
 	lineageTag: ca94870f-b491-403c-8a24-0c5191453c86
 
+	/// K01. Precio de los ítems de pedidos no cancelados ni sin stock (R1). Sin flete (R2).
+	measure Ventas = CALCULATE ( SUM ( fact_items[precio] ), fact_items[es_venta] = TRUE () )
+		formatString: \R\$ #,0.00
+		displayFolder: 1. Comercial
+		lineageTag: 59b51123-d31e-4450-a7fd-5a52f2389672
+
+	/// K02. Pedidos con al menos un ítem vendido (R1 + R8). Se cuenta desde fact_items para que responda a categoría y vendedor.
+	measure Pedidos = CALCULATE ( DISTINCTCOUNT ( fact_items[pedido_id] ), fact_items[es_venta] = TRUE () )
+		formatString: #,0
+		displayFolder: 1. Comercial
+		lineageTag: c1e9e203-5772-44d6-989b-3836a0868e48
+
+	/// K03. Ventas / Pedidos.
+	measure 'Ticket promedio' = DIVIDE ( [Ventas], [Pedidos] )
+		formatString: \R\$ #,0.00
+		displayFolder: 1. Comercial
+		lineageTag: a5cbfcc7-e44e-48e2-ae05-b6dbbda056ee
+
+	/// K04. Filas de ítems de pedidos vendidos.
+	measure 'Ítems vendidos' = CALCULATE ( COUNTROWS ( fact_items ), fact_items[es_venta] = TRUE () )
+		formatString: #,0
+		displayFolder: 1. Comercial
+		lineageTag: f94dbb7a-7e6c-4968-81a5-c2267f417f5c
+
+	/// K05. Ítems vendidos / Pedidos.
+	measure 'Ítems por pedido' = DIVIDE ( [Ítems vendidos], [Pedidos] )
+		formatString: 0.00
+		displayFolder: 1. Comercial
+		lineageTag: c07b0a65-6114-4236-860b-7a224da33124
+
+	/// K06. Personas con al menos un pedido válido (R5).
+	measure 'Clientes únicos' = CALCULATE ( DISTINCTCOUNT ( fact_pedidos[cliente_key] ), fact_pedidos[es_valido] = TRUE () )
+		formatString: #,0
+		displayFolder: 1. Comercial
+		lineageTag: 72f09785-e6d6-479a-860d-29448d9980e5
+
+	/// K07. Ventas del mismo período del año anterior.
+	measure 'Ventas año anterior' = CALCULATE ( [Ventas], SAMEPERIODLASTYEAR ( dim_fecha[Fecha] ) )
+		formatString: \R\$ #,0.00
+		displayFolder: 1. Comercial
+		lineageTag: 0ffdb117-839e-404e-bbfb-c42d8bf93676
+
+	/// K08. (Ventas - Ventas año anterior) / Ventas año anterior. Vacía si no hay año anterior.
+	measure 'Var. interanual Ventas' =
+			VAR Actual = [Ventas]
+			VAR Anterior = [Ventas año anterior]
+			RETURN
+			    DIVIDE ( Actual - Anterior, Anterior )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 1. Comercial
+		lineageTag: db588008-ec35-4d6e-be02-395da414ce94
+
+	/// K09. Ventas desde el 1 de enero hasta la fecha del contexto.
+	measure 'Ventas acumuladas del año' = TOTALYTD ( [Ventas], dim_fecha[Fecha] )
+		formatString: \R\$ #,0.00
+		displayFolder: 1. Comercial
+		lineageTag: d930bc23-0a35-48b3-89cf-42b64c4b0450
+
+	/// K10. Promedio de Ventas de los últimos 3 meses, incluido el actual. Un mes sin ventas cuenta como 0. Para usar por mes.
+	measure 'Media móvil 3 meses' =
+			VAR Ventana = DATESINPERIOD ( dim_fecha[Fecha], MAX ( dim_fecha[Fecha] ), -3, MONTH )
+			VAR Meses = CALCULATE ( DISTINCTCOUNT ( dim_fecha[Año-mes nro] ), Ventana )
+			RETURN
+			    IF ( Meses = 3, DIVIDE ( CALCULATE ( [Ventas], Ventana ), 3 ) )
+		formatString: \R\$ #,0.00
+		displayFolder: 1. Comercial
+		lineageTag: 79353022-9a92-4d9e-a546-25656173e65c
+
+	/// K11. Ventas / Ventas del total visible (respeta los filtros de la página).
+	measure Participación = DIVIDE ( [Ventas], CALCULATE ( [Ventas], ALLSELECTED () ) )
+		formatString: 0.0%
+		displayFolder: 1. Comercial
+		lineageTag: 5e44824b-4739-4278-b81a-f4edc7a3a6d2
+
+	/// K12. Vendedores con al menos un ítem vendido.
+	measure 'Vendedores activos' = CALCULATE ( DISTINCTCOUNT ( fact_items[vendedor_key] ), fact_items[es_venta] = TRUE () )
+		formatString: #,0
+		displayFolder: 1. Comercial
+		lineageTag: 34fea494-77fa-49db-a934-10366f0f7aa6
+
+	/// K13. Ventas de los pedidos entregados. Concilia con Logística.
+	measure 'Ventas entregadas' =
+			VAR Entregados = CALCULATETABLE ( VALUES ( fact_pedidos[pedido_id] ), fact_pedidos[es_entregado] = TRUE() )
+			RETURN
+			    CALCULATE ( [Ventas], TREATAS ( Entregados, fact_items[pedido_id] ) )
+		formatString: \R\$ #,0.00
+		displayFolder: 1. Comercial
+		lineageTag: 16890837-12f8-42f8-ab81-39a88abf8f67
+
+	/// K14. Flete de los ítems de pedidos vendidos.
+	measure 'Flete total' = CALCULATE ( SUM ( fact_items[flete] ), fact_items[es_venta] = TRUE () )
+		formatString: \R\$ #,0.00
+		displayFolder: 2. Logística
+		lineageTag: 35d435a2-edd6-4f54-89e1-a447f860ff6a
+
+	/// K15. Flete total / Ventas.
+	measure '% flete sobre ventas' = DIVIDE ( [Flete total], [Ventas] )
+		formatString: 0.0%
+		displayFolder: 2. Logística
+		lineageTag: 28d608e6-b2a6-4b92-b202-e9f582f1a88c
+
+	/// K16. Pedidos entregados con fecha de entrega.
+	measure 'Pedidos entregados' = CALCULATE ( COUNTROWS ( fact_pedidos ), fact_pedidos[es_entregado] = TRUE() )
+		formatString: #,0
+		displayFolder: 2. Logística
+		lineageTag: 7ef24dcb-c93d-4e81-9b5a-a0cae092d836
+
+	/// K20. Pedidos entregados después de la fecha estimada. Filtra es_entregado porque en DAX un vacío = FALSE da verdadero.
+	measure 'Pedidos con demora' = CALCULATE ( COUNTROWS ( fact_pedidos ), fact_pedidos[es_entregado] = TRUE(), fact_pedidos[a_tiempo] = FALSE () )
+		formatString: #,0
+		displayFolder: 2. Logística
+		lineageTag: cde2157a-2271-4d08-aa01-0669662b9d57
+
+	/// K17. Pedidos entregados hasta la fecha estimada / Pedidos entregados (R3).
+	measure '% entregas a tiempo' =
+			VAR ATiempo = CALCULATE ( COUNTROWS ( fact_pedidos ), fact_pedidos[es_entregado] = TRUE(), fact_pedidos[a_tiempo] = TRUE () )
+			RETURN
+			    DIVIDE ( ATiempo, [Pedidos entregados] )
+		formatString: 0.0%
+		displayFolder: 2. Logística
+		lineageTag: 387e8f4f-04a0-4e6a-9ed8-c4d20db2387f
+
+	/// K18. Promedio de días entre compra y entrega.
+	measure 'Días promedio de entrega' = CALCULATE ( AVERAGE ( fact_pedidos[dias_entrega] ), fact_pedidos[es_entregado] = TRUE() )
+		formatString: 0.00
+		displayFolder: 2. Logística
+		lineageTag: b75daa0f-5976-42ee-b6ff-5a9c28347696
+
+	/// K18 (complemento). Mediana de días entre compra y entrega; no se deja arrastrar por los extremos (Q11).
+	measure 'Mediana días de entrega' = CALCULATE ( MEDIAN ( fact_pedidos[dias_entrega] ), fact_pedidos[es_entregado] = TRUE() )
+		formatString: 0.00
+		displayFolder: 2. Logística
+		lineageTag: a8a61f93-7e1f-49f9-9495-b2ee2ce615e4
+
+	/// K19. Promedio de días después de la fecha estimada, solo pedidos tardíos.
+	measure 'Días promedio de demora' = CALCULATE ( AVERAGE ( fact_pedidos[dias_vs_estimada] ), fact_pedidos[es_entregado] = TRUE(), fact_pedidos[dias_vs_estimada] > 0 )
+		formatString: 0.00
+		displayFolder: 2. Logística
+		lineageTag: c3e028e5-c5ff-45fd-bee1-6de046941fbb
+
+	/// K21. Pedidos cancelados o sin stock / todos los pedidos.
+	measure 'Tasa de cancelación' = DIVIDE ( CALCULATE ( COUNTROWS ( fact_pedidos ), fact_pedidos[es_valido] = FALSE () ), COUNTROWS ( fact_pedidos ) )
+		formatString: 0.00%
+		displayFolder: 2. Logística
+		lineageTag: bb2ec817-683f-4f33-bfc7-4c080556a2e1
+
+	/// K22. Promedio de la última reseña de cada pedido válido (R7).
+	measure 'Puntaje promedio de reseña' = CALCULATE ( AVERAGE ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_valido] = TRUE () )
+		formatString: 0.00
+		displayFolder: 3. Cliente
+		lineageTag: 94bb86aa-0d89-42b3-a131-8a58bd2df894
+
+	/// K23. Reseñas de 1 o 2 puntos / reseñas. Rango explícito: en DAX un vacío <= 2 da verdadero.
+	measure '% reseñas negativas' =
+			VAR Resenas = CALCULATE ( COUNT ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_valido] = TRUE () )
+			VAR Negativas = CALCULATE ( COUNT ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_valido] = TRUE (), fact_pedidos[puntaje_resena] >= 1 && fact_pedidos[puntaje_resena] <= 2 )
+			RETURN
+			    DIVIDE ( Negativas, Resenas )
+		formatString: 0.0%
+		displayFolder: 3. Cliente
+		lineageTag: 5e61e238-d45e-4cf8-8c38-9f7b611d457f
+
+	/// K24. Reseñas de 4 o 5 puntos / reseñas.
+	measure '% reseñas positivas' =
+			VAR Resenas = CALCULATE ( COUNT ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_valido] = TRUE () )
+			VAR Positivas = CALCULATE ( COUNT ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_valido] = TRUE (), fact_pedidos[puntaje_resena] >= 4 )
+			RETURN
+			    DIVIDE ( Positivas, Resenas )
+		formatString: 0.0%
+		displayFolder: 3. Cliente
+		lineageTag: f1a4979e-59f2-4614-91ed-8cd486856f1d
+
+	/// K25. Clientes con 2 o más pedidos válidos / Clientes únicos.
+	measure 'Tasa de recompra' =
+			VAR Clientes = CALCULATETABLE ( VALUES ( fact_pedidos[cliente_key] ), fact_pedidos[es_valido] = TRUE () )
+			VAR ConRecompra = FILTER ( Clientes, CALCULATE ( COUNTROWS ( fact_pedidos ), fact_pedidos[es_valido] = TRUE () ) > 1 )
+			RETURN
+			    DIVIDE ( COUNTROWS ( ConRecompra ), [Clientes únicos] )
+		formatString: 0.0%
+		displayFolder: 3. Cliente
+		lineageTag: 2ff763af-3f04-4141-82fe-8f7a222f38f4
+
+	/// K28. Clientes que compraron en 2 o más días distintos / Clientes únicos. Dos pedidos del mismo día cuentan como una compra.
+	measure 'Tasa de recompra en días distintos' =
+			VAR Clientes = CALCULATETABLE ( VALUES ( fact_pedidos[cliente_key] ), fact_pedidos[es_valido] = TRUE () )
+			VAR ConRecompra = FILTER ( Clientes, CALCULATE ( DISTINCTCOUNT ( fact_pedidos[fecha_compra_key] ), fact_pedidos[es_valido] = TRUE () ) > 1 )
+			RETURN
+			    DIVIDE ( COUNTROWS ( ConRecompra ), [Clientes únicos] )
+		formatString: 0.0%
+		displayFolder: 3. Cliente
+		lineageTag: f208121e-17cc-4557-abbd-aab112771775
+
+	/// K26. Puntaje de los pedidos a tiempo menos el de los tardíos.
+	measure 'Brecha de puntaje por demora' =
+			VAR ATiempo = CALCULATE ( AVERAGE ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_entregado] = TRUE(), fact_pedidos[a_tiempo] = TRUE () )
+			VAR Tarde = CALCULATE ( AVERAGE ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_entregado] = TRUE(), fact_pedidos[a_tiempo] = FALSE () )
+			RETURN
+			    ATiempo - Tarde
+		formatString: 0.00
+		displayFolder: 3. Cliente
+		lineageTag: db6e779d-a4b0-4d01-a8a1-26ee0e39d6b2
+
+	/// K27. De los clientes cuya primera compra fue en el mes de la cohorte, % que compró N meses después. Para usar con dim_cliente[Cohorte] y 'Meses desde cohorte'[Meses]. Se calcula en DAX para que respete la seguridad por fila.
+	measure 'Retención de cohorte' =
+			-- Optimizada en la Fase 7 (docs/06_dax.md): los meses desde la primera compra
+			-- vienen calculados de SQL, así que no hay aritmética de fechas por celda.
+			-- es_valido es obligatorio: la columna es vacía en los pedidos no válidos,
+			-- y en DAX vacío = 0 da verdadero.
+			VAR Cohorte = SELECTEDVALUE ( dim_cliente[Cohorte nro] )
+			VAR N = SELECTEDVALUE ( 'Meses desde cohorte'[Meses] )
+			VAR Activos = CALCULATE ( DISTINCTCOUNT ( fact_pedidos[cliente_key] ), fact_pedidos[es_valido] = TRUE (), REMOVEFILTERS ( dim_fecha ), fact_pedidos[meses_desde_primera_compra] = N )
+			VAR Tamanio = CALCULATE ( DISTINCTCOUNT ( fact_pedidos[cliente_key] ), fact_pedidos[es_valido] = TRUE (), REMOVEFILTERS ( dim_fecha ), fact_pedidos[meses_desde_primera_compra] = 0 )
+			RETURN
+			    IF ( NOT ISBLANK ( Cohorte ) && NOT ISBLANK ( N ), DIVIDE ( Activos, Tamanio ) )
+		formatString: 0.00%
+		displayFolder: 3. Cliente
+		lineageTag: b1313646-750e-4414-b5f3-a19857fda79f
+
+	/// Variación contra el mismo período del año anterior.
+	measure 'Var. interanual Pedidos' =
+			VAR Anterior = CALCULATE ( [Pedidos], SAMEPERIODLASTYEAR ( dim_fecha[Fecha] ) )
+			RETURN
+			    DIVIDE ( [Pedidos] - Anterior, Anterior )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 4. Variación interanual
+		lineageTag: 0f1ce4bd-25d1-4358-899d-e57ec5bfb92c
+
+	/// Variación contra el mismo período del año anterior.
+	measure 'Var. interanual Ticket' =
+			VAR Anterior = CALCULATE ( [Ticket promedio], SAMEPERIODLASTYEAR ( dim_fecha[Fecha] ) )
+			RETURN
+			    DIVIDE ( [Ticket promedio] - Anterior, Anterior )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 4. Variación interanual
+		lineageTag: 84808bb0-8086-4cec-8d8f-f43e66e02fec
+
+	/// Diferencia en puntos porcentuales contra el año anterior.
+	measure 'Var. interanual % a tiempo' =
+			VAR Anterior = CALCULATE ( [% entregas a tiempo], SAMEPERIODLASTYEAR ( dim_fecha[Fecha] ) )
+			RETURN
+			    IF ( NOT ISBLANK ( Anterior ), [% entregas a tiempo] - Anterior )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 4. Variación interanual
+		lineageTag: 9bfba3dc-2e74-4504-843b-154730a28683
+
+	/// Diferencia en puntos contra el año anterior.
+	measure 'Var. interanual Puntaje' =
+			VAR Anterior = CALCULATE ( [Puntaje promedio de reseña], SAMEPERIODLASTYEAR ( dim_fecha[Fecha] ) )
+			RETURN
+			    IF ( NOT ISBLANK ( Anterior ), [Puntaje promedio de reseña] - Anterior )
+		formatString: +0.00;-0.00;0.00
+		displayFolder: 4. Variación interanual
+		lineageTag: eb247bea-3992-4450-bfa7-420a85b238fe
+
+	/// Calcula el % de entregas a tiempo para los pedidos del vendedor o la categoría del contexto. Un pedido con dos vendedores cuenta para cada uno (Q13, D-014).
+	measure '% a tiempo (por ítems)' = CALCULATE ( [% entregas a tiempo], TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] ) )
+		formatString: 0.0%
+		displayFolder: 5. Cruce con vendedor y producto
+		lineageTag: 38102148-3c37-4aed-b1f2-0966633c1758
+
+	/// Calcula los días de entrega para los pedidos del vendedor o la categoría del contexto. Un pedido con dos vendedores cuenta para cada uno (Q13, D-014).
+	measure 'Días de entrega (por ítems)' = CALCULATE ( [Días promedio de entrega], TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] ) )
+		formatString: 0.00
+		displayFolder: 5. Cruce con vendedor y producto
+		lineageTag: 8752c572-6df4-4c94-9c36-2ab4a27736c4
+
+	/// Calcula el puntaje para los pedidos del vendedor o la categoría del contexto. Un pedido con dos vendedores cuenta para cada uno (Q13, D-014).
+	measure 'Puntaje (por ítems)' = CALCULATE ( [Puntaje promedio de reseña], TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] ) )
+		formatString: 0.00
+		displayFolder: 5. Cruce con vendedor y producto
+		lineageTag: 6c473a09-7b41-4ed5-b087-584567dfd0b2
+
+	/// Calcula el % de reseñas negativas para los pedidos del vendedor o la categoría del contexto. Un pedido con dos vendedores cuenta para cada uno (Q13, D-014).
+	measure '% reseñas negativas (por ítems)' = CALCULATE ( [% reseñas negativas], TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] ) )
+		formatString: 0.0%
+		displayFolder: 5. Cruce con vendedor y producto
+		lineageTag: 98b1a742-a337-47c1-bd1a-03aabbdd586a
+
+	/// K19 por ruta (estado del vendedor a estado del cliente). Vacío si la ruta tiene menos de 30 pedidos entregados, para no sacar conclusiones de pocos casos (L3).
+	measure 'Días de demora por ruta' =
+			-- Optimizada en la Fase 7 (docs/06_dax.md): la lista de pedidos de la ruta se
+			-- arma una sola vez y se reutiliza en los dos cálculos.
+			VAR PedidosDeLaRuta = TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] )
+			VAR Entregados = CALCULATE ( [Pedidos entregados], PedidosDeLaRuta )
+			RETURN
+			    IF ( Entregados >= 30, CALCULATE ( [Días promedio de demora], PedidosDeLaRuta ) )
+		formatString: 0.00
+		displayFolder: 5. Cruce con vendedor y producto
+		lineageTag: 0674506d-ffe9-4de8-a3bc-5e240f7c3643
+
+	/// Valor elegido en el control Top N; 10 si no se eligió ninguno.
+	measure 'Top N seleccionado' = SELECTEDVALUE ( 'Top N'[N], 10 )
+		formatString: 0
+		displayFolder: 6. Interactivas
+		lineageTag: f918fed6-09d1-4000-81df-d542d1daafc6
+
+	/// Ventas solo de los N primeros vendedores del ranking; el resto queda vacío.
+	measure 'Ventas Top N vendedores' =
+			VAR Posicion = RANKX ( ALLSELECTED ( dim_vendedor[Vendedor] ), [Ventas] )
+			RETURN
+			    IF ( HASONEVALUE ( dim_vendedor[Vendedor] ) && Posicion <= [Top N seleccionado], [Ventas] )
+		formatString: \R\$ #,0.00
+		displayFolder: 6. Interactivas
+		lineageTag: e8d3afcd-d760-4d19-8027-2296c5a1b29f
+
+	/// Muestra la métrica elegida en el control 'Selector de métrica'; Ventas si no se eligió ninguna.
+	measure 'Métrica seleccionada' =
+			VAR Metrica = SELECTEDVALUE ( 'Selector de métrica'[Métrica], "Ventas" )
+			RETURN
+			    SWITCH (
+			        Metrica,
+			        "Ventas", [Ventas],
+			        "Pedidos", [Pedidos],
+			        "Ticket promedio", [Ticket promedio],
+			        "Flete total", [Flete total]
+			    )
+		formatString: #,0.00
+		displayFolder: 6. Interactivas
+		lineageTag: 570376fe-d6d7-423a-a86c-b7bc6702746e
+
 	column Oculta
 		dataType: int64
 		isHidden

@@ -1,0 +1,18 @@
+/// Valores del control Top N (1 a 50). Sin relaciones: el usuario elige y la medida lo lee.
+table 'Top N'
+	lineageTag: 1c1453eb-b49b-4fd4-ac5b-cb1a516921bd
+
+	column N
+		dataType: int64
+		formatString: 0
+		lineageTag: 028a40e4-3aeb-4441-b4d6-a590fb16bd92
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [N]
+
+		annotation SummarizationSetBy = User
+
+	partition 'Top N' = calculated
+		mode: import
+		source = SELECTCOLUMNS ( GENERATESERIES ( 1, 50, 1 ), "N", [Value] )
+

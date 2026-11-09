@@ -11,6 +11,10 @@
       dias_entrega     K18: compra -> entrega, en días con decimales
       dias_vs_estimada K19: entrega - estimada en días; positivo = tarde
       puntaje_resena   R7: el de la última reseña respondida
+      meses_desde_primera_compra
+                       K27: meses entre la primera compra válida del cliente y
+                       este pedido (0 = el mismo mes). Calculada acá y no en DAX:
+                       en DAX la tabla de cohortes tardaba 1,2 s (docs/06_dax.md)
 
     Los pagos se agregan por pedido ANTES de unirse (Q12): una fila de pago
     por pedido, nunca una por pago.
@@ -41,7 +45,8 @@ pedidos AS (
 )
 INSERT INTO dw.fact_pedidos (pedido_id, cliente_key, geografia_key, fecha_compra_key, fecha_entrega_key,
                              fecha_estimada_key, estado_pedido, es_valido, es_vendido, es_entregado, a_tiempo,
-                             dias_entrega, dias_vs_estimada, puntaje_resena, items, valor_pagado, medio_pago, cuotas)
+                             dias_entrega, dias_vs_estimada, puntaje_resena, meses_desde_primera_compra, items,
+                             valor_pagado, medio_pago, cuotas)
 SELECT o.order_id,
        COALESCE(dc.cliente_key, -1),
        COALESCE(dg.geografia_key, -1),
@@ -70,6 +75,7 @@ SELECT o.order_id,
        CASE WHEN o.es_entregado = 1
             THEN DATEDIFF(DAY, o.estimated_delivery_date, CAST(o.delivered_customer_ts AS DATE)) END,
        r.review_score,
+       CASE WHEN o.es_valido = 1 THEN DATEDIFF(MONTH, dc.fecha_primera_compra, o.purchase_ts) END,
        COALESCE(i.items, 0),
        pg.valor_pagado,
        CASE pg.medio

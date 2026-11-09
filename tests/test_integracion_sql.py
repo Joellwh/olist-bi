@@ -166,3 +166,17 @@ def test_rfm_cierra_con_k01_y_k06(conn, referencia):
     assert personas == referencia["K06 Clientes únicos"]
     assert float(monto) == pytest.approx(referencia["K01 Ventas"], abs=0.01)
     assert conn.execute("SELECT COUNT(*) FROM rpt.rfm_clientes WHERE segmento IS NULL").fetchone()[0] == 0
+
+
+def test_meses_desde_primera_compra_reproduce_las_cohortes(conn):
+    """La columna que usa la medida de retención (Fase 7) da las mismas 220 celdas que rpt.cohortes."""
+    distintas = conn.execute("""
+        WITH n AS (
+            SELECT c.cohorte, p.meses_desde_primera_compra AS meses, COUNT(DISTINCT p.cliente_key) AS clientes
+            FROM dw.fact_pedidos AS p JOIN dw.dim_cliente AS c ON c.cliente_key = p.cliente_key
+            WHERE p.es_valido = 1
+            GROUP BY c.cohorte, p.meses_desde_primera_compra)
+        SELECT COUNT(*) FROM n FULL JOIN rpt.cohortes AS r ON r.cohorte = n.cohorte AND r.meses_desde = n.meses
+        WHERE r.clientes IS NULL OR n.clientes IS NULL OR r.clientes <> n.clientes""").fetchone()[0]
+    assert distintas == 0
+    assert conn.execute("SELECT COUNT(*) FROM dw.fact_pedidos WHERE es_valido = 0 AND meses_desde_primera_compra IS NOT NULL").fetchone()[0] == 0

@@ -193,6 +193,17 @@ table fact_pedidos
 
 		annotation SummarizationSetBy = User
 
+	/// K27: meses entre la primera compra válida del cliente y este pedido (0 = el mismo mes). Vacía si el pedido no es válido.
+	column meses_desde_primera_compra
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5febbb1d-36e9-4e0c-bfde-4d1f248caacf
+		summarizeBy: none
+		sourceColumn: meses_desde_primera_compra
+
+		annotation SummarizationSetBy = User
+
 	partition fact_pedidos = m
 		mode: import
 		source =

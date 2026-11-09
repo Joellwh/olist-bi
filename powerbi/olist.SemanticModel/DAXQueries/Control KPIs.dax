@@ -1,0 +1,49 @@
+// Control de la Fase 7: cada medida contra su valor de referencia (src/kpi_reference.py y vistas rpt).
+// Tiene que dar OK en todas las filas. Se ejecuta con el botón Ejecutar.
+EVALUATE
+VAR Filas =
+    UNION (
+        ROW ( "KPI", "K01 Ventas", "Modelo", CALCULATE ( [Ventas], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 13449529.68, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K02 Pedidos", "Modelo", CALCULATE ( [Pedidos], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 97905.0, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K03 Ticket promedio", "Modelo", CALCULATE ( [Ticket promedio], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 137.37326673816455, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K04 Ítems vendidos", "Modelo", CALCULATE ( [Ítems vendidos], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 111752.0, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K05 Ítems por pedido", "Modelo", CALCULATE ( [Ítems por pedido], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 1.1414330218068536, "Tolerancia", 0.001 ),
+        ROW ( "KPI", "K06 Clientes únicos", "Modelo", CALCULATE ( [Clientes únicos], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 94707.0, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K07 Ventas año anterior (ene-ago 2018)", "Modelo", CALCULATE ( [Ventas año anterior], dim_fecha[En período de análisis] = TRUE (), dim_fecha[Año] = 2018 ), "Referencia", 3080850.81, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K08 Var. interanual (ene-ago 2018)", "Modelo", CALCULATE ( [Var. interanual Ventas], dim_fecha[En período de análisis] = TRUE (), dim_fecha[Año] = 2018 ), "Referencia", 1.382795488237225, "Tolerancia", 0.0001 ),
+        ROW ( "KPI", "K09 Acumulado 2018", "Modelo", CALCULATE ( [Ventas acumuladas del año], dim_fecha[En período de análisis] = TRUE (), dim_fecha[Año] = 2018 ), "Referencia", 7341037.41, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K10 Media móvil (ago-2018)", "Modelo", CALCULATE ( [Media móvil 3 meses], dim_fecha[Año-mes nro] = 201808 ), "Referencia", 863389.97, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K10 Media móvil (ene-2017)", "Modelo", CALCULATE ( [Media móvil 3 meses], dim_fecha[Año-mes nro] = 201701 ), "Referencia", 40036.39, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K11 Participación (total)", "Modelo", CALCULATE ( [Participación], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 1.0, "Tolerancia", 0.0001 ),
+        ROW ( "KPI", "K12 Vendedores activos", "Modelo", CALCULATE ( [Vendedores activos], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 3029.0, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K13 Ventas entregadas", "Modelo", CALCULATE ( [Ventas entregadas], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 13179777.95, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K14 Flete total", "Modelo", CALCULATE ( [Flete total], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 2234177.0599999996, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K15 % flete", "Modelo", CALCULATE ( [% flete sobre ventas], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 0.16611562732355706, "Tolerancia", 0.0001 ),
+        ROW ( "KPI", "K16 Pedidos entregados", "Modelo", CALCULATE ( [Pedidos entregados], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 96203.0, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K17 % a tiempo", "Modelo", CALCULATE ( [% entregas a tiempo], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 0.932112304190098, "Tolerancia", 0.0001 ),
+        ROW ( "KPI", "K18 Días de entrega", "Modelo", CALCULATE ( [Días promedio de entrega], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 12.538460850026429, "Tolerancia", 0.001 ),
+        ROW ( "KPI", "K18 Mediana", "Modelo", CALCULATE ( [Mediana días de entrega], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 10.21, "Tolerancia", 0.001 ),
+        ROW ( "KPI", "K19 Días de demora", "Modelo", CALCULATE ( [Días promedio de demora], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 10.616597764507732, "Tolerancia", 0.001 ),
+        ROW ( "KPI", "K20 Pedidos con demora", "Modelo", CALCULATE ( [Pedidos con demora], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 6531.0, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "K21 Cancelación", "Modelo", CALCULATE ( [Tasa de cancelación], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 0.011928309046138952, "Tolerancia", 0.0001 ),
+        ROW ( "KPI", "K22 Puntaje", "Modelo", CALCULATE ( [Puntaje promedio de reseña], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 4.1172657206655625, "Tolerancia", 0.001 ),
+        ROW ( "KPI", "K23 % negativas", "Modelo", CALCULATE ( [% reseñas negativas], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 0.13846327985923174, "Tolerancia", 0.0001 ),
+        ROW ( "KPI", "K24 % positivas", "Modelo", CALCULATE ( [% reseñas positivas], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 0.7789279797491279, "Tolerancia", 0.0001 ),
+        ROW ( "KPI", "K25 Recompra", "Modelo", CALCULATE ( [Tasa de recompra], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 0.030356784609374174, "Tolerancia", 0.0001 ),
+        ROW ( "KPI", "K26 Brecha", "Modelo", CALCULATE ( [Brecha de puntaje por demora], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 2.020539659935146, "Tolerancia", 0.001 ),
+        ROW ( "KPI", "K27 Retención (ene-2017, +1 mes)", "Modelo", CALCULATE ( [Retención de cohorte], dim_cliente[Cohorte nro] = 201701, 'Meses desde cohorte'[Meses] = 1 ), "Referencia", 0.003989, "Tolerancia", 1e-05 ),
+        ROW ( "KPI", "K28 Recompra días distintos", "Modelo", CALCULATE ( [Tasa de recompra en días distintos], dim_fecha[En período de análisis] = TRUE () ), "Referencia", 0.021687942813097237, "Tolerancia", 0.0001 ),
+        ROW ( "KPI", "Vendedor top: Ventas", "Modelo", CALCULATE ( [Ventas], dim_fecha[En período de análisis] = TRUE (), dim_vendedor[Vendedor] = "Vendedor 4869…2b2" ), "Referencia", 229237.63, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "Vendedor top: Pedidos", "Modelo", CALCULATE ( [Pedidos], dim_fecha[En período de análisis] = TRUE (), dim_vendedor[Vendedor] = "Vendedor 4869…2b2" ), "Referencia", 1131.0, "Tolerancia", 0.01 ),
+        ROW ( "KPI", "Vendedor top: % a tiempo (TREATAS)", "Modelo", CALCULATE ( [% a tiempo (por ítems)], dim_fecha[En período de análisis] = TRUE (), dim_vendedor[Vendedor] = "Vendedor 4869…2b2" ), "Referencia", 0.895, "Tolerancia", 0.0001 ),
+        ROW ( "KPI", "Vendedor top: Puntaje (TREATAS)", "Modelo", CALCULATE ( [Puntaje (por ítems)], dim_fecha[En período de análisis] = TRUE (), dim_vendedor[Vendedor] = "Vendedor 4869…2b2" ), "Referencia", 4.14, "Tolerancia", 0.01 )
+    )
+RETURN
+    SELECTCOLUMNS (
+        Filas,
+        "KPI", [KPI],
+        "Modelo", [Modelo],
+        "Referencia", [Referencia],
+        "Estado", IF ( ABS ( [Modelo] - [Referencia] ) <= [Tolerancia], "OK", "REVISAR" )
+    )
+ORDER BY [Estado] DESC, [KPI]

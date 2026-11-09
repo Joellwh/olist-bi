@@ -44,7 +44,8 @@ Son 10, todas de uno a muchos, de una dimensión a un hecho, con filtro en una s
 | **Descripciones** | Cada columna y tabla explica qué es y qué regla o KPI aplica; se ven al pasar el mouse en el panel de datos. |
 | **Categorías de datos** | Estados y ciudades marcados como geografía, para que los mapas los reconozcan. |
 | **Montos** | `precio`, `flete` y `valor_pagado` en decimal fijo y formato R$. Power BI los había importado como decimales flotantes, que pueden acumular errores de redondeo al sumar. |
-| **Tabla `_Medidas`** | Contenedor vacío para las medidas de la Fase 7. Ninguna medida depende de una tabla de hechos para encontrarse. |
+| **Tabla `_Medidas`** | Contiene las 41 medidas de la Fase 7 ([06_dax.md](06_dax.md)), así ninguna depende de una tabla de hechos para encontrarse. |
+| **Tablas sin relaciones** | `Top N`, `Selector de métrica` y `Meses desde cohorte` alimentan los controles del tablero (agregadas en la Fase 7). |
 
 ## Cómo se verificó
 

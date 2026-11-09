@@ -111,6 +111,45 @@
             "width": 234
           },
           "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1448,
+            "y": 364
+          },
+          "nodeIndex": "Meses desde cohorte",
+          "nodeLineageTag": "e79c65e6-1188-4a82-a5dc-a33dd53b92c1",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1732,
+            "y": 400
+          },
+          "nodeIndex": "Selector de métrica",
+          "nodeLineageTag": "6b67b990-a5db-472f-8aea-61507f7ad6e3",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2016,
+            "y": 364
+          },
+          "nodeIndex": "Top N",
+          "nodeLineageTag": "1c1453eb-b49b-4fd4-ac5b-cb1a516921bd",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "Todas las tablas",

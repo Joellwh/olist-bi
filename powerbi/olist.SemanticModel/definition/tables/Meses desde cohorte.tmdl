@@ -1,0 +1,18 @@
+/// Meses transcurridos desde la primera compra, para la tabla de cohortes (X5). Sin relaciones.
+table 'Meses desde cohorte'
+	lineageTag: e79c65e6-1188-4a82-a5dc-a33dd53b92c1
+
+	column Meses
+		dataType: int64
+		formatString: 0
+		lineageTag: 3398ce02-4849-4b03-9044-0615c4ca697c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Meses]
+
+		annotation SummarizationSetBy = User
+
+	partition 'Meses desde cohorte' = calculated
+		mode: import
+		source = SELECTCOLUMNS ( GENERATESERIES ( 0, 25, 1 ), "Meses", [Value] )
+

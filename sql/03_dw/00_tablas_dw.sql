@@ -97,6 +97,7 @@ CREATE TABLE dw.fact_pedidos (
     dias_entrega           DECIMAL(9, 4) NULL,       -- K18: compra -> entrega, con decimales
     dias_vs_estimada       INT           NULL,       -- entrega - estimada, en días; > 0 = tarde (K19)
     puntaje_resena         TINYINT       NULL,       -- R7: última reseña; NULL sin reseña
+    meses_desde_primera_compra SMALLINT  NULL,       -- K27: 0 = mes de la primera compra; NULL si no es válido
     items                  SMALLINT      NOT NULL,
     valor_pagado           DECIMAL(10, 2) NULL,      -- NULL: el pedido sin pagos (Q15)
     medio_pago             NVARCHAR(20)  NOT NULL,   -- el de mayor monto

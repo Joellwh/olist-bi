@@ -1,0 +1,29 @@
+/// Opciones del control que elige qué métrica mostrar. Sin relaciones.
+table 'Selector de métrica'
+	lineageTag: 6b67b990-a5db-472f-8aea-61507f7ad6e3
+
+	column Orden
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 33804b74-ca82-4e93-a8a8-f2d952895108
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Orden]
+
+		annotation SummarizationSetBy = User
+
+	column Métrica
+		dataType: string
+		lineageTag: 947f10df-f7ae-4331-94c5-3ddb7dd0ea53
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Métrica]
+		sortByColumn: Orden
+
+		annotation SummarizationSetBy = User
+
+	partition 'Selector de métrica' = calculated
+		mode: import
+		source = DATATABLE ( "Orden", INTEGER, "Métrica", STRING, { { 1, "Ventas" }, { 2, "Pedidos" }, { 3, "Ticket promedio" }, { 4, "Flete total" } } )
+
