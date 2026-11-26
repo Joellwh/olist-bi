@@ -7,6 +7,8 @@
       etl.log_ejecucion   una fila por corrida de python -m src.etl.run
       etl.log_paso        cada paso de una corrida: qué tabla, cuántas filas, cuánto tardó
       etl.log_validacion  el resultado de cada regla de docs/02_calidad_datos.md
+      etl.log_despliegue  cada despliegue a dev o prod: qué commit y con qué resultado
+                          (python -m src.despliegue, docs/10_despliegue.md)
 */
 
 USE [$(DB_NAME)];
@@ -49,5 +51,19 @@ CREATE TABLE etl.log_validacion (
     momento         DATETIME2(0)  NOT NULL CONSTRAINT df_log_validacion_momento DEFAULT SYSDATETIME(),
     CONSTRAINT ck_log_validacion_gravedad CHECK (gravedad IN ('CRITICA', 'ADVERTENCIA')),
     CONSTRAINT ck_log_validacion_resultado CHECK (resultado IN ('OK', 'FALLA', 'AVISO'))
+);
+GO
+
+IF OBJECT_ID(N'etl.log_despliegue') IS NULL
+CREATE TABLE etl.log_despliegue (
+    despliegue_id INT IDENTITY(1, 1) NOT NULL CONSTRAINT pk_log_despliegue PRIMARY KEY,
+    momento       DATETIME2(0)   NOT NULL CONSTRAINT df_log_despliegue_momento DEFAULT SYSDATETIME(),
+    entorno       VARCHAR(4)     NOT NULL,
+    version_git   CHAR(40)       NOT NULL,   -- commit desplegado
+    resultado     VARCHAR(5)     NOT NULL,
+    detalle       NVARCHAR(2000) NULL,       -- en qué paso falló
+    usuario       NVARCHAR(128)  NOT NULL CONSTRAINT df_log_despliegue_usuario DEFAULT SUSER_SNAME(),
+    CONSTRAINT ck_log_despliegue_entorno CHECK (entorno IN ('dev', 'prod')),
+    CONSTRAINT ck_log_despliegue_resultado CHECK (resultado IN ('OK', 'FALLA'))
 );
 GO
