@@ -22,7 +22,7 @@ Son 10, todas de uno a muchos, de una dimensión a un hecho, con filtro en una s
 
 - **Los hechos no se relacionan entre sí.** Para cruzar vendedor con entrega se usa `TREATAS` ([D-014](decisiones.md#d-014--dos-tablas-de-hechos-y-treatas-para-cruzarlas)).
 - **Por qué una sola dirección:** un filtro bidireccional entre dimensión y hecho abre caminos ambiguos (por ejemplo, de `dim_producto` a `dim_geografia` pasando por `fact_items`) y es más lento. Acá ninguna pregunta de negocio lo necesita.
-- **Las dos relaciones inactivas** existen porque entre dos tablas solo puede haber un camino activo. La de compra queda activa (regla R6: todo se ubica por fecha de compra), y las otras se activan en una medida con `USERELATIONSHIP`.
+- **Las dos relaciones inactivas** existen porque entre dos tablas solo puede haber un camino activo. La de compra queda activa (regla R6: todo se ubica por fecha de compra), y las otras se activan en una medida con `USERELATIONSHIP`: `Entregas del período` y `Entregas previstas`, agregadas en la Fase 10 ([09_rendimiento.md](09_rendimiento.md)).
 - **Las importó Power BI** desde las claves foráneas de `dw`. Es una ventaja concreta de haber declarado esas claves en SQL Server.
 
 ## Fechas
@@ -43,8 +43,8 @@ Son 10, todas de uno a muchos, de una dimensión a un hecho, con filtro en una s
 | **Carpetas** | `Período` y `Día` en `dim_fecha`; `Características` en `dim_producto`. |
 | **Descripciones** | Cada columna y tabla explica qué es y qué regla o KPI aplica; se ven al pasar el mouse en el panel de datos. |
 | **Categorías de datos** | Estados y ciudades marcados como geografía, para que los mapas los reconozcan. |
-| **Montos** | `precio`, `flete` y `valor_pagado` en decimal fijo y formato R$. Power BI los había importado como decimales flotantes, que pueden acumular errores de redondeo al sumar. |
-| **Tabla `_Medidas`** | Contiene las 51 medidas de las Fases 7 y 8 ([06_dax.md](06_dax.md)), así ninguna depende de una tabla de hechos para encontrarse. |
+| **Montos** | `precio` y `flete` en decimal fijo y formato R$. Power BI los había importado como decimales flotantes, que pueden acumular errores de redondeo al sumar. En la Fase 10 se pasó también `dias_entrega` a decimal fijo, y `valor_pagado` salió del modelo porque nada lo usaba (D-023). |
+| **Tabla `_Medidas`** | Contiene las 53 medidas de las Fases 7, 8 y 10 ([06_dax.md](06_dax.md)), así ninguna depende de una tabla de hechos para encontrarse. |
 | **Tablas sin relaciones** | `Top N`, `Selector de métrica` y `Meses desde cohorte` alimentan los controles del tablero (agregadas en la Fase 7). `Gerentes`, oculta, la lee el rol de seguridad por fila ([08_seguridad_rls.md](08_seguridad_rls.md), Fase 9). |
 
 ## Cómo se verificó

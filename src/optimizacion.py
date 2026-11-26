@@ -90,10 +90,10 @@ _ROWSTORE = """
 
 _COLUMNSTORE = """
     CREATE NONCLUSTERED COLUMNSTORE INDEX ncci_fact_items ON dw.fact_items
-        (pedido_id, item_nro, producto_key, vendedor_key, cliente_key, geografia_key,
+        (pedido_id, pedido_key, item_nro, producto_key, vendedor_key, cliente_key, geografia_key,
          fecha_compra_key, precio, flete, es_venta);
     CREATE NONCLUSTERED COLUMNSTORE INDEX ncci_fact_pedidos ON dw.fact_pedidos
-        (pedido_id, cliente_key, geografia_key, fecha_compra_key, fecha_entrega_key, fecha_estimada_key,
+        (pedido_id, pedido_key, cliente_key, geografia_key, fecha_compra_key, fecha_entrega_key, fecha_estimada_key,
          es_valido, es_vendido, es_entregado, a_tiempo, dias_entrega, dias_vs_estimada, puntaje_resena, items);"""
 
 # Solo los dos índices rowstore que sirven a búsquedas puntuales (un cliente,

@@ -6,7 +6,9 @@ table dim_geografia
 	column geografia_key
 		dataType: int64
 		isHidden
+		isKey
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: f99a87e3-47bb-486a-8c2e-188aba09e6de
 		summarizeBy: none
 		sourceColumn: geografia_key

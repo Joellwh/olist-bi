@@ -25,7 +25,7 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 - [x] Instalar Jupyter (`notebook` 7.6.1; hubo que reintentar por los cortes de red).
 - [x] Power BI Desktop: activar guardado **PBIP** y formato **TMDL**.
 - [x] Instalar **DAX Studio**.
-- [ ] Instalar **Tabular Editor 2**. Necesario recién en la Fase 10 (Best Practice Analyzer).
+- [x] **Tabular Editor 2** (versión portable, fuera del repo), para el Best Practice Analyzer de la Fase 10.
 - [x] Crear el repo `olist-bi` en GitHub y conectarlo: https://github.com/Joellwh/olist-bi
 - [x] GitHub Project con una tarjeta por fase.
 
@@ -129,10 +129,12 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 📦 `docs/08_seguridad_rls.md`
 
-## Fase 10: Rendimiento del modelo (2 días)
+## Fase 10: Rendimiento del modelo — ✅ hecha (2026-11-26)
 
-- [ ] Performance Analyzer, VertiPaq Analyzer, Best Practice Analyzer. Incluye el criterio de la Fase 1 que quedó pendiente: menos de 2 segundos por visual.
-- [ ] Antes y después (tamaño y tiempos).
+- [x] Performance Analyzer, VertiPaq Analyzer (DAX Studio) y Best Practice Analyzer (Tabular Editor 2), más las 46 consultas del reporte con la caché vacía.
+- [x] Clave numérica de pedido para `TREATAS`, columnas sin uso fuera del modelo y sin jerarquías de atributos en las columnas ocultas de los hechos (D-023).
+- [x] Las dos relaciones inactivas, en uso: `Entregas del período` y `Entregas previstas` con `USERELATIONSHIP`, en el gráfico mensual de Logística.
+- [x] Antes y después: de 33,7 a 9,9 MB; la consulta más lenta, de 2.212 a 230 ms. Criterio de la Fase 1 cumplido: ningún visual llega a 2 s (antes, 9 de 64).
 
 📦 `docs/09_rendimiento.md`
 

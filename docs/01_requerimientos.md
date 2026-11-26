@@ -104,7 +104,7 @@ Una página está terminada cuando cumple todos sus criterios. Se verifican en l
 - [x] Cada pregunta asignada a la página se responde sin exportar datos ni usar otra herramienta.
 - [x] Los totales coinciden con los valores de referencia del diccionario de KPIs (tolerancia: redondeo).
 - [x] Los filtros de año, región y estado están sincronizados entre páginas y hay un botón para limpiarlos.
-- [ ] Cada visual tarda menos de 2 segundos en Performance Analyzer.
+- [x] Cada visual tarda menos de 2 segundos en Performance Analyzer (Fase 10: el más lento, 1,5 s; [09_rendimiento.md](09_rendimiento.md)).
 - [x] Un gerente regional ve solo sus estados, y los totales de todas las páginas cambian en consecuencia (Fase 9, [08_seguridad_rls.md](08_seguridad_rls.md)).
 
 **1. Resumen ejecutivo**

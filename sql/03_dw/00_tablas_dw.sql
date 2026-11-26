@@ -83,6 +83,9 @@ CREATE TABLE dw.dim_producto (
 
 CREATE TABLE dw.fact_pedidos (
     pedido_id              CHAR(32)      NOT NULL CONSTRAINT pk_fact_pedidos PRIMARY KEY,
+    -- Clave numérica del pedido (Fase 10): Power BI cruza los hechos por esta y no
+    -- por pedido_id, un texto de 32 caracteres que ocupaba el 31% del modelo
+    pedido_key             INT           NOT NULL CONSTRAINT uq_fact_pedidos_pedido_key UNIQUE,
     cliente_key            INT           NOT NULL CONSTRAINT fk_fact_pedidos_cliente   REFERENCES dw.dim_cliente,
     geografia_key          INT           NOT NULL CONSTRAINT fk_fact_pedidos_geografia REFERENCES dw.dim_geografia,
     fecha_compra_key       INT           NOT NULL CONSTRAINT fk_fact_pedidos_compra    REFERENCES dw.dim_fecha,
@@ -106,6 +109,7 @@ CREATE TABLE dw.fact_pedidos (
 
 CREATE TABLE dw.fact_items (
     pedido_id         CHAR(32)       NOT NULL,      -- dimensión degenerada
+    pedido_key        INT            NOT NULL CONSTRAINT fk_fact_items_pedido REFERENCES dw.fact_pedidos (pedido_key),
     item_nro          SMALLINT       NOT NULL,
     producto_key      INT            NOT NULL CONSTRAINT fk_fact_items_producto  REFERENCES dw.dim_producto,
     vendedor_key      INT            NOT NULL CONSTRAINT fk_fact_items_vendedor  REFERENCES dw.dim_vendedor,

@@ -9,7 +9,7 @@ table _Medidas
 		lineageTag: 59b51123-d31e-4450-a7fd-5a52f2389672
 
 	/// K02. Pedidos con al menos un ítem vendido (R1 + R8). Se cuenta desde fact_items para que responda a categoría y vendedor.
-	measure Pedidos = CALCULATE ( DISTINCTCOUNT ( fact_items[pedido_id] ), fact_items[es_venta] = TRUE () )
+	measure Pedidos = CALCULATE ( DISTINCTCOUNT ( fact_items[pedido_key] ), fact_items[es_venta] = TRUE () )
 		formatString: #,0
 		displayFolder: 1. Comercial
 		lineageTag: c1e9e203-5772-44d6-989b-3836a0868e48
@@ -84,9 +84,9 @@ table _Medidas
 
 	/// K13. Ventas de los pedidos entregados. Concilia con Logística.
 	measure 'Ventas entregadas' =
-			VAR Entregados = CALCULATETABLE ( VALUES ( fact_pedidos[pedido_id] ), fact_pedidos[es_entregado] = TRUE() )
+			VAR Entregados = CALCULATETABLE ( VALUES ( fact_pedidos[pedido_key] ), fact_pedidos[es_entregado] = TRUE() )
 			RETURN
-			    CALCULATE ( [Ventas], TREATAS ( Entregados, fact_items[pedido_id] ) )
+			    CALCULATE ( [Ventas], TREATAS ( Entregados, fact_items[pedido_key] ) )
 		formatString: \R\$ #,0.00
 		displayFolder: 1. Comercial
 		lineageTag: 16890837-12f8-42f8-ab81-39a88abf8f67
@@ -108,6 +108,18 @@ table _Medidas
 		formatString: #,0
 		displayFolder: 2. Logística
 		lineageTag: 7ef24dcb-c93d-4e81-9b5a-a0cae092d836
+
+	/// Pedidos entregados en el período según la fecha en que se entregaron, no la de compra (R6). Activa la relación inactiva de la fecha de entrega: es la carga de entregas de cada mes.
+	measure 'Entregas del período' = CALCULATE ( [Pedidos entregados], USERELATIONSHIP ( fact_pedidos[fecha_entrega_key], dim_fecha[fecha_key] ) )
+		formatString: #,0
+		displayFolder: 2. Logística
+		lineageTag: e1a03911-216a-46ba-b0f9-a2f6debf8f9d
+
+	/// Pedidos válidos (R1) cuya fecha estimada de entrega cae en el período. Activa la relación inactiva de la fecha estimada: son las entregas comprometidas para cada mes.
+	measure 'Entregas previstas' = CALCULATE ( COUNTROWS ( fact_pedidos ), fact_pedidos[es_valido] = TRUE (), USERELATIONSHIP ( fact_pedidos[fecha_estimada_key], dim_fecha[fecha_key] ) )
+		formatString: #,0
+		displayFolder: 2. Logística
+		lineageTag: 26af5d6f-b04e-4585-86b1-f1b4b854595a
 
 	/// K20. Pedidos entregados después de la fecha estimada. Filtra es_entregado porque en DAX un vacío = FALSE da verdadero.
 	measure 'Pedidos con demora' = CALCULATE ( COUNTROWS ( fact_pedidos ), fact_pedidos[es_entregado] = TRUE(), fact_pedidos[a_tiempo] = FALSE () )
@@ -257,25 +269,25 @@ table _Medidas
 		lineageTag: eb247bea-3992-4450-bfa7-420a85b238fe
 
 	/// Calcula el % de entregas a tiempo para los pedidos del vendedor o la categoría del contexto. Un pedido con dos vendedores cuenta para cada uno (Q13, D-014).
-	measure '% a tiempo (por ítems)' = CALCULATE ( [% entregas a tiempo], TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] ) )
+	measure '% a tiempo (por ítems)' = CALCULATE ( [% entregas a tiempo], TREATAS ( VALUES ( fact_items[pedido_key] ), fact_pedidos[pedido_key] ) )
 		formatString: 0.0%
 		displayFolder: 5. Cruce con vendedor y producto
 		lineageTag: 38102148-3c37-4aed-b1f2-0966633c1758
 
 	/// Calcula los días de entrega para los pedidos del vendedor o la categoría del contexto. Un pedido con dos vendedores cuenta para cada uno (Q13, D-014).
-	measure 'Días de entrega (por ítems)' = CALCULATE ( [Días promedio de entrega], TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] ) )
+	measure 'Días de entrega (por ítems)' = CALCULATE ( [Días promedio de entrega], TREATAS ( VALUES ( fact_items[pedido_key] ), fact_pedidos[pedido_key] ) )
 		formatString: 0.00
 		displayFolder: 5. Cruce con vendedor y producto
 		lineageTag: 8752c572-6df4-4c94-9c36-2ab4a27736c4
 
 	/// Calcula el puntaje para los pedidos del vendedor o la categoría del contexto. Un pedido con dos vendedores cuenta para cada uno (Q13, D-014).
-	measure 'Puntaje (por ítems)' = CALCULATE ( [Puntaje promedio de reseña], TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] ) )
+	measure 'Puntaje (por ítems)' = CALCULATE ( [Puntaje promedio de reseña], TREATAS ( VALUES ( fact_items[pedido_key] ), fact_pedidos[pedido_key] ) )
 		formatString: 0.00
 		displayFolder: 5. Cruce con vendedor y producto
 		lineageTag: 6c473a09-7b41-4ed5-b087-584567dfd0b2
 
 	/// Calcula el % de reseñas negativas para los pedidos del vendedor o la categoría del contexto. Un pedido con dos vendedores cuenta para cada uno (Q13, D-014).
-	measure '% reseñas negativas (por ítems)' = CALCULATE ( [% reseñas negativas], TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] ) )
+	measure '% reseñas negativas (por ítems)' = CALCULATE ( [% reseñas negativas], TREATAS ( VALUES ( fact_items[pedido_key] ), fact_pedidos[pedido_key] ) )
 		formatString: 0.0%
 		displayFolder: 5. Cruce con vendedor y producto
 		lineageTag: 98b1a742-a337-47c1-bd1a-03aabbdd586a
@@ -284,7 +296,7 @@ table _Medidas
 	measure 'Días de demora por ruta' =
 			-- Optimizada en la Fase 7 (docs/06_dax.md): la lista de pedidos de la ruta se
 			-- arma una sola vez y se reutiliza en los dos cálculos.
-			VAR PedidosDeLaRuta = TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] )
+			VAR PedidosDeLaRuta = TREATAS ( VALUES ( fact_items[pedido_key] ), fact_pedidos[pedido_key] )
 			VAR Entregados = CALCULATE ( [Pedidos entregados], PedidosDeLaRuta )
 			RETURN
 			    IF ( Entregados >= 30, CALCULATE ( [Días promedio de demora], PedidosDeLaRuta ) )
@@ -341,7 +353,7 @@ table _Medidas
 		lineageTag: f68de3ac-52a8-4461-874e-01c1601c938a
 
 	/// Reseñas de los pedidos del vendedor o la categoría del contexto. Sirve para filtrar categorías con pocas reseñas (X3).
-	measure 'Reseñas (por ítems)' = CALCULATE ( [Reseñas], TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] ) )
+	measure 'Reseñas (por ítems)' = CALCULATE ( [Reseñas], TREATAS ( VALUES ( fact_items[pedido_key] ), fact_pedidos[pedido_key] ) )
 		formatString: #,0
 		displayFolder: 5. Cruce con vendedor y producto
 		lineageTag: 823e80d6-2c65-4a68-a659-ede4c4398a35

@@ -6,20 +6,12 @@ table dim_cliente
 	column cliente_key
 		dataType: int64
 		isHidden
+		isKey
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 0c006473-bf52-4fee-9af8-336113012b60
 		summarizeBy: none
 		sourceColumn: cliente_key
-
-		annotation SummarizationSetBy = User
-
-	/// Identificador de la persona en el origen.
-	column customer_unique_id
-		dataType: string
-		isHidden
-		lineageTag: 37d17cf9-6d99-4ca3-93c5-c2685d36ed72
-		summarizeBy: none
-		sourceColumn: customer_unique_id
 
 		annotation SummarizationSetBy = User
 
@@ -61,9 +53,10 @@ table dim_cliente
 		source =
 				let
 				    Origen = Sql.Database(Servidor, BaseDatos),
-				    dw_dim_cliente = Origen{[Schema="dw",Item="dim_cliente"]}[Data]
+				    dw_dim_cliente = Origen{[Schema="dw",Item="dim_cliente"]}[Data],
+				    SinIdentificadores = Table.RemoveColumns(dw_dim_cliente, {"customer_unique_id"})
 				in
-				    dw_dim_cliente
+				    SinIdentificadores
 
 	annotation PBI_ResultType = Table
 

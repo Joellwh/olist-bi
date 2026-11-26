@@ -49,6 +49,40 @@
               "nativeQueryRef": "% entregas a tiempo"
             }
           ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Entregas del período"
+                }
+              },
+              "queryRef": "_Medidas.Entregas del período",
+              "nativeQueryRef": "Entregas del período",
+              "displayName": "Entregados en el mes (por fecha de entrega)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Entregas previstas"
+                }
+              },
+              "queryRef": "_Medidas.Entregas previstas",
+              "nativeQueryRef": "Entregas previstas",
+              "displayName": "Entregas previstas para el mes"
+            }
+          ]
         }
       }
     },

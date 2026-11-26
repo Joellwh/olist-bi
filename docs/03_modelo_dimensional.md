@@ -19,6 +19,7 @@ erDiagram
 
     fact_pedidos {
         char pedido_id PK
+        int pedido_key UK
         bit es_valido
         bit es_vendido
         bit a_tiempo
@@ -29,6 +30,7 @@ erDiagram
     }
     fact_items {
         char pedido_id PK
+        int pedido_key FK
         smallint item_nro PK
         decimal precio
         decimal flete
@@ -110,9 +112,11 @@ El "+ 1" es el **miembro Desconocido** (clave −1): si un hecho no encuentra su
 % a tiempo (por vendedor) =
 CALCULATE (
     [% entregas a tiempo],
-    TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] )
+    TREATAS ( VALUES ( fact_items[pedido_key] ), fact_pedidos[pedido_key] )
 )
 ```
+
+El cruce es por `pedido_key`, un entero que se numera en la carga: hasta la Fase 10 era por `pedido_id`, un texto de 32 caracteres, y la consulta más lenta del reporte tardaba nueve veces más ([D-023](decisiones.md#d-023--clave-numérica-de-pedido-y-modelo-sin-columnas-que-nada-usa)).
 
 Así un pedido con dos vendedores cuenta para cada uno (la decisión de Q13), y el total del marketplace sigue contando cada pedido una sola vez. Lo mismo sirve para la matriz de rutas (L3) y las reseñas por categoría (X3).
 

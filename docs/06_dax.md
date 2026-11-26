@@ -2,7 +2,7 @@
 
 **Fase:** 7 · **Medidas:** [powerbi/olist.SemanticModel/definition/tables/_Medidas.tmdl](../powerbi/olist.SemanticModel/definition/tables/_Medidas.tmdl) · **Control:** [DAXQueries/Control KPIs.dax](../powerbi/olist.SemanticModel/DAXQueries/Control%20KPIs.dax)
 
-51 medidas en la tabla `_Medidas`, organizadas en carpetas. Cada una implementa un KPI del [diccionario](kpi_diccionario.md), y su descripción empieza con el código (K01, K02…), así que se puede rastrear desde el tablero hasta la definición de negocio.
+53 medidas en la tabla `_Medidas`, organizadas en carpetas. Cada una implementa un KPI del [diccionario](kpi_diccionario.md), y su descripción empieza con el código (K01, K02…), así que se puede rastrear desde el tablero hasta la definición de negocio.
 
 | Carpeta | Medidas | Ejemplos |
 |---|---:|---|
@@ -94,6 +94,7 @@ Se optimizaron las dos primeras. Recompra y Top N tardan menos de 100 ms, y en l
 - **Antes:** la medida armaba dos veces la lista de pedidos de la ruta (unos 96.000 identificadores de texto): una para contar los pedidos y otra para promediar la demora.
 - **Cambio:** la lista se arma una vez en una variable y se reutiliza.
 - **Lo que queda:** el FE sigue siendo el 79% del tiempo, porque el cruce es por `pedido_id`, un texto de 32 caracteres. El paso siguiente sería una clave numérica de pedido en SQL; queda para la Fase 10.
+- **Fase 10:** con la clave numérica `pedido_key` (D-023), las rutas bajan a 214 ms con la caché vacía, y el gráfico de reseñas negativas por categoría, de 2.212 a 230 ms ([09_rendimiento.md](09_rendimiento.md)).
 
 ### Resultado
 

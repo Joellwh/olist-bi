@@ -2,6 +2,7 @@
 table 'Meses desde cohorte'
 	lineageTag: e79c65e6-1188-4a82-a5dc-a33dd53b92c1
 
+	/// Meses desde la primera compra (columnas de la tabla de cohortes).
 	column Meses
 		dataType: int64
 		formatString: 0

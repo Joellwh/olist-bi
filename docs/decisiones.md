@@ -307,3 +307,20 @@ Cada decisión importante del proyecto: qué se eligió, por qué y qué alterna
 **Costo:** las dimensiones que no dependen de la geografía (vendedores, productos, clientes) siguen visibles completas: un gerente puede ver el nombre de un vendedor de otra región, aunque todas sus cifras salen vacías. Con los nombres anonimizados del dataset no expone nada. Además, las medidas "del marketplace" del detalle de vendedor pasan a significar "de mi región", porque la seguridad no se puede quitar con `REMOVEFILTERS`.
 
 **Descartada:** *solo roles estáticos por región.* Se dejaron cinco en el modelo para comparar, pero no escalan.
+
+## D-023 · Clave numérica de pedido y modelo sin columnas que nada usa
+
+**Fecha:** 2026-11-26 · **Fase:** 10
+
+**Decisión:** los dos hechos se cruzan en DAX por `pedido_key`, un entero que se numera en la carga de `dw.fact_pedidos`, y no por `pedido_id`. El modelo semántico deja de cargar los identificadores de texto del origen y las columnas que ninguna medida, rol ni visual usa (siguen en SQL), y las columnas ocultas de los hechos no tienen jerarquía de atributos.
+
+**Por qué:**
+- **El cruce era el cuello de botella.** Cada `TREATAS` (D-014) comparaba textos de 32 caracteres; el gráfico de reseñas negativas por categoría tardaba 2,2 s de DAX. Con la clave entera tarda 0,23 s, sin cambiar ninguna medida más que la columna.
+- **Un texto distinto por fila no se comprime.** Los tres identificadores (`pedido_id` dos veces y `customer_unique_id`) eran el 47% del modelo; un entero consecutivo se guarda por valor, sin diccionario.
+- **Lo que no se usa también cuesta:** memoria, tiempo de actualización y columnas que confunden a quien explora el modelo. Las jerarquías de atributos solo sirven a Excel, y en columnas ocultas eran el 24% de lo que quedaba.
+
+**Resultado:** de 33,7 a 9,9 MB, y ningún visual de más de 2 s en Performance Analyzer (antes, 9). Medición completa en [09_rendimiento.md](09_rendimiento.md).
+
+**Costo:** el modelo ya no sirve para buscar un pedido o un cliente por su identificador del origen; para eso está SQL. Y las columnas sin jerarquía de atributos no aparecen si alguien analiza el modelo desde Excel, aunque igual están ocultas.
+
+**Descartada:** *una relación física entre los hechos por `pedido_key`.* `fact_pedidos` tiene un pedido por fila y podría hacer de dimensión de `fact_items`, pero el filtro tendría que ir de ítems a pedidos (del lado de muchos al de uno), lo que exige una relación bidireccional, y crearía caminos ambiguos con las dimensiones que comparten (D-014).

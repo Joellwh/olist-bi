@@ -13,6 +13,7 @@ table 'Selector de métrica'
 
 		annotation SummarizationSetBy = User
 
+	/// Métrica que muestra el gráfico por estado de Comercial.
 	column Métrica
 		dataType: string
 		lineageTag: 947f10df-f7ae-4331-94c5-3ddb7dd0ea53

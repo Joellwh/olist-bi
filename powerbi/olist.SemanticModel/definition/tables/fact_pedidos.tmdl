@@ -2,20 +2,11 @@
 table fact_pedidos
 	lineageTag: 0f298b8b-9b04-40c8-b569-ee0d2665daa2
 
-	/// Identificador del pedido.
-	column pedido_id
-		dataType: string
-		isHidden
-		lineageTag: 65da069e-04c4-4197-85eb-bb5eb3b0a7e9
-		summarizeBy: none
-		sourceColumn: pedido_id
-
-		annotation SummarizationSetBy = User
-
 	column cliente_key
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 530359ba-8872-4274-96d9-d943c8a7d2fe
 		summarizeBy: none
 		sourceColumn: cliente_key
@@ -26,6 +17,7 @@ table fact_pedidos
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: b29c9879-f56b-4484-8f9f-5791baaefcdf
 		summarizeBy: none
 		sourceColumn: geografia_key
@@ -37,6 +29,7 @@ table fact_pedidos
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 2bec6b9a-455a-4d25-8832-43558eb5aaa5
 		summarizeBy: none
 		sourceColumn: fecha_compra_key
@@ -48,6 +41,7 @@ table fact_pedidos
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 2171bf47-6dae-41de-9a0f-13a8504f59c8
 		summarizeBy: none
 		sourceColumn: fecha_entrega_key
@@ -59,6 +53,7 @@ table fact_pedidos
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 9144a774-c650-43c1-88b8-5335590e1484
 		summarizeBy: none
 		sourceColumn: fecha_estimada_key
@@ -79,20 +74,10 @@ table fact_pedidos
 		dataType: boolean
 		isHidden
 		formatString: """TRUE"";""TRUE"";""FALSE"""
+		isAvailableInMdx: false
 		lineageTag: 87832aa1-0a4f-4d8c-b033-151a4ca58498
 		summarizeBy: none
 		sourceColumn: es_valido
-
-		annotation SummarizationSetBy = User
-
-	/// R1 + R8: válido y con ítems (K02).
-	column es_vendido
-		dataType: boolean
-		isHidden
-		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: c59f9d94-a169-41b5-9257-c159d993d8d4
-		summarizeBy: none
-		sourceColumn: es_vendido
 
 		annotation SummarizationSetBy = User
 
@@ -101,6 +86,7 @@ table fact_pedidos
 		dataType: boolean
 		isHidden
 		formatString: """TRUE"";""TRUE"";""FALSE"""
+		isAvailableInMdx: false
 		lineageTag: 73d6d0a8-e7db-4965-8c97-458f4e568666
 		summarizeBy: none
 		sourceColumn: es_entregado
@@ -112,6 +98,7 @@ table fact_pedidos
 		dataType: boolean
 		isHidden
 		formatString: """TRUE"";""TRUE"";""FALSE"""
+		isAvailableInMdx: false
 		lineageTag: bc60764d-feaf-4a88-85ae-3850598d2be1
 		summarizeBy: none
 		sourceColumn: a_tiempo
@@ -120,9 +107,10 @@ table fact_pedidos
 
 	/// Compra a entrega, en días con decimales (K18).
 	column dias_entrega
-		dataType: double
+		dataType: decimal
 		isHidden
 		formatString: 0.0
+		isAvailableInMdx: false
 		lineageTag: 92d49b47-daa5-4a7d-a125-c446d35d548b
 		summarizeBy: none
 		sourceColumn: dias_entrega
@@ -134,6 +122,7 @@ table fact_pedidos
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: c98ffac5-c598-49f7-aa6c-a556b41b45fd
 		summarizeBy: none
 		sourceColumn: dias_vs_estimada
@@ -150,28 +139,6 @@ table fact_pedidos
 
 		annotation SummarizationSetBy = User
 
-	/// Cantidad de ítems del pedido.
-	column items
-		dataType: int64
-		isHidden
-		formatString: 0
-		lineageTag: 1afe4a59-c9b6-42dd-b7d9-5c8e8f327704
-		summarizeBy: none
-		sourceColumn: items
-
-		annotation SummarizationSetBy = User
-
-	/// Total pagado; solo para analizar medios de pago, no es Ventas (D-006).
-	column valor_pagado
-		dataType: decimal
-		isHidden
-		formatString: \R\$ #,0.00
-		lineageTag: 3bb7b8e4-d2ae-4cb9-8d4f-773b067b1827
-		summarizeBy: none
-		sourceColumn: valor_pagado
-
-		annotation SummarizationSetBy = User
-
 	/// El de mayor monto del pedido.
 	column 'Medio de pago'
 		dataType: string
@@ -181,25 +148,27 @@ table fact_pedidos
 
 		annotation SummarizationSetBy = User
 
-	/// Máximo de cuotas del pedido.
-	column cuotas
-		dataType: int64
-		isHidden
-		formatString: 0
-		lineageTag: a3358f3f-93bc-4b6d-9456-ce8ca76cc1e5
-		summarizeBy: none
-		sourceColumn: cuotas
-
-		annotation SummarizationSetBy = User
-
 	/// K27: meses entre la primera compra válida del cliente y este pedido (0 = el mismo mes). Vacía si el pedido no es válido.
 	column meses_desde_primera_compra
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 5febbb1d-36e9-4e0c-bfde-4d1f248caacf
 		summarizeBy: none
 		sourceColumn: meses_desde_primera_compra
+
+		annotation SummarizationSetBy = User
+
+	/// Pedido (clave numérica, Fase 10); se usa con TREATAS para cruzar con fact_items.
+	column pedido_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: f9fcab34-b33a-4580-9841-7722213acaa2
+		summarizeBy: none
+		sourceColumn: pedido_key
 
 		annotation SummarizationSetBy = User
 
@@ -209,9 +178,10 @@ table fact_pedidos
 				let
 				    Origen = Sql.Database(Servidor, BaseDatos),
 				    dw_fact_pedidos = Origen{[Schema="dw",Item="fact_pedidos"]}[Data],
-				    Montos = Table.TransformColumnTypes(dw_fact_pedidos, {{"valor_pagado", Currency.Type}})
+				    SinUso = Table.RemoveColumns(dw_fact_pedidos, {"pedido_id", "es_vendido", "items", "valor_pagado", "cuotas"}),
+				    Decimales = Table.TransformColumnTypes(SinUso, {{"dias_entrega", Currency.Type}})
 				in
-				    Montos
+				    Decimales
 
 	annotation PBI_ResultType = Table
 

@@ -43,11 +43,12 @@ pedidos AS (
            CASE WHEN o.order_status = 'delivered' AND o.delivered_customer_ts IS NOT NULL THEN 1 ELSE 0 END AS es_entregado
     FROM stg.orders AS o
 )
-INSERT INTO dw.fact_pedidos (pedido_id, cliente_key, geografia_key, fecha_compra_key, fecha_entrega_key,
+INSERT INTO dw.fact_pedidos (pedido_id, pedido_key, cliente_key, geografia_key, fecha_compra_key, fecha_entrega_key,
                              fecha_estimada_key, estado_pedido, es_valido, es_vendido, es_entregado, a_tiempo,
                              dias_entrega, dias_vs_estimada, puntaje_resena, meses_desde_primera_compra, items,
                              valor_pagado, medio_pago, cuotas)
 SELECT o.order_id,
+       ROW_NUMBER() OVER (ORDER BY o.order_id),       -- clave numérica (Fase 10)
        COALESCE(dc.cliente_key, -1),
        COALESCE(dg.geografia_key, -1),
        CONVERT(INT, CONVERT(CHAR(8), o.purchase_ts, 112)),

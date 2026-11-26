@@ -10,9 +10,10 @@
 USE [$(DB_NAME)];
 GO
 
-INSERT INTO dw.fact_items (pedido_id, item_nro, producto_key, vendedor_key, cliente_key, geografia_key,
+INSERT INTO dw.fact_items (pedido_id, pedido_key, item_nro, producto_key, vendedor_key, cliente_key, geografia_key,
                            fecha_compra_key, precio, flete, es_venta)
 SELECT i.order_id,
+       fp.pedido_key,
        i.order_item_id,
        COALESCE(dp.producto_key, -1),
        COALESCE(dv.vendedor_key, -1),

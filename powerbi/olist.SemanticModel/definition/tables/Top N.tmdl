@@ -2,6 +2,7 @@
 table 'Top N'
 	lineageTag: 1c1453eb-b49b-4fd4-ac5b-cb1a516921bd
 
+	/// Cantidad de vendedores a mostrar en el ranking de Comercial.
 	column N
 		dataType: int64
 		formatString: 0

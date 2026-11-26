@@ -64,6 +64,13 @@ def test_inactivas_solo_las_fechas_de_entrega_y_estimada():
     assert inactivas == {"fecha_entrega_key", "fecha_estimada_key"}
 
 
+@pytest.mark.parametrize("columna", ["fecha_entrega_key", "fecha_estimada_key"])
+def test_cada_relacion_inactiva_la_activa_una_medida(columna):
+    # Una relación inactiva que nada activa es peso muerto (Best Practice Analyzer, Fase 10)
+    texto = (TABLAS / "_Medidas.tmdl").read_text(encoding="utf-8")
+    assert f"USERELATIONSHIP ( fact_pedidos[{columna}], dim_fecha[fecha_key] )" in texto
+
+
 def test_dim_fecha_marcada_como_tabla_de_fechas():
     assert "dataCategory: Time" in (TABLAS / "dim_fecha.tmdl").read_text(encoding="utf-8")
     assert "isKey" in _columnas("dim_fecha")["Fecha"]
@@ -85,9 +92,44 @@ def test_claves_tecnicas_ocultas(tabla):
 
 
 @pytest.mark.parametrize("tabla, columna", [("fact_items", "precio"), ("fact_items", "flete"),
-                                            ("fact_pedidos", "valor_pagado")])
-def test_montos_en_decimal_fijo(tabla, columna):
+                                            ("fact_pedidos", "dias_entrega")])
+def test_decimales_en_decimal_fijo(tabla, columna):
+    # Decimal fijo y no coma flotante: exacto al sumar y más liviano (Fase 10)
     assert "dataType: decimal" in _columnas(tabla)[columna]
+
+
+# --- Rendimiento (Fase 10, docs/09_rendimiento.md) ---
+
+IDENTIFICADORES_DE_TEXTO = {"pedido_id", "customer_unique_id", "product_id", "seller_id"}
+
+
+@pytest.mark.parametrize("tabla", sorted(DIMENSIONES | HECHOS))
+def test_sin_identificadores_de_texto(tabla):
+    # Textos de 32 caracteres, uno distinto por fila: eran el 47% del modelo
+    cargadas = set(re.findall(r"sourceColumn: (\w+)", (TABLAS / f"{tabla}.tmdl").read_text(encoding="utf-8")))
+    assert not cargadas & IDENTIFICADORES_DE_TEXTO
+
+
+def test_cruce_entre_hechos_por_clave_numerica():
+    for tabla in HECHOS:
+        assert "dataType: int64" in _columnas(tabla)["pedido_key"]
+    texto = (TABLAS / "_Medidas.tmdl").read_text(encoding="utf-8")
+    cruces = re.findall(r"TREATAS \( VALUES \( (\S+) \), (\S+) \)", texto)
+    assert cruces and set(cruces) == {("fact_items[pedido_key]", "fact_pedidos[pedido_key]")}
+
+
+@pytest.mark.parametrize("tabla", sorted(HECHOS))
+def test_columnas_ocultas_de_los_hechos_sin_jerarquia_de_atributos(tabla):
+    # Las jerarquías de atributos solo sirven a Excel (MDX) y eran el 24% del modelo
+    for nombre, bloque in _columnas(tabla).items():
+        if "isHidden" in bloque:
+            assert "isAvailableInMdx: false" in bloque, f"{tabla}.{nombre}"
+
+
+@pytest.mark.parametrize("tabla, clave", [("dim_geografia", "geografia_key"), ("dim_cliente", "cliente_key"),
+                                          ("dim_vendedor", "vendedor_key"), ("dim_producto", "producto_key")])
+def test_claves_de_dimension_marcadas(tabla, clave):
+    assert "isKey" in _columnas(tabla)[clave]
 
 
 # --- Medidas (Fase 7) ---

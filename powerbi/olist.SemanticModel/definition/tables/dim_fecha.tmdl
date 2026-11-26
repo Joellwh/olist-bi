@@ -8,6 +8,7 @@ table dim_fecha
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 2cc8ebb5-ae75-4455-9e14-e311f977d42d
 		summarizeBy: none
 		sourceColumn: fecha_key
