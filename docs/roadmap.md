@@ -116,7 +116,7 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 - [x] Tema JSON propio.
 - [x] Páginas: Resumen ejecutivo, Comercial, Logística, Cliente y drill-through de vendedor.
 - [x] Tooltips, segmentadores sincronizados, botón de limpiar filtros (con la acción del botón en lugar de un marcador: ver `docs/07_diseno_reportes.md`).
-- [x] Contrastar con los criterios de aceptación de la Fase 1 (pendientes: flete por categoría y la medición con Performance Analyzer).
+- [x] Contrastar con los criterios de aceptación de la Fase 1 (quedaron pendientes la medición con Performance Analyzer, resuelta en la Fase 10, y el flete por categoría, resuelto en la v1.1.0).
 - [x] Prueba de usabilidad con otra persona: 4 de 4 preguntas respondidas, 3 en menos de un minuto; la cuarta costó por cómo estaba escrita la pregunta.
 
 📦 Criterios en `docs/07_diseno_reportes.md` y tema `powerbi/tema/olist.json`; reporte completo y `docs/capturas/`

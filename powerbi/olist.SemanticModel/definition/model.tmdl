@@ -25,6 +25,7 @@ ref table fact_pedidos
 ref table 'Top N'
 ref table 'Meses desde cohorte'
 ref table 'Selector de métrica'
+ref table 'Eje del flete'
 ref table Gerentes
 
 ref role Dirección

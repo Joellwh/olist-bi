@@ -17,7 +17,7 @@ DEFINICION = POWERBI_DIR / "olist.SemanticModel" / "definition"
 TABLAS = DEFINICION / "tables"
 DIMENSIONES = {"dim_fecha", "dim_geografia", "dim_cliente", "dim_vendedor", "dim_producto"}
 HECHOS = {"fact_items", "fact_pedidos"}
-PARAMETROS = {"Top N", "Meses desde cohorte", "Selector de métrica"}   # tablas sin relaciones
+PARAMETROS = {"Top N", "Meses desde cohorte", "Selector de métrica", "Eje del flete"}   # tablas sin relaciones
 SEGURIDAD = {"Gerentes"}   # sin relaciones: la lee el rol dinámico (Fase 9)
 ROLES = DEFINICION / "roles"
 
@@ -62,6 +62,13 @@ def test_ninguna_relacion_tiene_filtro_bidireccional():
 def test_inactivas_solo_las_fechas_de_entrega_y_estimada():
     inactivas = {_extremo(r, "from")[1] for r in _relaciones() if "isActive: false" in r}
     assert inactivas == {"fecha_entrega_key", "fecha_estimada_key"}
+
+
+def test_parametro_de_campos_del_flete():
+    # L4: el gráfico de flete de Logística cambia de eje entre región y categoría (D-024)
+    texto = (TABLAS / "Eje del flete.tmdl").read_text(encoding="utf-8")
+    assert "extendedProperty ParameterMetadata" in texto
+    assert "NAMEOF ( 'dim_geografia'[Región] )" in texto and "NAMEOF ( 'dim_producto'[Categoría] )" in texto
 
 
 @pytest.mark.parametrize("columna", ["fecha_entrega_key", "fecha_estimada_key"])

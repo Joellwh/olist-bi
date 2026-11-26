@@ -157,7 +157,7 @@ Con un año elegido aparecen las variaciones interanuales (D-021): 2018 contra e
 
 El detalle está en [01_requerimientos.md](01_requerimientos.md#7-criterios-de-aceptación). Al cerrar la Fase 8 se cumplían todos menos tres:
 
-- **% de flete por categoría (L4).** Logística muestra el flete por región. Por categoría no se ve, porque el filtro de categoría quedó solo en Comercial. Queda como pendiente.
+- **% de flete por categoría (L4):** resuelto en la versión 1.1.0. El gráfico de flete de Logística tiene un selector de eje, región o categoría, con un parámetro de campos (D-024). Por categoría muestra las que tienen 100 ítems vendidos o más: las más chicas tienen porcentajes extremos con pocas ventas ("Confort del hogar (2)": 54% de flete sobre R$ 760).
 - **Menos de 2 segundos por visual en Performance Analyzer:** resuelto en la Fase 10. Al medirlo, 9 visuales pasaban los 2 s; después de los cambios, el más lento tarda 1,5 s ([09_rendimiento.md](09_rendimiento.md)).
 - **Seguridad por región:** resuelta en la Fase 9 ([08_seguridad_rls.md](08_seguridad_rls.md)).
 

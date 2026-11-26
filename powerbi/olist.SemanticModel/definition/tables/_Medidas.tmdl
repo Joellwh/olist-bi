@@ -319,6 +319,11 @@ table _Medidas
 		displayFolder: 6. Interactivas
 		lineageTag: e8d3afcd-d760-4d19-8027-2296c5a1b29f
 
+	/// Título del gráfico de flete de Logística según el eje elegido en 'Eje del flete' (L4). Lee Orden y no el nombre del eje: la columna visible de un parámetro de campos no admite SELECTEDVALUE.
+	measure 'Título flete' = IF ( SELECTEDVALUE ( 'Eje del flete'[Orden] ) = 1, "% de flete por categoría (100 ítems o más)", "% de flete sobre ventas por región del cliente" )
+		displayFolder: 6. Interactivas
+		lineageTag: 045f31fe-1e3e-4e3c-94a6-fe4714365d9b
+
 	/// Muestra la métrica elegida en el control 'Selector de métrica'; Ventas si no se eligió ninguna.
 	measure 'Métrica seleccionada' =
 			VAR Metrica = SELECTEDVALUE ( 'Selector de métrica'[Métrica], "Ventas" )

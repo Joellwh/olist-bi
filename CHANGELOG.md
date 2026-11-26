@@ -2,6 +2,17 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); las versiones siguen [Semantic Versioning](https://semver.org/lang/es/). Para un tablero, la versión mayor cambia cuando cambia algo que el usuario ya usaba (un KPI que se redefine, una página que se quita); la menor, cuando se agrega algo; la de parche, cuando se corrige.
 
+## [1.1.0] - 2026-11-26
+
+### Agregado
+
+- **% de flete por categoría** (criterio L4 de la Fase 1): el gráfico de flete de Logística tiene un selector para ver el eje por región del cliente o por categoría, con un parámetro de campos (D-024). Por categoría muestra las que tienen 100 ítems vendidos o más; la información sobre herramientas suma ventas, flete e ítems.
+- Control de KPIs para el flete por categoría: 48 controles.
+
+### Cambiado
+
+- El gráfico de flete de Logística pasó de columnas a barras horizontales, para que entren las 54 categorías con desplazamiento.
+
 ## [1.0.0] - 2026-11-26
 
 Primera versión completa: las 12 fases del [roadmap](docs/roadmap.md).
@@ -23,7 +34,7 @@ Primera versión completa: las 12 fases del [roadmap](docs/roadmap.md).
 
 ### Conocido
 
-- El % de flete por categoría (criterio L4 de la Fase 1) no está en el tablero: Logística muestra el flete por región.
 - El despliegue del modelo semántico al servicio de Power BI está documentado pero no ejecutado: requiere una licencia que el proyecto no tiene ([10_despliegue.md](docs/10_despliegue.md) §5).
 
+[1.1.0]: https://github.com/Joellwh/olist-bi/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Joellwh/olist-bi/releases/tag/v1.0.0
