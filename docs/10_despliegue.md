@@ -56,7 +56,9 @@ WHERE resultado = 'OK' ORDER BY momento DESC;
 
 **Prueba de la condición:** desde una rama, con cambios sin commitear y sin nada en dev, el despliegue a prod se niega por los tres motivos y no toca la base.
 
-**Despliegue a dev** (2026-11-26, desde la rama de este cambio): ETL completo con las 16 validaciones (las críticas, en OK; los avisos, los conocidos de [02_calidad_datos.md](02_calidad_datos.md)), 30 tests de integración en OK contra `OlistDW_dev`, y el registro con el commit.
+**Despliegue a dev** (2026-11-26, primero desde la rama de este cambio y después desde `main`, con el commit del merge): ETL completo con las 16 validaciones (las críticas, en OK; los avisos, los conocidos de [02_calidad_datos.md](02_calidad_datos.md)), 30 tests de integración en OK contra `OlistDW_dev`, y el registro con el commit.
+
+**Despliegue a prod** (2026-11-26, commit `559c08c` de `main`): las tres condiciones en OK, porque ese commit ya estaba desplegado con éxito en dev. ETL completo y 30 tests de integración en OK contra `OlistDW_prod`.
 
 ## 4. Power BI: cambiar de entorno con un parámetro
 
