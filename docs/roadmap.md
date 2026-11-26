@@ -138,10 +138,10 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 📦 `docs/09_rendimiento.md`
 
-## Fase 11: Documentación, versionado y despliegue (2–3 días)
+## Fase 11: Documentación, versionado y despliegue — en curso
 
 - [ ] Ramas por funcionalidad y pull requests.
-- [ ] CI: tests de Python y, opcional, BPA sobre el TMDL.
+- [x] CI: tests de Python y Best Practice Analyzer sobre el TMDL en Windows, con versiones fijadas y hash verificado; los avisos se comparan con excepciones justificadas (`powerbi/bpa_excepciones.json`).
 - [ ] `CHANGELOG.md` y tags (`v1.0.0`).
 - [ ] Despliegue simulado con `OlistDW_dev` y `OlistDW_prod` y el parámetro de Power Query; cómo sería con Deployment Pipelines.
 - [ ] README final con diagrama de arquitectura, capturas y hallazgos.

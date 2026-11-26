@@ -1,0 +1,135 @@
+[
+  {
+    "regla": "[Formatting] Whole numbers should be formatted with thousands separators and no decimals",
+    "motivo": "La regla deduce el tipo por el nombre o el formato. Son puntajes, días promedio, variaciones o medidas de texto, que no son enteros.",
+    "objetos": [
+      "[Año anterior comparable]",
+      "[Brecha de puntaje por demora]",
+      "[Días de demora por ruta]",
+      "[Días de entrega (por ítems)]",
+      "[Días promedio de demora]",
+      "[Días promedio de entrega]",
+      "[Mediana días de entrega]",
+      "[Métrica seleccionada]",
+      "[Puntaje (por ítems)]",
+      "[Puntaje a tiempo]",
+      "[Puntaje con demora]",
+      "[Puntaje promedio de reseña]",
+      "[Top N seleccionado]",
+      "[Título reseñas negativas por categoría]",
+      "[Var. interanual % a tiempo]",
+      "[Var. interanual Puntaje]",
+      "[Vendedor elegido]",
+      "[Ítems por pedido]"
+    ]
+  },
+  {
+    "regla": "[Formatting] Percentages should be formatted with thousands separators and 1 decimal",
+    "motivo": "Ya tienen un decimal (0.0%); el separador de miles no aparece en un porcentaje.",
+    "objetos": [
+      "[% a tiempo (por ítems)]",
+      "[% entregas a tiempo]",
+      "[% flete sobre ventas]",
+      "[% reseñas negativas (por ítems)]",
+      "[% reseñas negativas]",
+      "[% reseñas positivas]",
+      "[Participación en el marketplace]",
+      "[Participación]",
+      "[Retención de cohorte]",
+      "[Tasa de cancelación]",
+      "[Tasa de recompra en días distintos]",
+      "[Tasa de recompra]",
+      "[Var. interanual Pedidos]",
+      "[Var. interanual Ticket]",
+      "[Var. interanual Ventas]"
+    ]
+  },
+  {
+    "regla": "[Formatting] First letter of objects must be capitalized",
+    "motivo": "dim_ y fact_ son la convención del modelo dimensional desde la Fase 4.",
+    "objetos": [
+      "'dim_cliente'",
+      "'dim_fecha'",
+      "'dim_geografia'",
+      "'dim_producto'",
+      "'dim_vendedor'",
+      "'fact_items'",
+      "'fact_pedidos'"
+    ]
+  },
+  {
+    "regla": "[Maintenance] Remove roles with no members",
+    "motivo": "Los miembros se asignan en el servicio de Power BI al publicar (docs/10_despliegue.md).",
+    "objetos": [
+      "Dirección",
+      "Gerente regional",
+      "Región Centro-Oeste",
+      "Región Nordeste",
+      "Región Norte",
+      "Región Sudeste",
+      "Región Sur"
+    ]
+  },
+  {
+    "regla": "[Maintenance] Ensure tables have relationships",
+    "motivo": "Tablas de los controles, _Medidas y Gerentes: sin relaciones por diseño (D-022).",
+    "objetos": [
+      "'Gerentes'",
+      "'Meses desde cohorte'",
+      "'Selector de métrica'",
+      "'Top N'",
+      "'_Medidas'"
+    ]
+  },
+  {
+    "regla": "[Performance] Reduce usage of calculated tables",
+    "motivo": "Tablas de 1 a 50 filas para los controles del reporte y la tabla de medidas.",
+    "objetos": [
+      "'Meses desde cohorte'",
+      "'Selector de métrica'",
+      "'Top N'",
+      "'_Medidas'"
+    ]
+  },
+  {
+    "regla": "[Performance] Set IsAvailableInMdx to false on non-attribute columns",
+    "motivo": "Gerentes y _Medidas pesan 0,05 MB entre las dos; no vale la pena (docs/09_rendimiento.md).",
+    "objetos": [
+      "'Gerentes'[Email]",
+      "'Gerentes'[Estado (sigla)]",
+      "'Gerentes'[Nombre]",
+      "'_Medidas'[Oculta]"
+    ]
+  },
+  {
+    "regla": "[DAX Expressions] Column references should be fully qualified",
+    "motivo": "Filtros de los roles ([Región] = \"Sur\"): es la sintaxis que genera el editor de roles y la tabla es implícita.",
+    "objetos": [
+      "Gerentes",
+      "dim_geografia"
+    ]
+  },
+  {
+    "regla": "[Formatting] Provide format string for measures",
+    "motivo": "Devuelven texto (el título dinámico y el vendedor elegido).",
+    "objetos": [
+      "[Título reseñas negativas por categoría]",
+      "[Vendedor elegido]"
+    ]
+  },
+  {
+    "regla": "[Maintenance] Remove unnecessary columns",
+    "motivo": "Gerentes[Nombre] identifica a cada gerente al auditar la seguridad; _Medidas[Oculta] existe porque una tabla necesita una columna.",
+    "objetos": [
+      "'Gerentes'[Nombre]",
+      "'_Medidas'[Oculta]"
+    ]
+  },
+  {
+    "regla": "[Formatting] Hide fact table columns",
+    "motivo": "Puntaje de reseña es el eje del gráfico de puntajes: visible a propósito.",
+    "objetos": [
+      "'fact_pedidos'[Puntaje de reseña]"
+    ]
+  }
+]
