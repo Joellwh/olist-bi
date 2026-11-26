@@ -276,3 +276,17 @@ Cada decisión importante del proyecto: qué se eligió, por qué y qué alterna
 **Por qué:** con el cálculo en DAX, la tabla de cohortes tardaba 1.170 ms. El motor de fórmulas hacía aritmética de fechas en cada una de las 220 celdas. Con la columna precalculada tarda 105 ms. Es una regla del pedido, no un cálculo de visualización, así que encaja en el criterio de D-016.
 
 **Descartada:** *importar la vista `rpt.cohortes` a Power BI.* Es más simple, pero la tabla ya agregada no se puede filtrar por región, y no respetaría la seguridad por fila de la Fase 9.
+
+---
+
+## D-021 · La variación interanual se muestra solo si es comparable
+
+**Fecha:** 2026-11-24 · **Fase:** 8
+
+**Decisión:** las cinco medidas de variación interanual devuelven vacío cuando el mismo período del año anterior empieza antes del período de análisis (ene-2017, D-008). La condición está en una sola medida oculta, `Año anterior comparable`. La de `% a tiempo` se expresa en puntos porcentuales (p.p.), porque es una resta entre dos porcentajes.
+
+**Por qué:** 2016 está casi vacío y la comparación engaña. Las ventas de 2017 darían cerca de +13.558% (contra R$ 44.726,06 de 2016) y las del período completo +330,3%. La única comparación válida es ene–ago 2018 contra ene–ago 2017: +138,3%.
+
+**Costo:** con "Todos" los años o con 2017, las tarjetas no muestran variación. Es preferible a un número llamativo y falso.
+
+**Descartada:** *mostrarla cuando hay un solo año elegido.* Fue la primera idea, y deja pasar justamente el peor caso, el de 2017.

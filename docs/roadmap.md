@@ -113,13 +113,13 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 *Cubre: usabilidad y consistencia.*
 
-- [ ] Tema JSON propio.
-- [ ] Páginas: Resumen ejecutivo, Comercial, Logística, Cliente y drill-through de vendedor.
-- [ ] Tooltips, bookmarks, segmentadores sincronizados, botón de limpiar filtros.
-- [ ] Contrastar con los criterios de aceptación de la Fase 1.
+- [x] Tema JSON propio.
+- [x] Páginas: Resumen ejecutivo, Comercial, Logística, Cliente y drill-through de vendedor.
+- [x] Tooltips, segmentadores sincronizados, botón de limpiar filtros (con la acción del botón en lugar de un marcador: ver `docs/07_diseno_reportes.md`).
+- [x] Contrastar con los criterios de aceptación de la Fase 1 (pendientes: flete por categoría y la medición con Performance Analyzer).
 - [ ] Prueba de usabilidad con otra persona.
 
-📦 Reporte completo y `docs/capturas/`
+📦 Criterios en `docs/07_diseno_reportes.md` y tema `powerbi/tema/olist.json`; reporte completo y `docs/capturas/`
 
 ## Fase 9: Seguridad a nivel de fila (1–2 días)
 
@@ -127,14 +127,14 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 - [ ] RLS estático por región, RLS dinámico con `USERPRINCIPALNAME()` y rol "Dirección" sin restricciones.
 - [ ] Probar con "Ver como".
 
-📦 `docs/07_seguridad_rls.md`
+📦 `docs/08_seguridad_rls.md`
 
 ## Fase 10: Rendimiento del modelo (2 días)
 
 - [ ] Performance Analyzer, VertiPaq Analyzer, Best Practice Analyzer.
 - [ ] Antes y después (tamaño y tiempos).
 
-📦 `docs/08_rendimiento.md`
+📦 `docs/09_rendimiento.md`
 
 ## Fase 11: Documentación, versionado y despliegue (2–3 días)
 
@@ -145,7 +145,7 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 - [ ] README final con diagrama de arquitectura, capturas y hallazgos.
 - [ ] (Opcional) Video de 3 minutos.
 
-📦 `docs/09_despliegue.md`
+📦 `docs/10_despliegue.md`
 
 ## Durante todo el proyecto: gestión
 

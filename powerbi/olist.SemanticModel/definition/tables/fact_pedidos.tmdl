@@ -140,10 +140,9 @@ table fact_pedidos
 
 		annotation SummarizationSetBy = User
 
-	/// R7: puntaje de la última reseña, de 1 a 5 (K22).
-	column puntaje_resena
+	/// R7: puntaje de la última reseña, de 1 a 5 (K22). Visible para usarlo como categoría (distribución de puntajes, X1).
+	column 'Puntaje de reseña'
 		dataType: int64
-		isHidden
 		formatString: 0
 		lineageTag: ce01ea1a-32c5-425b-931b-7ce9a41e7e25
 		summarizeBy: none

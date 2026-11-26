@@ -44,12 +44,12 @@ table _Medidas
 		displayFolder: 1. Comercial
 		lineageTag: 0ffdb117-839e-404e-bbfb-c42d8bf93676
 
-	/// K08. (Ventas - Ventas año anterior) / Ventas año anterior. Vacía si no hay año anterior.
+	/// K08. (Ventas - Ventas año anterior) / Ventas año anterior. Vacía si el año anterior no es comparable (D-021).
 	measure 'Var. interanual Ventas' =
 			VAR Actual = [Ventas]
 			VAR Anterior = [Ventas año anterior]
 			RETURN
-			    DIVIDE ( Actual - Anterior, Anterior )
+			    IF ( [Año anterior comparable], DIVIDE ( Actual - Anterior, Anterior ) )
 		formatString: +0.0%;-0.0%;0.0%
 		displayFolder: 1. Comercial
 		lineageTag: db588008-ec35-4d6e-be02-395da414ce94
@@ -149,15 +149,15 @@ table _Medidas
 		lineageTag: bb2ec817-683f-4f33-bfc7-4c080556a2e1
 
 	/// K22. Promedio de la última reseña de cada pedido válido (R7).
-	measure 'Puntaje promedio de reseña' = CALCULATE ( AVERAGE ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_valido] = TRUE () )
+	measure 'Puntaje promedio de reseña' = CALCULATE ( AVERAGE ( fact_pedidos[Puntaje de reseña] ), fact_pedidos[es_valido] = TRUE () )
 		formatString: 0.00
 		displayFolder: 3. Cliente
 		lineageTag: 94bb86aa-0d89-42b3-a131-8a58bd2df894
 
 	/// K23. Reseñas de 1 o 2 puntos / reseñas. Rango explícito: en DAX un vacío <= 2 da verdadero.
 	measure '% reseñas negativas' =
-			VAR Resenas = CALCULATE ( COUNT ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_valido] = TRUE () )
-			VAR Negativas = CALCULATE ( COUNT ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_valido] = TRUE (), fact_pedidos[puntaje_resena] >= 1 && fact_pedidos[puntaje_resena] <= 2 )
+			VAR Resenas = CALCULATE ( COUNT ( fact_pedidos[Puntaje de reseña] ), fact_pedidos[es_valido] = TRUE () )
+			VAR Negativas = CALCULATE ( COUNT ( fact_pedidos[Puntaje de reseña] ), fact_pedidos[es_valido] = TRUE (), fact_pedidos[Puntaje de reseña] >= 1 && fact_pedidos[Puntaje de reseña] <= 2 )
 			RETURN
 			    DIVIDE ( Negativas, Resenas )
 		formatString: 0.0%
@@ -166,8 +166,8 @@ table _Medidas
 
 	/// K24. Reseñas de 4 o 5 puntos / reseñas.
 	measure '% reseñas positivas' =
-			VAR Resenas = CALCULATE ( COUNT ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_valido] = TRUE () )
-			VAR Positivas = CALCULATE ( COUNT ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_valido] = TRUE (), fact_pedidos[puntaje_resena] >= 4 )
+			VAR Resenas = CALCULATE ( COUNT ( fact_pedidos[Puntaje de reseña] ), fact_pedidos[es_valido] = TRUE () )
+			VAR Positivas = CALCULATE ( COUNT ( fact_pedidos[Puntaje de reseña] ), fact_pedidos[es_valido] = TRUE (), fact_pedidos[Puntaje de reseña] >= 4 )
 			RETURN
 			    DIVIDE ( Positivas, Resenas )
 		formatString: 0.0%
@@ -196,8 +196,8 @@ table _Medidas
 
 	/// K26. Puntaje de los pedidos a tiempo menos el de los tardíos.
 	measure 'Brecha de puntaje por demora' =
-			VAR ATiempo = CALCULATE ( AVERAGE ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_entregado] = TRUE(), fact_pedidos[a_tiempo] = TRUE () )
-			VAR Tarde = CALCULATE ( AVERAGE ( fact_pedidos[puntaje_resena] ), fact_pedidos[es_entregado] = TRUE(), fact_pedidos[a_tiempo] = FALSE () )
+			VAR ATiempo = CALCULATE ( AVERAGE ( fact_pedidos[Puntaje de reseña] ), fact_pedidos[es_entregado] = TRUE(), fact_pedidos[a_tiempo] = TRUE () )
+			VAR Tarde = CALCULATE ( AVERAGE ( fact_pedidos[Puntaje de reseña] ), fact_pedidos[es_entregado] = TRUE(), fact_pedidos[a_tiempo] = FALSE () )
 			RETURN
 			    ATiempo - Tarde
 		formatString: 0.00
@@ -224,7 +224,7 @@ table _Medidas
 	measure 'Var. interanual Pedidos' =
 			VAR Anterior = CALCULATE ( [Pedidos], SAMEPERIODLASTYEAR ( dim_fecha[Fecha] ) )
 			RETURN
-			    DIVIDE ( [Pedidos] - Anterior, Anterior )
+			    IF ( [Año anterior comparable], DIVIDE ( [Pedidos] - Anterior, Anterior ) )
 		formatString: +0.0%;-0.0%;0.0%
 		displayFolder: 4. Variación interanual
 		lineageTag: 0f1ce4bd-25d1-4358-899d-e57ec5bfb92c
@@ -233,17 +233,17 @@ table _Medidas
 	measure 'Var. interanual Ticket' =
 			VAR Anterior = CALCULATE ( [Ticket promedio], SAMEPERIODLASTYEAR ( dim_fecha[Fecha] ) )
 			RETURN
-			    DIVIDE ( [Ticket promedio] - Anterior, Anterior )
+			    IF ( [Año anterior comparable], DIVIDE ( [Ticket promedio] - Anterior, Anterior ) )
 		formatString: +0.0%;-0.0%;0.0%
 		displayFolder: 4. Variación interanual
 		lineageTag: 84808bb0-8086-4cec-8d8f-f43e66e02fec
 
-	/// Diferencia en puntos porcentuales contra el año anterior.
+	/// Diferencia en puntos porcentuales contra el año anterior (por eso va multiplicada por 100 y no lleva %).
 	measure 'Var. interanual % a tiempo' =
 			VAR Anterior = CALCULATE ( [% entregas a tiempo], SAMEPERIODLASTYEAR ( dim_fecha[Fecha] ) )
 			RETURN
-			    IF ( NOT ISBLANK ( Anterior ), [% entregas a tiempo] - Anterior )
-		formatString: +0.0%;-0.0%;0.0%
+			    IF ( [Año anterior comparable] && NOT ISBLANK ( Anterior ), ( [% entregas a tiempo] - Anterior ) * 100 )
+		formatString: +0.0 \p\.\p\.;-0.0 \p\.\p\.;0.0 \p\.\p\.
 		displayFolder: 4. Variación interanual
 		lineageTag: 9bfba3dc-2e74-4504-843b-154730a28683
 
@@ -251,7 +251,7 @@ table _Medidas
 	measure 'Var. interanual Puntaje' =
 			VAR Anterior = CALCULATE ( [Puntaje promedio de reseña], SAMEPERIODLASTYEAR ( dim_fecha[Fecha] ) )
 			RETURN
-			    IF ( NOT ISBLANK ( Anterior ), [Puntaje promedio de reseña] - Anterior )
+			    IF ( [Año anterior comparable] && NOT ISBLANK ( Anterior ), [Puntaje promedio de reseña] - Anterior )
 		formatString: +0.00;-0.00;0.00
 		displayFolder: 4. Variación interanual
 		lineageTag: eb247bea-3992-4450-bfa7-420a85b238fe
@@ -321,6 +321,70 @@ table _Medidas
 		formatString: #,0.00
 		displayFolder: 6. Interactivas
 		lineageTag: 570376fe-d6d7-423a-a86c-b7bc6702746e
+
+	/// Cantidad de reseñas (la última de cada pedido válido, R7). Base de la distribución de puntajes (X1).
+	measure Reseñas = CALCULATE ( COUNT ( fact_pedidos[Puntaje de reseña] ), fact_pedidos[es_valido] = TRUE () )
+		formatString: #,0
+		displayFolder: 3. Cliente
+		lineageTag: 61e587ca-4b98-4a74-9713-da738dabf8ac
+
+	/// Puntaje promedio de los pedidos entregados hasta la fecha estimada (X2).
+	measure 'Puntaje a tiempo' = CALCULATE ( AVERAGE ( fact_pedidos[Puntaje de reseña] ), fact_pedidos[es_entregado] = TRUE (), fact_pedidos[a_tiempo] = TRUE () )
+		formatString: 0.00
+		displayFolder: 3. Cliente
+		lineageTag: f864675f-9129-4411-8dea-017f417f13cc
+
+	/// Puntaje promedio de los pedidos entregados después de la fecha estimada (X2).
+	measure 'Puntaje con demora' = CALCULATE ( AVERAGE ( fact_pedidos[Puntaje de reseña] ), fact_pedidos[es_entregado] = TRUE (), fact_pedidos[a_tiempo] = FALSE () )
+		formatString: 0.00
+		displayFolder: 3. Cliente
+		lineageTag: f68de3ac-52a8-4461-874e-01c1601c938a
+
+	/// Reseñas de los pedidos del vendedor o la categoría del contexto. Sirve para filtrar categorías con pocas reseñas (X3).
+	measure 'Reseñas (por ítems)' = CALCULATE ( [Reseñas], TREATAS ( VALUES ( fact_items[pedido_id] ), fact_pedidos[pedido_id] ) )
+		formatString: #,0
+		displayFolder: 5. Cruce con vendedor y producto
+		lineageTag: 823e80d6-2c65-4a68-a659-ede4c4398a35
+
+	/// Verdadero si el mismo período del año anterior cae dentro del período de análisis (D-021). Condición de todas las variaciones interanuales.
+	measure 'Año anterior comparable' =
+			VAR Inicio = CALCULATE ( MIN ( dim_fecha[Fecha] ), REMOVEFILTERS ( dim_fecha ), dim_fecha[En período de análisis] = TRUE () )
+			RETURN
+			    MIN ( dim_fecha[Fecha] ) >= EDATE ( Inicio, 12 )
+		isHidden
+		displayFolder: 4. Variación interanual
+		lineageTag: 5b1f0c0e-6c0b-4a55-9b0d-2f6f1f0e8d21
+
+	/// Pedidos cancelados o sin stock: el numerador de K21.
+	measure 'Pedidos cancelados' = CALCULATE ( COUNTROWS ( fact_pedidos ), fact_pedidos[es_valido] = FALSE () )
+		formatString: #,0
+		displayFolder: 2. Logística
+		lineageTag: a6bd1c1b-d22b-5093-a8c7-75d0184c0c8e
+
+	/// Ventas del vendedor sobre las de todos. No usa ALLSELECTED: en la página de detalle, el filtro de vendedor es parte de lo seleccionado y daría siempre 100%.
+	measure 'Participación en el marketplace' = DIVIDE ( [Ventas], CALCULATE ( [Ventas], REMOVEFILTERS ( dim_vendedor ) ) )
+		formatString: 0.0%
+		displayFolder: 5. Cruce con vendedor y producto
+		lineageTag: c20a7def-1abb-59d0-a286-2855e81cd1bf
+
+	/// Ticket promedio de todos los vendedores, para comparar.
+	measure 'Ticket del marketplace' = CALCULATE ( [Ticket promedio], REMOVEFILTERS ( dim_vendedor ) )
+		formatString: \R\$ #,0.00
+		displayFolder: 5. Cruce con vendedor y producto
+		lineageTag: fcf53347-a310-5e45-b956-68080e99c93f
+
+	/// Nombre del vendedor en la página de detalle.
+	measure 'Vendedor elegido' = SELECTEDVALUE ( dim_vendedor[Vendedor], "Todos los vendedores" )
+		displayFolder: 6. Interactivas
+		lineageTag: e213a2c5-02e1-5e7f-a24f-46d4968d38b6
+
+	/// Título del gráfico de categorías con más reseñas negativas (X3). Si ninguna categoría llega a 200 reseñas con los filtros elegidos, el gráfico queda vacío y el título lo explica.
+	measure 'Título reseñas negativas por categoría' =
+			VAR Categorias = COUNTROWS ( FILTER ( VALUES ( dim_producto[Categoría] ), [Reseñas (por ítems)] >= 200 ) )
+			RETURN
+			    IF ( Categorias > 0, "Categorías con más reseñas negativas (200 reseñas o más)", "Ninguna categoría llega a 200 reseñas con estos filtros" )
+		displayFolder: 6. Interactivas
+		lineageTag: 7c1e4b2a-9d3f-4a6e-b8c1-2f5d7e9a0b13
 
 	column Oculta
 		dataType: int64

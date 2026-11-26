@@ -35,7 +35,7 @@ Salvo que el KPI diga otra cosa, todos parten de estos conjuntos:
 | **K05** | Ítems por pedido | K04 / K02 | — | Pedido | 1,14 |
 | **K06** | Clientes únicos | Cantidad de `customer_unique_id` distintos con al menos un pedido válido (R5). | orders + customers | Cliente | 94.707 |
 | **K07** | Ventas año anterior | K01 desplazado 12 meses hacia atrás (mismo período del año anterior). | — | Mes | Sin valor único: depende del mes |
-| **K08** | Variación interanual % | (K01 − K07) / K07. Vacío si K07 = 0. | — | Mes | +138,3% (ene–ago 2018: R$ 7.341.037,41 contra ene–ago 2017: R$ 3.080.850,81) |
+| **K08** | Variación interanual % | (K01 − K07) / K07. Vacío si K07 = 0 o si el período comparado empieza antes de ene-2017 (D-021). | — | Mes | +138,3% (ene–ago 2018: R$ 7.341.037,41 contra ene–ago 2017: R$ 3.080.850,81) |
 | **K09** | Ventas acumuladas del año | K01 desde el 1 de enero del año hasta la fecha del contexto. | — | Día | 2018 al 31-ago: R$ 7.341.037,41 |
 | **K10** | Media móvil 3 meses | Promedio de K01 de los últimos 3 meses, incluido el actual. Vacío si no hay 3 meses de datos. | — | Mes | Sin valor único |
 | **K11** | Participación % | K01 del elemento / K01 del total visible (respeta los filtros de la página). | — | Variable | Sin filtros: 100% |

@@ -111,7 +111,15 @@ def test_a_tiempo_siempre_filtra_entregados():
     assert not malas
 
 
+def test_variaciones_interanuales_solo_si_son_comparables():
+    """D-021: contra 2016, casi vacío, la variación de 2017 daría más de 13.000%."""
+    variaciones = {n: m for n, m in _medidas().items() if n.startswith("Var. interanual")}
+    assert len(variaciones) == 5
+    assert not [n for n, m in variaciones.items() if "[Año anterior comparable]" not in m]
+
+
 def test_puntaje_negativo_excluye_vacios():
     """En DAX, vacío <= 2 da verdadero: sin el límite inferior, los pedidos sin reseña serían negativos."""
-    malas = [n for n, m in _medidas().items() if re.search(r"puntaje_resena\] *<=", m) and not re.search(r"puntaje_resena\] *>= *1", m)]
+    puntaje = r"\[(?:puntaje_resena|Puntaje de reseña)\]"
+    malas = [n for n, m in _medidas().items() if re.search(puntaje + r" *<=", m) and not re.search(puntaje + r" *>= *1", m)]
     assert not malas

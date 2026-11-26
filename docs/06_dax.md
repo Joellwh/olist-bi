@@ -2,16 +2,16 @@
 
 **Fase:** 7 · **Medidas:** [powerbi/olist.SemanticModel/definition/tables/_Medidas.tmdl](../powerbi/olist.SemanticModel/definition/tables/_Medidas.tmdl) · **Control:** [DAXQueries/Control KPIs.dax](../powerbi/olist.SemanticModel/DAXQueries/Control%20KPIs.dax)
 
-41 medidas en la tabla `_Medidas`, organizadas en carpetas. Cada una implementa un KPI del [diccionario](kpi_diccionario.md), y su descripción empieza con el código (K01, K02…), así que se puede rastrear desde el tablero hasta la definición de negocio.
+51 medidas en la tabla `_Medidas`, organizadas en carpetas. Cada una implementa un KPI del [diccionario](kpi_diccionario.md), y su descripción empieza con el código (K01, K02…), así que se puede rastrear desde el tablero hasta la definición de negocio.
 
 | Carpeta | Medidas | Ejemplos |
 |---|---:|---|
 | 1. Comercial | 13 | Ventas, Pedidos, Ticket, Ventas año anterior, Var. interanual, Acumulado del año, Media móvil, Participación |
-| 2. Logística | 9 | Flete, % a tiempo, Días de entrega (promedio y mediana), Demora, Cancelación |
-| 3. Cliente | 7 | Puntaje, % reseñas negativas y positivas, Recompra (K25 y K28), Brecha por demora, Retención de cohorte |
-| 4. Variación interanual | 4 | De Pedidos, Ticket, % a tiempo y Puntaje |
-| 5. Cruce con vendedor y producto | 5 | % a tiempo, días, puntaje y reseñas negativas por vendedor o categoría; demora por ruta |
-| 6. Interactivas | 3 | Top N dinámico de vendedores, Selector de métrica |
+| 2. Logística | 10 | Flete, % a tiempo, Días de entrega (promedio y mediana), Demora, Cancelación (tasa y cantidad) |
+| 3. Cliente | 10 | Puntaje, % reseñas negativas y positivas, Recompra (K25 y K28), Brecha por demora, Retención de cohorte, Reseñas, Puntaje a tiempo y con demora |
+| 4. Variación interanual | 5 | De Pedidos, Ticket, % a tiempo (en puntos porcentuales) y Puntaje; más la condición oculta `Año anterior comparable` (D-021) |
+| 5. Cruce con vendedor y producto | 8 | Reseñas, % a tiempo, días, puntaje y reseñas negativas por vendedor o categoría; demora por ruta; participación y ticket del marketplace para comparar a un vendedor |
+| 6. Interactivas | 5 | Top N dinámico de vendedores, Selector de métrica, Vendedor elegido y el título del gráfico de reseñas negativas, que explica cuando queda vacío |
 
 Además hay tres tablas sin relaciones que alimentan los controles del tablero: `Top N` (1 a 50), `Selector de métrica` y `Meses desde cohorte` (0 a 25).
 
@@ -26,12 +26,12 @@ Además hay tres tablas sin relaciones que alimentan los controles del tablero: 
 
 ## Cómo se verificó
 
-La consulta `Control KPIs.dax`, guardada en el proyecto, calcula 34 valores y los compara con su referencia. Muestra **OK** o **REVISAR** en cada fila:
+La consulta `Control KPIs.dax`, guardada en el proyecto, calcula 43 valores y los compara con su referencia. Muestra **OK** o **REVISAR** en cada fila:
 
 - Los KPIs del diccionario, contra `src/kpi_reference.py`, que los calcula con pandas sobre los CSV.
 - La media móvil, la retención de cohortes y el vendedor con más ventas, contra las vistas `rpt` de SQL. Esto prueba que `TREATAS` en DAX da lo mismo que el cruce equivalente en SQL.
 
-Resultado: **34 de 34 en OK.** Lo que el control no cubre (Top N, Selector de métrica, variaciones interanuales de Pedidos, Ticket, % a tiempo y Puntaje, y el cruce por categoría) se verifica en los visuales de la Fase 8.
+Resultado: **43 de 43 en OK** (2026-11-24; las 9 filas de variación interanual y de detalle de vendedor se agregaron en la Fase 8). Lo que el control no cubre (Top N, Selector de métrica y el cruce por categoría) se verifica en los visuales de la Fase 8.
 
 Además, [tests/test_modelo_semantico.py](../tests/test_modelo_semantico.py) revisa en cada push que cada KPI del diccionario tenga su medida, y que ninguna medida caiga en las trampas de abajo.
 

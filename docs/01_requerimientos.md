@@ -94,44 +94,44 @@ Estas reglas se aplican igual en SQL, en Python y en DAX. El detalle y los valor
 | 4 | **Cliente** | CX | X1–X5 |
 | 5 | **Detalle de vendedor** (drill-through) | Comercial, CX | C4, X3 para un vendedor puntual |
 
-Filtros comunes a todas las páginas: período, región/estado del cliente y categoría de producto.
+Filtros comunes a todas las páginas: año y región/estado del cliente. El de categoría de producto va solo en Comercial (cambio de la Fase 8: ver [07_diseno_reportes.md](07_diseno_reportes.md), sección 7).
 
 ## 7. Criterios de aceptación
 
 Una página está terminada cuando cumple todos sus criterios. Se verifican en la Fase 8.
 
 **Generales (todas las páginas)**
-- [ ] Cada pregunta asignada a la página se responde sin exportar datos ni usar otra herramienta.
-- [ ] Los totales coinciden con los valores de referencia del diccionario de KPIs (tolerancia: redondeo).
-- [ ] Los filtros de período, región y categoría están sincronizados entre páginas y hay un botón para limpiarlos.
+- [x] Cada pregunta asignada a la página se responde sin exportar datos ni usar otra herramienta.
+- [x] Los totales coinciden con los valores de referencia del diccionario de KPIs (tolerancia: redondeo).
+- [x] Los filtros de año, región y estado están sincronizados entre páginas y hay un botón para limpiarlos.
 - [ ] Cada visual tarda menos de 2 segundos en Performance Analyzer.
 - [ ] Un gerente regional ve solo sus estados, y los totales de todas las páginas cambian en consecuencia (Fase 9).
 
 **1. Resumen ejecutivo**
-- [ ] Muestra Ventas, Pedidos, Ticket promedio, % a tiempo y Puntaje promedio, cada uno con su variación interanual.
-- [ ] Incluye la tendencia mensual de ventas contra el año anterior.
-- [ ] Se entiende en menos de 10 segundos: sin más de 6 visuales.
+- [x] Muestra Ventas, Pedidos, Ticket promedio, % a tiempo y Puntaje promedio, cada uno con su variación interanual cuando el año anterior es comparable (D-021).
+- [x] Incluye la tendencia mensual de ventas contra el año anterior.
+- [x] Se entiende en menos de 10 segundos: sin más de 6 visuales.
 
 **2. Comercial**
-- [ ] Ranking de categorías con ventas, participación y variación interanual (C2).
-- [ ] Mapa o ranking de estados con ventas y ticket promedio (C3).
-- [ ] Top N vendedores con N elegible por el usuario (C4).
-- [ ] Clic derecho en un vendedor lleva a su página de detalle.
+- [x] Ranking de categorías con ventas, participación y variación interanual (C2).
+- [x] Mapa o ranking de estados con ventas y ticket promedio (C3). Ranking con selector de métrica, y el ticket también en el tooltip.
+- [x] Top N vendedores con N elegible por el usuario (C4).
+- [x] Clic derecho en un vendedor lleva a su página de detalle.
 
 **3. Logística**
-- [ ] % a tiempo por mes, con una línea de referencia del promedio (L1).
-- [ ] Días de entrega por estado del cliente (L2).
-- [ ] Matriz de rutas (estado vendedor × estado cliente) coloreada por demora (L3).
-- [ ] % de flete por región y categoría (L4).
+- [x] % a tiempo por mes, con una línea de referencia del promedio (L1).
+- [x] Días de entrega por estado del cliente (L2).
+- [x] Matriz de rutas coloreada por demora (L3). Por región y no por estado: ver [07_diseno_reportes.md](07_diseno_reportes.md#4-elección-de-gráficos).
+- [ ] % de flete por región y categoría (L4). Por región sí; por categoría queda pendiente.
 
 **4. Cliente**
-- [ ] Distribución de puntajes de 1 a 5 y su evolución (X1).
-- [ ] Comparación directa del puntaje a tiempo contra tarde (X2).
-- [ ] Tabla de cohortes por mes de primera compra (X5).
+- [x] Distribución de puntajes de 1 a 5 y su evolución (X1).
+- [x] Comparación directa del puntaje a tiempo contra tarde (X2).
+- [x] Tabla de cohortes por mes de primera compra (X5).
 
 **5. Detalle de vendedor**
-- [ ] Muestra ventas, pedidos, % a tiempo y puntaje del vendedor elegido, con su evolución mensual.
-- [ ] Tiene un botón para volver a la página de origen.
+- [x] Muestra ventas, pedidos, % a tiempo y puntaje del vendedor elegido, con su evolución mensual.
+- [x] Tiene un botón para volver a la página de origen.
 
 ## 8. Supuestos y riesgos
 
