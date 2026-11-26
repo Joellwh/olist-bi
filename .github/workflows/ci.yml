@@ -32,3 +32,43 @@ jobs:
       # pipeline (parseo de scripts, configuración, validaciones).
       - name: Tests
         run: pytest -q
+
+  # Best Practice Analyzer sobre el modelo semántico (docs/10_despliegue.md).
+  # Tabular Editor 2 lee los archivos TMDL, así que no hace falta Power BI ni
+  # datos. Corre en Windows porque Tabular Editor 2 es una aplicación .NET
+  # Framework. Las versiones están fijadas y se verifica su hash: el CI no
+  # ejecuta algo distinto de lo que se revisó.
+  best-practice-analyzer:
+    runs-on: windows-latest
+    env:
+      TE2_URL: https://github.com/TabularEditor/TabularEditor/releases/download/2.29.0/TabularEditor.Portable.zip
+      TE2_SHA256: c0d3a7abda4572baaf3aeedf9cb342ce7ad4d9840e6438d6b13df02267d308a4
+      REGLAS_URL: https://raw.githubusercontent.com/microsoft/Analysis-Services/50e8ce5028dd7046e73974ec69cb79af225e41b0/BestPracticeRules/BPARules.json
+      REGLAS_SHA256: ddb9cff4c2a0611a6467e2559d38319d9867381998066473ffa1e11c2d360392
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Descargar Tabular Editor 2 y las reglas de Microsoft
+        shell: pwsh
+        run: |
+          Invoke-WebRequest $env:TE2_URL -OutFile te2.zip
+          Invoke-WebRequest $env:REGLAS_URL -OutFile BPARules.json
+          if ((Get-FileHash te2.zip).Hash -ne $env:TE2_SHA256) { throw "Hash distinto: Tabular Editor 2" }
+          if ((Get-FileHash BPARules.json).Hash -ne $env:REGLAS_SHA256) { throw "Hash distinto: reglas" }
+          Expand-Archive te2.zip -DestinationPath te2
+
+      # Tabular Editor devuelve error si hay avisos; lo que decide es el paso
+      # siguiente, que los compara con las excepciones justificadas.
+      - name: Analizar el modelo
+        shell: pwsh
+        run: |
+          $p = Start-Process te2\TabularEditor.exe -Wait -PassThru -NoNewWindow -ArgumentList `
+            '"powerbi\olist.SemanticModel\definition"', '-A', 'BPARules.json', '-TRX', 'bpa.trx'
+          if (-not (Test-Path bpa.trx)) { throw "Tabular Editor no generó el resultado (código $($p.ExitCode))" }
+
+      - name: Comparar con las excepciones
+        run: python -m src.bpa bpa.trx

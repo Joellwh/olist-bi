@@ -172,3 +172,5 @@ Tests en [tests/test_modelo_semantico.py](../tests/test_modelo_semantico.py), qu
 - Cada relación inactiva la activa alguna medida con `USERELATIONSHIP`.
 
 La clave foránea `fact_items(pedido_key) → fact_pedidos(pedido_key)` hace fallar la carga si un ítem apunta a un pedido que no existe.
+
+Desde la Fase 11, el **Best Practice Analyzer también corre en el CI**, en cada pull request: Tabular Editor 2 revisa los archivos TMDL, sin Power BI ni datos, y [src/bpa.py](../src/bpa.py) compara el resultado con [powerbi/bpa_excepciones.json](../powerbi/bpa_excepciones.json), los avisos de §5 con su motivo. Un aviso nuevo hace fallar el CI, y también una excepción que ya no aparece, para que la lista no quede vieja.
