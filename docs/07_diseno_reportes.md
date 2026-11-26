@@ -109,8 +109,8 @@ Tomada de la lista de Microsoft, solo con lo que aplica a este reporte. Se revis
 - [x] **Texto alternativo** en los 46 visuales que transmiten información (gráficos, tablas y tarjetas). El fondo del encabezado es decorativo y está fuera del orden de tabulación.
 - [x] **Orden de tabulación** igual al orden de lectura en las 5 páginas: título, navegación, filtros, KPIs de izquierda a derecha y después el cuerpo, de arriba hacia abajo.
 - [x] Marcadores de forma distinta en los gráficos de líneas con más de una serie (2018 círculo, 2017 cuadrado).
-- [ ] Prueba de los "ojos entrecerrados": si lo primero que se ve son las etiquetas y no los datos, sobran etiquetas. Se hace junto con la prueba con otra persona.
-- [ ] Prueba con otra persona: que responda 3 preguntas de negocio usando el tablero, y anotar dónde se traba (roadmap, Fase 8). Guion en la sección 11.
+- [ ] Prueba de los "ojos entrecerrados": si lo primero que se ve son las etiquetas y no los datos, sobran etiquetas. No se hizo por separado.
+- [x] Prueba con otra persona: que responda preguntas de negocio usando el tablero, y anotar dónde se traba (roadmap, Fase 8). Guion y resultados en la sección 11.
 
 ## 9. Qué se agrega al modelo para estas páginas
 
@@ -172,14 +172,16 @@ Una persona que no conozca el tablero responde estas preguntas usándolo, sin ay
 | 3 | ¿Cuánto baja el puntaje de reseña cuando un pedido llega tarde? | De 4,29 a 2,27: unos 2 puntos | Cliente |
 | 4 | ¿El vendedor que más vende entrega a tiempo más o menos que el marketplace? | Menos: 89,5 % contra 93,2 % | Comercial → clic derecho → Detalle de vendedor |
 
-**Resultados:** pendiente.
+**Resultados** (2026-11-25):
 
 | # | ¿Llegó? | Tiempo | Dónde dudó |
 |---|---|---|---|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
+| 1 | Sí | Menos de un minuto | — |
+| 2 | Sí | Menos de un minuto | — |
+| 3 | Sí | Menos de un minuto | — |
+| 4 | Sí, con dificultad | Más que las otras | No entendía a qué se refería la pregunta |
+
+Las tres preguntas que se responden mirando una página salieron sin dudas. La cuarta es la única que necesita pasar de una página a otra (clic derecho → Obtener detalles), y lo que costó fue entender la pregunta, no encontrar el dato. Para una próxima prueba conviene escribirla como tarea: "En Comercial, entrá al detalle del vendedor que más vende y compará su % de entregas a tiempo con el del marketplace".
 
 ## Fuentes
 

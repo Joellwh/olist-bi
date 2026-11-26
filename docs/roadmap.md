@@ -109,7 +109,7 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 📦 `docs/06_dax.md`
 
-## Fase 8: Diseño de reportes (4–6 días)
+## Fase 8: Diseño de reportes — ✅ hecha (2026-11-25)
 
 *Cubre: usabilidad y consistencia.*
 
@@ -117,7 +117,7 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 - [x] Páginas: Resumen ejecutivo, Comercial, Logística, Cliente y drill-through de vendedor.
 - [x] Tooltips, segmentadores sincronizados, botón de limpiar filtros (con la acción del botón en lugar de un marcador: ver `docs/07_diseno_reportes.md`).
 - [x] Contrastar con los criterios de aceptación de la Fase 1 (pendientes: flete por categoría y la medición con Performance Analyzer).
-- [ ] Prueba de usabilidad con otra persona.
+- [x] Prueba de usabilidad con otra persona: 4 de 4 preguntas respondidas, 3 en menos de un minuto; la cuarta costó por cómo estaba escrita la pregunta.
 
 📦 Criterios en `docs/07_diseno_reportes.md` y tema `powerbi/tema/olist.json`; reporte completo y `docs/capturas/`
 
@@ -131,7 +131,7 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 ## Fase 10: Rendimiento del modelo (2 días)
 
-- [ ] Performance Analyzer, VertiPaq Analyzer, Best Practice Analyzer.
+- [ ] Performance Analyzer, VertiPaq Analyzer, Best Practice Analyzer. Incluye el criterio de la Fase 1 que quedó pendiente: menos de 2 segundos por visual.
 - [ ] Antes y después (tamaño y tiempos).
 
 📦 `docs/09_rendimiento.md`
