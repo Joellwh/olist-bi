@@ -138,19 +138,19 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 📦 `docs/09_rendimiento.md`
 
-## Fase 11: Documentación, versionado y despliegue — en curso
+## Fase 11: Documentación, versionado y despliegue — ✅ hecha (2026-11-26)
 
-- [ ] Ramas por funcionalidad y pull requests.
+- [x] Ramas por funcionalidad y pull requests: la Fase 11 entró en 3 pull requests, cada uno con el CI en verde antes del merge.
 - [x] CI: tests de Python y Best Practice Analyzer sobre el TMDL en Windows, con versiones fijadas y hash verificado; los avisos se comparan con excepciones justificadas (`powerbi/bpa_excepciones.json`).
-- [ ] `CHANGELOG.md` y tags (`v1.0.0`).
-- [ ] Despliegue simulado con `OlistDW_dev` y `OlistDW_prod` y el parámetro de Power Query; cómo sería con Deployment Pipelines.
-- [ ] README final con diagrama de arquitectura, capturas y hallazgos.
-- [ ] (Opcional) Video de 3 minutos.
+- [x] `CHANGELOG.md` y el tag `v1.0.0`.
+- [x] Despliegue simulado con `OlistDW_dev` y `OlistDW_prod` (`python -m src.despliegue`, con condiciones de paso) y el parámetro de Power Query; cómo sería con Deployment Pipelines.
+- [x] README final con diagrama de arquitectura, capturas y hallazgos.
+- [ ] (Opcional) Video de 3 minutos: no se hizo.
 
 📦 `docs/10_despliegue.md`
 
 ## Durante todo el proyecto: gestión
 
 - [ ] Mover las tarjetas del GitHub Project.
-- [ ] `docs/decisiones.md`: cada decisión, por qué y qué alternativas se descartaron.
-- [ ] `docs/riesgos.md`: riesgos, bloqueos y cómo se destrabaron.
+- [x] `docs/decisiones.md`: cada decisión, por qué y qué alternativas se descartaron (D-001 a D-023).
+- [x] `docs/riesgos.md`: riesgos, bloqueos y cómo se destrabaron.
