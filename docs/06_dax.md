@@ -2,7 +2,7 @@
 
 **Fase:** 7 · **Medidas:** [powerbi/olist.SemanticModel/definition/tables/_Medidas.tmdl](../powerbi/olist.SemanticModel/definition/tables/_Medidas.tmdl) · **Control:** [DAXQueries/Control KPIs.dax](../powerbi/olist.SemanticModel/DAXQueries/Control%20KPIs.dax)
 
-53 medidas en la tabla `_Medidas`, organizadas en carpetas. Cada una implementa un KPI del [diccionario](kpi_diccionario.md), y su descripción empieza con el código (K01, K02…), así que se puede rastrear desde el tablero hasta la definición de negocio.
+54 medidas en la tabla `_Medidas`, organizadas en carpetas. Cada una implementa un KPI del [diccionario](kpi_diccionario.md), y su descripción empieza con el código (K01, K02…), así que se puede rastrear desde el tablero hasta la definición de negocio.
 
 | Carpeta | Medidas | Ejemplos |
 |---|---:|---|

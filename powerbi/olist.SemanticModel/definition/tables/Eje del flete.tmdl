@@ -1,0 +1,52 @@
+/// Parámetro de campos del gráfico de flete de Logística (L4): elige si el eje es la región del cliente o la categoría. Sin relaciones.
+table 'Eje del flete'
+	lineageTag: 74da0d86-77b7-4f7b-8d9a-63dbd5a13d45
+
+	/// Lo que elige el usuario: Región o Categoría.
+	column 'Eje del flete'
+		dataType: string
+		lineageTag: 4af7e50d-46b0-49e3-8127-b4b49cb51f60
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: Orden
+
+		relatedColumnDetails
+			groupByColumn: Campo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Campo
+		dataType: string
+		isHidden
+		lineageTag: 73bee26e-194d-49a3-89d5-4edb963722c6
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: Orden
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column Orden
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0e2782b8-4fcf-439f-8018-4651b62e357d
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = User
+
+	partition 'Eje del flete' = calculated
+		mode: import
+		source =
+				{
+				    ("Región", NAMEOF ( 'dim_geografia'[Región] ), 0),
+				    ("Categoría", NAMEOF ( 'dim_producto'[Categoría] ), 1)
+				}
+
+	annotation PBI_Id = 13c5d840ff734048ae2044eac96d0096

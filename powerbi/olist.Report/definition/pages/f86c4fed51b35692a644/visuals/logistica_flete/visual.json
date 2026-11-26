@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
-  "name": "logistica_flete_region",
+  "name": "logistica_flete",
   "position": {
     "x": 784,
     "y": 486,
     "z": 5023,
     "height": 210,
     "width": 472,
-    "tabOrder": 23
+    "tabOrder": 24
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
@@ -30,6 +30,22 @@
               "nativeQueryRef": "Región",
               "active": true
             }
+          ],
+          "fieldParameters": [
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Eje del flete"
+                    }
+                  },
+                  "Property": "Eje del flete"
+                }
+              },
+              "index": 0,
+              "length": 1
+            }
           ]
         },
         "Y": {
@@ -47,6 +63,52 @@
               },
               "queryRef": "_Medidas.% flete sobre ventas",
               "nativeQueryRef": "% flete sobre ventas"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Ventas"
+                }
+              },
+              "queryRef": "_Medidas.Ventas",
+              "nativeQueryRef": "Ventas"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Flete total"
+                }
+              },
+              "queryRef": "_Medidas.Flete total",
+              "nativeQueryRef": "Flete total"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Ítems vendidos"
+                }
+              },
+              "queryRef": "_Medidas.Ítems vendidos",
+              "nativeQueryRef": "Ítems vendidos"
             }
           ]
         }
@@ -141,8 +203,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'% de flete sobre ventas por región del cliente'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Título flete"
                 }
               }
             }
@@ -168,7 +235,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Columnas con el flete como porcentaje de las ventas en cada región del cliente, de mayor a menor.'"
+                  "Value": "'Barras con el flete como porcentaje de las ventas, por región del cliente o por categoría según el selector, de mayor a menor.'"
                 }
               }
             }
@@ -177,5 +244,57 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "logistica_flete_0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "Ítems vendidos"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "_Medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 2,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "d"
+                        }
+                      },
+                      "Property": "Ítems vendidos"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "100L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
   }
 }

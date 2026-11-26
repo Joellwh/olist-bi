@@ -122,7 +122,7 @@ Una página está terminada cuando cumple todos sus criterios. Se verifican en l
 - [x] % a tiempo por mes, con una línea de referencia del promedio (L1).
 - [x] Días de entrega por estado del cliente (L2).
 - [x] Matriz de rutas coloreada por demora (L3). Por región y no por estado: ver [07_diseno_reportes.md](07_diseno_reportes.md#4-elección-de-gráficos).
-- [ ] % de flete por región y categoría (L4). Por región sí; por categoría queda pendiente.
+- [x] % de flete por región y categoría (L4): el gráfico de flete cambia de eje con un selector (v1.1.0, D-024).
 
 **4. Cliente**
 - [x] Distribución de puntajes de 1 a 5 y su evolución (X1).

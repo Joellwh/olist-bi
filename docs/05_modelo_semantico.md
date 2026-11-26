@@ -44,8 +44,8 @@ Son 10, todas de uno a muchos, de una dimensión a un hecho, con filtro en una s
 | **Descripciones** | Cada columna y tabla explica qué es y qué regla o KPI aplica; se ven al pasar el mouse en el panel de datos. |
 | **Categorías de datos** | Estados y ciudades marcados como geografía, para que los mapas los reconozcan. |
 | **Montos** | `precio` y `flete` en decimal fijo y formato R$. Power BI los había importado como decimales flotantes, que pueden acumular errores de redondeo al sumar. En la Fase 10 se pasó también `dias_entrega` a decimal fijo, y `valor_pagado` salió del modelo porque nada lo usaba (D-023). |
-| **Tabla `_Medidas`** | Contiene las 53 medidas de las Fases 7, 8 y 10 ([06_dax.md](06_dax.md)), así ninguna depende de una tabla de hechos para encontrarse. |
-| **Tablas sin relaciones** | `Top N`, `Selector de métrica` y `Meses desde cohorte` alimentan los controles del tablero (agregadas en la Fase 7). `Gerentes`, oculta, la lee el rol de seguridad por fila ([08_seguridad_rls.md](08_seguridad_rls.md), Fase 9). |
+| **Tabla `_Medidas`** | Contiene las 54 medidas de las Fases 7, 8 y 10 y la versión 1.1.0 ([06_dax.md](06_dax.md)), así ninguna depende de una tabla de hechos para encontrarse. |
+| **Tablas sin relaciones** | `Top N`, `Selector de métrica` y `Meses desde cohorte` alimentan los controles del tablero (agregadas en la Fase 7), y `Eje del flete` es el parámetro de campos del gráfico de flete (v1.1.0, D-024). `Gerentes`, oculta, la lee el rol de seguridad por fila ([08_seguridad_rls.md](08_seguridad_rls.md), Fase 9). |
 
 ## Cómo se verificó
 

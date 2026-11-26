@@ -16,6 +16,7 @@
       "[Puntaje con demora]",
       "[Puntaje promedio de reseña]",
       "[Top N seleccionado]",
+      "[Título flete]",
       "[Título reseñas negativas por categoría]",
       "[Var. interanual % a tiempo]",
       "[Var. interanual Puntaje]",
@@ -72,8 +73,9 @@
   },
   {
     "regla": "[Maintenance] Ensure tables have relationships",
-    "motivo": "Tablas de los controles, _Medidas y Gerentes: sin relaciones por diseño (D-022).",
+    "motivo": "Tablas de los controles (incluido el parámetro de campos 'Eje del flete'), _Medidas y Gerentes: sin relaciones por diseño (D-022, D-024).",
     "objetos": [
+      "'Eje del flete'",
       "'Gerentes'",
       "'Meses desde cohorte'",
       "'Selector de métrica'",
@@ -83,8 +85,9 @@
   },
   {
     "regla": "[Performance] Reduce usage of calculated tables",
-    "motivo": "Tablas de 1 a 50 filas para los controles del reporte y la tabla de medidas.",
+    "motivo": "Tablas de 1 a 50 filas para los controles del reporte, el parámetro de campos y la tabla de medidas.",
     "objetos": [
+      "'Eje del flete'",
       "'Meses desde cohorte'",
       "'Selector de métrica'",
       "'Top N'",
@@ -111,16 +114,18 @@
   },
   {
     "regla": "[Formatting] Provide format string for measures",
-    "motivo": "Devuelven texto (el título dinámico y el vendedor elegido).",
+    "motivo": "Devuelven texto (los títulos dinámicos y el vendedor elegido).",
     "objetos": [
+      "[Título flete]",
       "[Título reseñas negativas por categoría]",
       "[Vendedor elegido]"
     ]
   },
   {
     "regla": "[Maintenance] Remove unnecessary columns",
-    "motivo": "Gerentes[Nombre] identifica a cada gerente al auditar la seguridad; _Medidas[Oculta] existe porque una tabla necesita una columna.",
+    "motivo": "Gerentes[Nombre] identifica a cada gerente al auditar la seguridad; _Medidas[Oculta] existe porque una tabla necesita una columna; 'Eje del flete'[Campo] la usa Power BI para cambiar el eje del gráfico, no el DAX (D-024).",
     "objetos": [
+      "'Eje del flete'[Campo]",
       "'Gerentes'[Nombre]",
       "'_Medidas'[Oculta]"
     ]

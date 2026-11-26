@@ -324,3 +324,17 @@ Cada decisión importante del proyecto: qué se eligió, por qué y qué alterna
 **Costo:** el modelo ya no sirve para buscar un pedido o un cliente por su identificador del origen; para eso está SQL. Y las columnas sin jerarquía de atributos no aparecen si alguien analiza el modelo desde Excel, aunque igual están ocultas.
 
 **Descartada:** *una relación física entre los hechos por `pedido_key`.* `fact_pedidos` tiene un pedido por fila y podría hacer de dimensión de `fact_items`, pero el filtro tendría que ir de ítems a pedidos (del lado de muchos al de uno), lo que exige una relación bidireccional, y crearía caminos ambiguos con las dimensiones que comparten (D-014).
+
+## D-024 · El flete por categoría, con un parámetro de campos en el mismo gráfico
+
+**Fecha:** 2026-11-26 · **Versión:** 1.1.0
+
+**Decisión:** el gráfico de flete de Logística tiene un selector que cambia su eje entre la región del cliente y la categoría. El selector es un *parámetro de campos* de Power BI (la tabla `Eje del flete`). Por categoría se muestran las que tienen 100 ítems vendidos o más.
+
+**Por qué:**
+- **Responde L4 sin sumar un visual.** Logística ya tiene cuatro gráficos además de los KPIs, el máximo que fija el diseño ([07_diseno_reportes.md](07_diseno_reportes.md)), y la pregunta es la misma (cuánto pesa el flete) con dos cortes.
+- **El mínimo de 100 ítems** sigue el criterio de las rutas (30 pedidos) y de las reseñas por categoría (200 reseñas): no mostrar como hallazgo lo que son pocos casos. Las categorías más chicas llegaban al 54% de flete con R$ 760 de ventas. El título lo dice, y la información sobre herramientas muestra ventas, flete e ítems de cada barra.
+
+**Costo:** el título dinámico no puede leer el nombre del eje elegido: la columna visible de un parámetro de campos forma parte de una clave compuesta, y `SELECTEDVALUE` sobre ella da error. Lee la columna `Orden`.
+
+**Descartadas:** *un segmentador de categoría en Logística*, que filtra el gráfico por región pero no muestra el ranking de categorías; y *un quinto gráfico*, que supera los visuales por página del diseño.

@@ -16,7 +16,7 @@ Tres áreas del negocio, cada una con sus preguntas ([requerimientos](docs/01_re
 |---|---|---|
 | Resumen ejecutivo | Dirección | Ventas, pedidos, ticket, entregas a tiempo y puntaje, contra el año anterior |
 | Comercial | Dirección comercial | Categorías, estados y vendedores que más venden; métrica y Top N elegibles |
-| Logística | Logística | Entregas a tiempo por mes, días por estado, rutas con más demora, flete |
+| Logística | Logística | Entregas a tiempo por mes, días por estado, rutas con más demora, flete por región o por categoría |
 | Cliente | Experiencia de cliente | Reseñas, efecto de la demora en el puntaje, retención por cohorte |
 | Detalle de vendedor | Comercial | Todo lo anterior para un vendedor, por obtención de detalles |
 
@@ -32,6 +32,7 @@ Período de análisis: enero de 2017 a agosto de 2018.
 - **El negocio creció un 138%** en ventas de enero a agosto de 2018 contra el mismo período de 2017: en plena expansión. En todo el período, R$ 13,4 millones y 97.905 pedidos.
 - **La demora es lo que más castiga la reseña.** Un pedido que llega tarde tiene un puntaje promedio de 2,3, contra 4,3 si llega a tiempo, y el 62% de las reseñas de los pedidos tardíos son negativas (9% en los que llegan a tiempo). Solo el 6,8% de los pedidos entregados llega tarde, pero de ahí sale un tercio de todas las reseñas negativas.
 - **Las entregas a tiempo cayeron a 81% en marzo de 2018** y a 86% en febrero, contra un 93% del período. Noviembre de 2017, el mes del Black Friday, también quedó por debajo (88%).
+- **El flete pesa más en lo barato:** sobre la venta, el flete es el 16,6% en promedio, pero llega al 37% en Artículos de Navidad y al 30% en Electrónica, contra el 15% de Sudeste como región. Entre las categorías con al menos 100 ítems vendidos, cuanto más barato el producto, más pesa el envío (correlación de rangos de −0,72): Electrónica vende a R$ 57 por ítem; Computadoras, a R$ 1.098 y con 4,4% de flete.
 - **La geografía pesa:** un pedido a Roraima tarda 30 días en promedio; uno a São Paulo, 9. Las rutas hacia el Norte y el Nordeste concentran la demora.
 - **Casi nadie vuelve a comprar.** La recompra es del 3,0%, y casi un tercio de esa recompra es el mismo carrito partido en dos pedidos el mismo día: contando días distintos, baja a 2,2% ([04_optimizacion_sql.md](docs/04_optimizacion_sql.md)). Es el punto más débil del negocio, más que la logística.
 - **Un error de datos que habría pasado inadvertido:** unir ítems con pagos infla las ventas un 4,5%, porque un pedido puede tener varios pagos. Por eso los dos hechos tienen distinta granularidad y no se unen ([02_calidad_datos.md](docs/02_calidad_datos.md), Q12).
@@ -47,7 +48,7 @@ flowchart LR
     end
     ETL --> RAW
     ETL -.-> LOG
-    DW --> PBI["Power BI<br/>modelo semántico PBIP/TMDL<br/>53 medidas DAX · 7 roles"]
+    DW --> PBI["Power BI<br/>modelo semántico PBIP/TMDL<br/>54 medidas DAX · 7 roles"]
     PBI --> REP["Reporte<br/>5 páginas"]
     GH["GitHub Actions<br/>tests + Best Practice Analyzer"] -.-> PBI
 ```
