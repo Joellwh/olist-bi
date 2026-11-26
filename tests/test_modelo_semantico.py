@@ -18,6 +18,8 @@ TABLAS = DEFINICION / "tables"
 DIMENSIONES = {"dim_fecha", "dim_geografia", "dim_cliente", "dim_vendedor", "dim_producto"}
 HECHOS = {"fact_items", "fact_pedidos"}
 PARAMETROS = {"Top N", "Meses desde cohorte", "Selector de métrica"}   # tablas sin relaciones
+SEGURIDAD = {"Gerentes"}   # sin relaciones: la lee el rol dinámico (Fase 9)
+ROLES = DEFINICION / "roles"
 
 
 def _relaciones() -> list[str]:
@@ -38,7 +40,7 @@ def _columnas(tabla: str) -> dict[str, str]:
 
 
 def test_solo_estan_las_tablas_del_modelo():
-    assert {p.stem for p in TABLAS.glob("*.tmdl")} == DIMENSIONES | HECHOS | PARAMETROS | {"_Medidas"}
+    assert {p.stem for p in TABLAS.glob("*.tmdl")} == DIMENSIONES | HECHOS | PARAMETROS | SEGURIDAD | {"_Medidas"}
 
 
 def test_tablas_de_fechas_automaticas_desactivadas():
@@ -67,7 +69,7 @@ def test_dim_fecha_marcada_como_tabla_de_fechas():
     assert "isKey" in _columnas("dim_fecha")["Fecha"]
 
 
-@pytest.mark.parametrize("tabla", sorted(DIMENSIONES | HECHOS))
+@pytest.mark.parametrize("tabla", sorted(DIMENSIONES | HECHOS | SEGURIDAD))
 def test_conexion_por_parametros(tabla):
     """Sin servidor ni base escritos a mano: la Fase 11 cambia de entorno con los parámetros."""
     texto = (TABLAS / f"{tabla}.tmdl").read_text(encoding="utf-8")
@@ -123,3 +125,52 @@ def test_puntaje_negativo_excluye_vacios():
     puntaje = r"\[(?:puntaje_resena|Puntaje de reseña)\]"
     malas = [n for n, m in _medidas().items() if re.search(puntaje + r" *<=", m) and not re.search(puntaje + r" *>= *1", m)]
     assert not malas
+
+
+# --- Seguridad por fila (Fase 9) ---
+
+def _roles() -> dict[str, str]:
+    """Nombre de cada rol -> su definición."""
+    return {re.search(r"^role '?(.+?)'?$", p.read_text(encoding="utf-8"), re.M).group(1): p.read_text(encoding="utf-8")
+            for p in ROLES.glob("*.tmdl")}
+
+
+def _permisos(rol: str) -> dict[str, str]:
+    return dict(re.findall(r"^\ttablePermission '?(.+?)'? = (.+)$", _roles()[rol], re.M))
+
+
+def test_roles_declarados_en_el_modelo():
+    """Un rol con archivo pero sin su "ref role" en model.tmdl, o al revés, no carga."""
+    declarados = set(re.findall(r"^ref role '?(.+?)'?$", (DEFINICION / "model.tmdl").read_text(encoding="utf-8"), re.M))
+    assert declarados == set(_roles()) == {"Dirección", "Gerente regional", "Región Centro-Oeste", "Región Nordeste",
+                                          "Región Norte", "Región Sudeste", "Región Sur"}
+
+
+def test_direccion_ve_todo():
+    assert _permisos("Dirección") == {}
+
+
+def test_rol_dinamico_filtra_la_geografia_del_usuario():
+    """El filtro va sobre dim_geografia, que filtra los dos hechos; el usuario sale del inicio de sesión."""
+    permisos = _permisos("Gerente regional")
+    assert set(permisos) == {"dim_geografia", "Gerentes"}
+    assert "USERPRINCIPALNAME ()" in permisos["dim_geografia"]
+    assert "Gerentes[Email]" in permisos["dim_geografia"]
+    assert permisos["Gerentes"] == "[Email] = USERPRINCIPALNAME ()"   # cada gerente ve solo su fila
+
+
+def test_ningun_rol_estatico_ve_la_tabla_de_gerentes():
+    for rol in [r for r in _roles() if r.startswith("Región ")]:
+        assert _permisos(rol)["Gerentes"] == "FALSE ()", rol
+
+
+def test_tabla_de_gerentes_oculta():
+    assert "\tisHidden" in (TABLAS / "Gerentes.tmdl").read_text(encoding="utf-8").split("column")[0]
+
+
+def test_regiones_de_los_gerentes_existen():
+    """Una región mal escrita en la carga deja sus estados sin gerente (la validación V16 lo frena en el ETL)."""
+    from src.paths import DW_SQL_DIR
+    regiones = set(re.findall(r"N'([\w-]+)'\)", (DW_SQL_DIR / "11_dim_geografia.sql").read_text(encoding="utf-8")))
+    gerentes = set(re.findall(r"N'[^']+',\s*N'([\w-]+)'\)", (DW_SQL_DIR / "15_seguridad_gerentes.sql").read_text(encoding="utf-8")))
+    assert gerentes == regiones - {"Desconocida"}

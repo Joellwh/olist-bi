@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "cliente_puntajes_mes",
   "position": {
     "x": 24,
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "dim_fecha.Año-mes",
-              "nativeQueryRef": "Año-mes"
+              "nativeQueryRef": "Año-mes",
+              "active": true
             }
           ]
         },
@@ -378,7 +379,6 @@
     "filters": [
       {
         "name": "cliente_puntajes_mes_0",
-        "type": "Advanced",
         "field": {
           "Column": {
             "Expression": {
@@ -389,6 +389,7 @@
             "Property": "Puntaje de reseña"
           }
         },
+        "type": "Advanced",
         "filter": {
           "Version": 2,
           "From": [

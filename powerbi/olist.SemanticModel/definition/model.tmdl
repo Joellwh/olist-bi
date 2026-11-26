@@ -10,7 +10,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["Servidor","BaseDatos","dim_fecha","dim_geografia","dim_cliente","dim_vendedor","dim_producto","fact_items","fact_pedidos"]
+annotation PBI_QueryOrder = ["Servidor","BaseDatos","dim_fecha","dim_geografia","dim_cliente","dim_vendedor","dim_producto","fact_items","fact_pedidos","Gerentes"]
 
 annotation PBI_ProTooling = ["DevMode","DaxQueryView_Desktop"]
 
@@ -25,6 +25,15 @@ ref table fact_pedidos
 ref table 'Top N'
 ref table 'Meses desde cohorte'
 ref table 'Selector de métrica'
+ref table Gerentes
+
+ref role Dirección
+ref role 'Gerente regional'
+ref role 'Región Centro-Oeste'
+ref role 'Región Nordeste'
+ref role 'Región Norte'
+ref role 'Región Sudeste'
+ref role 'Región Sur'
 
 ref cultureInfo es-AR
 

@@ -97,6 +97,7 @@ Cada regla sale de un problema de arriba. El ETL las corre en cada carga, y el r
 | V06 | Puntaje de reseña entre 1 y 5 | Sección 3 |
 | V07 | Todos los códigos postales tienen 5 dígitos | Q20 |
 | V08 | Las ventas y el flete en `dw` son iguales a los de `raw` (conciliación) | Q12 |
+| V16 | Cada estado tiene al menos un gerente regional en la tabla de seguridad: un estado sin gerente es una región que nadie ve | Fase 9 |
 
 ### 🟡 Advertencias: se registran y la carga sigue
 

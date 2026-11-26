@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "resumen_ventas_estado",
   "position": {
     "x": 784,
@@ -27,25 +27,8 @@
                 }
               },
               "queryRef": "dim_geografia.Estado",
-              "nativeQueryRef": "Estado"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "Ventas"
-                }
-              },
-              "queryRef": "_Medidas.Ventas",
-              "nativeQueryRef": "Ventas"
+              "nativeQueryRef": "Estado",
+              "active": true
             }
           ]
         },
@@ -78,6 +61,24 @@
               },
               "queryRef": "_Medidas.Ticket promedio",
               "nativeQueryRef": "Ticket promedio"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Ventas"
+                }
+              },
+              "queryRef": "_Medidas.Ventas",
+              "nativeQueryRef": "Ventas"
             }
           ]
         }
@@ -213,7 +214,6 @@
     "filters": [
       {
         "name": "resumen_ventas_estado_0",
-        "type": "TopN",
         "field": {
           "Column": {
             "Expression": {
@@ -224,6 +224,7 @@
             "Property": "Estado"
           }
         },
+        "type": "TopN",
         "filter": {
           "Version": 2,
           "From": [

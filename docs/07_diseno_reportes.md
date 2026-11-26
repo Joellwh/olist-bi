@@ -155,11 +155,11 @@ Con un año elegido aparecen las variaciones interanuales (D-021): 2018 contra e
 
 ### Contra los criterios de aceptación de la Fase 1
 
-El detalle está en [01_requerimientos.md](01_requerimientos.md#7-criterios-de-aceptación). Se cumplen todos menos tres:
+El detalle está en [01_requerimientos.md](01_requerimientos.md#7-criterios-de-aceptación). Al cerrar la Fase 8 se cumplían todos menos tres:
 
 - **% de flete por categoría (L4).** Logística muestra el flete por región. Por categoría no se ve, porque el filtro de categoría quedó solo en Comercial. Queda como pendiente.
 - **Menos de 2 segundos por visual en Performance Analyzer.** No se midió todavía; la consulta más pesada medida con DAX Studio en la Fase 7 (rutas) tarda 407 ms. Se mide en la Fase 10.
-- **Seguridad por región** (Fase 9).
+- **Seguridad por región:** resuelta en la Fase 9 ([08_seguridad_rls.md](08_seguridad_rls.md)).
 
 ## 11. Prueba de usabilidad
 

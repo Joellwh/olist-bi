@@ -1,0 +1,6 @@
+/// Sin filtro: ve todo el marketplace. Hace falta igual, porque en el servicio quien no está en ningún rol no ve nada.
+role Dirección
+	modelPermission: read
+
+	annotation PBI_Id = e760b45324c042c68fdaca95dcd5b971
+

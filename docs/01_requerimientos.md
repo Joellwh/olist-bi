@@ -105,7 +105,7 @@ Una página está terminada cuando cumple todos sus criterios. Se verifican en l
 - [x] Los totales coinciden con los valores de referencia del diccionario de KPIs (tolerancia: redondeo).
 - [x] Los filtros de año, región y estado están sincronizados entre páginas y hay un botón para limpiarlos.
 - [ ] Cada visual tarda menos de 2 segundos en Performance Analyzer.
-- [ ] Un gerente regional ve solo sus estados, y los totales de todas las páginas cambian en consecuencia (Fase 9).
+- [x] Un gerente regional ve solo sus estados, y los totales de todas las páginas cambian en consecuencia (Fase 9, [08_seguridad_rls.md](08_seguridad_rls.md)).
 
 **1. Resumen ejecutivo**
 - [x] Muestra Ventas, Pedidos, Ticket promedio, % a tiempo y Puntaje promedio, cada uno con su variación interanual cuando el año anterior es comparable (D-021).

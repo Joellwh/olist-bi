@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "cliente_cohortes",
   "position": {
     "x": 24,
@@ -13,24 +13,6 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Rows": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_cliente"
-                    }
-                  },
-                  "Property": "Cohorte"
-                }
-              },
-              "queryRef": "dim_cliente.Cohorte",
-              "nativeQueryRef": "Cohorte"
-            }
-          ]
-        },
         "Columns": {
           "projections": [
             {
@@ -45,7 +27,27 @@
                 }
               },
               "queryRef": "Meses desde cohorte.Meses",
-              "nativeQueryRef": "Meses"
+              "nativeQueryRef": "Meses",
+              "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_cliente"
+                    }
+                  },
+                  "Property": "Cohorte"
+                }
+              },
+              "queryRef": "dim_cliente.Cohorte",
+              "nativeQueryRef": "Cohorte",
+              "active": true
             }
           ]
         },
@@ -207,7 +209,6 @@
     "filters": [
       {
         "name": "cliente_cohortes_0",
-        "type": "Advanced",
         "field": {
           "Column": {
             "Expression": {
@@ -218,6 +219,7 @@
             "Property": "Meses"
           }
         },
+        "type": "Advanced",
         "filter": {
           "Version": 2,
           "From": [
@@ -279,7 +281,6 @@
       },
       {
         "name": "cliente_cohortes_1",
-        "type": "Advanced",
         "field": {
           "Column": {
             "Expression": {
@@ -290,6 +291,7 @@
             "Property": "Fecha de primera compra"
           }
         },
+        "type": "Advanced",
         "filter": {
           "Version": 2,
           "From": [

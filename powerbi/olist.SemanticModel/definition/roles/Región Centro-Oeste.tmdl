@@ -1,0 +1,10 @@
+/// RLS estático: solo los estados de la región Centro-Oeste. Un rol por región, para comparar con el dinámico.
+role 'Región Centro-Oeste'
+	modelPermission: read
+
+	tablePermission dim_geografia = [Región] = "Centro-Oeste"
+
+	tablePermission Gerentes = FALSE ()
+
+	annotation PBI_Id = a7d953f4055749e4a1a67ed4e73a0587
+

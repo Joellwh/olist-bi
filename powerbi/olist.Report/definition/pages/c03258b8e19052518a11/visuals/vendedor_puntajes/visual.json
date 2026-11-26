@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "vendedor_puntajes",
   "position": {
     "x": 784,
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "fact_pedidos.Puntaje de reseña",
-              "nativeQueryRef": "Puntaje de reseña"
+              "nativeQueryRef": "Puntaje de reseña",
+              "active": true
             }
           ]
         },
@@ -379,7 +380,6 @@
     "filters": [
       {
         "name": "vendedor_puntajes_0",
-        "type": "Advanced",
         "field": {
           "Column": {
             "Expression": {
@@ -390,6 +390,7 @@
             "Property": "Puntaje de reseña"
           }
         },
+        "type": "Advanced",
         "filter": {
           "Version": 2,
           "From": [

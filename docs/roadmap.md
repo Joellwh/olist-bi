@@ -121,11 +121,11 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 📦 Criterios en `docs/07_diseno_reportes.md` y tema `powerbi/tema/olist.json`; reporte completo y `docs/capturas/`
 
-## Fase 9: Seguridad a nivel de fila (1–2 días)
+## Fase 9: Seguridad a nivel de fila — ✅ hecha (2026-11-26)
 
-- [ ] `dw.dim_gerente_region` (email, nombre, estados a cargo).
-- [ ] RLS estático por región, RLS dinámico con `USERPRINCIPALNAME()` y rol "Dirección" sin restricciones.
-- [ ] Probar con "Ver como".
+- [x] `dw.seguridad_gerentes` (email, nombre, estado a cargo; una fila por gerente y estado, D-022), con la validación V16.
+- [x] RLS estático por región, RLS dinámico con `USERPRINCIPALNAME()` y rol "Dirección" sin restricciones; tests sobre los roles.
+- [x] Probar con "Ver como": Dirección, un rol estático, el dinámico con un gerente de una región y con uno de dos, y un usuario sin fila. Los cinco casos, OK.
 
 📦 `docs/08_seguridad_rls.md`
 

@@ -18,7 +18,7 @@ El comando termina con código 0 si la carga salió bien y con 1 si falló, así
 CSV (data/raw) ─┐
 seeds ──────────┴─► 1. raw.*  ──► 2. validaciones raw ──► 3. stg.*  ──► 4. validaciones stg ──► 5. dw.*  ──► 6. validaciones dw
                       texto,        V01 V02 V07             tipos,         V03 V04 V05 V06 V08      estrella      V08
-                      tal cual      (+ V12 V14 avisos)      limpieza       (+ V09 V10 V11 V13)                    (+ V15)
+                      tal cual      (+ V12 V14 avisos)      limpieza       (+ V09 V10 V11 V13)                    V16 (+ V15)
                                                      │
                      todo queda en etl.log_ejecucion / log_paso / log_validacion
 ```

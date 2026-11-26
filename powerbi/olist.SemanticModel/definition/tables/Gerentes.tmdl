@@ -1,0 +1,43 @@
+/// Seguridad por fila (Fase 9, D-022): una fila por gerente regional y estado a cargo. Sin relaciones: la lee el rol 'Gerente regional'. Oculta.
+table Gerentes
+	isHidden
+	lineageTag: fc7b7bdf-760c-403f-84d7-7e78f8d4d8f6
+
+	/// Correo del gerente: lo que devuelve USERPRINCIPALNAME() cuando inicia sesión.
+	column Email
+		dataType: string
+		lineageTag: ced3ee5a-34d7-405c-bdf6-cf03fbe803a1
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Nombre del gerente.
+	column Nombre
+		dataType: string
+		lineageTag: 7a53aedd-4df0-454c-9adb-cbd19bcc5e5a
+		summarizeBy: none
+		sourceColumn: nombre
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Estado a cargo, igual que dim_geografia[Estado (sigla)].
+	column 'Estado (sigla)'
+		dataType: string
+		lineageTag: 920adabf-a5ed-4c9a-9e7b-4dd9f6da427f
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Gerentes = m
+		mode: import
+		source =
+				let
+				    Origen = Sql.Database(Servidor, BaseDatos),
+				    dw_seguridad_gerentes = Origen{[Schema="dw",Item="seguridad_gerentes"]}[Data]
+				in
+				    dw_seguridad_gerentes
+
+	annotation PBI_ResultType = Table
+

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "comercial_metrica_estado",
   "position": {
     "x": 24,
@@ -27,26 +27,8 @@
                 }
               },
               "queryRef": "dim_geografia.Estado (sigla)",
-              "nativeQueryRef": "Estado (sigla)"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "Métrica seleccionada"
-                }
-              },
-              "queryRef": "_Medidas.Métrica seleccionada",
-              "nativeQueryRef": "Métrica seleccionada",
-              "displayName": "Métrica"
+              "nativeQueryRef": "Estado (sigla)",
+              "active": true
             }
           ]
         },
@@ -79,6 +61,25 @@
               },
               "queryRef": "_Medidas.Ticket promedio",
               "nativeQueryRef": "Ticket promedio"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Métrica seleccionada"
+                }
+              },
+              "queryRef": "_Medidas.Métrica seleccionada",
+              "nativeQueryRef": "Métrica seleccionada",
+              "displayName": "Métrica"
             }
           ]
         }

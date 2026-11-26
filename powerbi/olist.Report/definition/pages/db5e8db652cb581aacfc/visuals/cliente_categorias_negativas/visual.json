@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "cliente_categorias_negativas",
   "position": {
     "x": 784,
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "dim_producto.Categoría",
-              "nativeQueryRef": "Categoría"
+              "nativeQueryRef": "Categoría",
+              "active": true
             }
           ]
         },
@@ -187,7 +188,6 @@
     "filters": [
       {
         "name": "cliente_categorias_negativas_0",
-        "type": "Advanced",
         "field": {
           "Measure": {
             "Expression": {
@@ -198,6 +198,7 @@
             "Property": "Reseñas (por ítems)"
           }
         },
+        "type": "Advanced",
         "filter": {
           "Version": 2,
           "From": [

@@ -1,0 +1,10 @@
+/// RLS estático: solo los estados de la región Nordeste. Un rol por región, para comparar con el dinámico.
+role 'Región Nordeste'
+	modelPermission: read
+
+	tablePermission dim_geografia = [Región] = "Nordeste"
+
+	tablePermission Gerentes = FALSE ()
+
+	annotation PBI_Id = dce1d9599f0e428b84029155d14f0e8e
+

@@ -1,0 +1,10 @@
+/// RLS dinámico: cada gerente ve solo los estados que tiene a cargo en la tabla Gerentes, según el correo con el que inicia sesión. Un solo rol para todos los gerentes.
+role 'Gerente regional'
+	modelPermission: read
+
+	tablePermission dim_geografia = [Estado (sigla)] IN CALCULATETABLE ( VALUES ( Gerentes[Estado (sigla)] ), Gerentes[Email] = USERPRINCIPALNAME () )
+
+	tablePermission Gerentes = [Email] = USERPRINCIPALNAME ()
+
+	annotation PBI_Id = 69bc2376c61a46b9b65470c767282aff
+

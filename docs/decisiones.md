@@ -290,3 +290,20 @@ Cada decisión importante del proyecto: qué se eligió, por qué y qué alterna
 **Costo:** con "Todos" los años o con 2017, las tarjetas no muestran variación. Es preferible a un número llamativo y falso.
 
 **Descartada:** *mostrarla cuando hay un solo año elegido.* Fue la primera idea, y deja pasar justamente el peor caso, el de 2017.
+
+---
+
+## D-022 · Seguridad por fila dinámica, con una tabla por gerente y estado
+
+**Fecha:** 2026-11-26 · **Fase:** 9
+
+**Decisión:** un solo rol, `Gerente regional`, filtra `dim_geografia` con los estados que la tabla `dw.seguridad_gerentes` asigna al correo de quien inicia sesión (`USERPRINCIPALNAME()`). La tabla tiene una fila por gerente y estado, con clave foránea a `dim_geografia`, y no se relaciona con nada en el modelo. El rol `Dirección` no tiene filtro.
+
+**Por qué:**
+- **Un rol para todos los gerentes.** Con roles estáticos hace falta uno por región, y un gerente nuevo o una región reasignada obligan a cambiar el modelo y volver a publicarlo. Con el dinámico se cambia una fila en SQL.
+- **Estados y no regiones.** Un gerente puede tener cualquier combinación (en los datos de prueba, Diego Alves tiene Norte y Nordeste), y la clave foránea hace fallar la carga si un estado está mal escrito. La validación V16 frena además un estado sin gerente, que sería una región que nadie ve.
+- **Sin relación con la tabla de seguridad.** El filtro se arma dentro del rol con `CALCULATETABLE`, y desde `dim_geografia` baja a los dos hechos por las relaciones que ya existen. Relacionar la tabla de gerentes con la geografía habría exigido un filtro bidireccional, que el modelo evita (D-014 y [05_modelo_semantico.md](05_modelo_semantico.md)); un test lo controla en cada push.
+
+**Costo:** las dimensiones que no dependen de la geografía (vendedores, productos, clientes) siguen visibles completas: un gerente puede ver el nombre de un vendedor de otra región, aunque todas sus cifras salen vacías. Con los nombres anonimizados del dataset no expone nada. Además, las medidas "del marketplace" del detalle de vendedor pasan a significar "de mi región", porque la seguridad no se puede quitar con `REMOVEFILTERS`.
+
+**Descartada:** *solo roles estáticos por región.* Se dejaron cinco en el modelo para comparar, pero no escalan.

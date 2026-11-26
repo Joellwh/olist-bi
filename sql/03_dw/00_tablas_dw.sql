@@ -23,7 +23,7 @@
 USE [$(DB_NAME)];
 GO
 
-DROP TABLE IF EXISTS dw.fact_items, dw.fact_pedidos;
+DROP TABLE IF EXISTS dw.fact_items, dw.fact_pedidos, dw.seguridad_gerentes;
 DROP TABLE IF EXISTS dw.dim_fecha, dw.dim_geografia, dw.dim_cliente, dw.dim_vendedor, dw.dim_producto;
 GO
 
@@ -116,5 +116,15 @@ CREATE TABLE dw.fact_items (
     flete             DECIMAL(10, 2) NOT NULL,
     es_venta          BIT            NOT NULL,      -- R1 del pedido: para filtrar sin cruzar hechos
     CONSTRAINT pk_fact_items PRIMARY KEY (pedido_id, item_nro)
+);
+
+-- Seguridad por fila (Fase 9, D-022): qué estados ve cada gerente regional.
+-- Una fila por gerente y estado, con clave foránea al estado: un estado mal
+-- escrito hace fallar la carga en lugar de dejar a un gerente sin datos.
+CREATE TABLE dw.seguridad_gerentes (
+    email   NVARCHAR(100) NOT NULL,     -- el que devuelve USERPRINCIPALNAME() en Power BI
+    nombre  NVARCHAR(60)  NOT NULL,
+    estado  CHAR(2)       NOT NULL CONSTRAINT fk_seguridad_gerentes_estado REFERENCES dw.dim_geografia (estado),
+    CONSTRAINT pk_seguridad_gerentes PRIMARY KEY (email, estado)
 );
 GO

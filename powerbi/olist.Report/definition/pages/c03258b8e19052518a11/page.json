@@ -44,6 +44,6 @@
       }
     ]
   },
-  "type": "Drillthrough",
-  "visibility": "HiddenInViewMode"
+  "visibility": "HiddenInViewMode",
+  "type": "Drillthrough"
 }

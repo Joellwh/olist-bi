@@ -45,7 +45,7 @@ Son 10, todas de uno a muchos, de una dimensión a un hecho, con filtro en una s
 | **Categorías de datos** | Estados y ciudades marcados como geografía, para que los mapas los reconozcan. |
 | **Montos** | `precio`, `flete` y `valor_pagado` en decimal fijo y formato R$. Power BI los había importado como decimales flotantes, que pueden acumular errores de redondeo al sumar. |
 | **Tabla `_Medidas`** | Contiene las 51 medidas de las Fases 7 y 8 ([06_dax.md](06_dax.md)), así ninguna depende de una tabla de hechos para encontrarse. |
-| **Tablas sin relaciones** | `Top N`, `Selector de métrica` y `Meses desde cohorte` alimentan los controles del tablero (agregadas en la Fase 7). |
+| **Tablas sin relaciones** | `Top N`, `Selector de métrica` y `Meses desde cohorte` alimentan los controles del tablero (agregadas en la Fase 7). `Gerentes`, oculta, la lee el rol de seguridad por fila ([08_seguridad_rls.md](08_seguridad_rls.md), Fase 9). |
 
 ## Cómo se verificó
 

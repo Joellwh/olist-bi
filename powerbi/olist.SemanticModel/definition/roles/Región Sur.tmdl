@@ -1,0 +1,10 @@
+/// RLS estático: solo los estados de la región Sur. Un rol por región, para comparar con el dinámico.
+role 'Región Sur'
+	modelPermission: read
+
+	tablePermission dim_geografia = [Región] = "Sur"
+
+	tablePermission Gerentes = FALSE ()
+
+	annotation PBI_Id = 622cf5d7286f418193a6049065e23a01
+

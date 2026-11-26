@@ -136,4 +136,7 @@ VALIDACIONES_DW: list[Validacion] = [
                "SELECT (SELECT COUNT(*) FROM dw.fact_pedidos WHERE -1 IN (cliente_key, geografia_key))"
                " + (SELECT COUNT(*) FROM dw.fact_items"
                "    WHERE -1 IN (producto_key, vendedor_key, cliente_key, geografia_key))"),
+    Validacion("V16", CRITICA, "Seguridad por fila: cada estado tiene al menos un gerente regional",
+               "SELECT COUNT(*) FROM dw.dim_geografia AS d WHERE d.geografia_key > 0"
+               " AND NOT EXISTS (SELECT 1 FROM dw.seguridad_gerentes AS s WHERE s.estado = d.estado)"),
 ]
