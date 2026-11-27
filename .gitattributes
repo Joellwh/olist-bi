@@ -20,5 +20,13 @@
 *.pbix  binary
 *.abf   binary
 
-# Estadísticas de lenguaje: el SQL es parte central del proyecto, que cuente.
-*.sql linguist-detectable=true
+# Estadísticas de lenguaje de GitHub (la barra "Languages" del repo).
+# El SQL, el modelo semántico (TMDL) y las consultas DAX son el centro del
+# proyecto: que cuenten. GitHub trata TMDL como "datos" y no lo muestra si no
+# se le pide.
+*.sql  linguist-detectable=true
+*.tmdl linguist-detectable=true
+*.dax  linguist-language=DAX linguist-detectable=true
+# El notebook es el informe del perfilado: el 90% de sus bytes son salidas
+# guardadas (tablas e imágenes), no código. Cuenta como documentación.
+*.ipynb linguist-documentation
