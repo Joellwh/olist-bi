@@ -151,6 +151,6 @@ La Fase 5 puede avanzar en paralelo con la 6 una vez terminada la 4.
 
 ## Durante todo el proyecto: gestión
 
-- [ ] Mover las tarjetas del GitHub Project.
-- [x] `docs/decisiones.md`: cada decisión, por qué y qué alternativas se descartaron (D-001 a D-023).
+- [x] GitHub Project: una tarjeta por fase y una por la v1.1.0, con estados Por hacer, En curso y Hecha.
+- [x] `docs/decisiones.md`: cada decisión, por qué y qué alternativas se descartaron (D-001 a D-024).
 - [x] `docs/riesgos.md`: riesgos, bloqueos y cómo se destrabaron.
